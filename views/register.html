@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Ponto - Cadastro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .photo-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #3b82f6;
+        }
+        .step {
+            transition: all 0.3s ease;
+        }
+        .step.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="navbar bg-base-100 shadow-lg">
+        <div class="flex-1">
+            <a href="index.html" class="btn btn-ghost normal-case text-xl">Sistema de Ponto</a>
+        </div>
+        <div class="flex-none">
+            <a href="dashboard.html" class="btn btn-ghost">
+                <i class="fas fa-home mr-2"></i> Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="card bg-white shadow-lg max-w-3xl mx-auto">
+            <div class="card-body">
+                <h1 class="card-title text-2xl font-bold mb-6">Cadastro de Funcionário</h1>
+                
+                <!-- Stepper -->
+                <div class="steps mb-8">
+                    <ul class="steps w-full">
+                        <li class="step step-primary">Dados Pessoais</li>
+                        <li class="step">Foto</li>
+                        <li class="step">Confirmação</li>
+                    </ul>
+                </div>
+
+                <!-- Form Section -->
+                <div id="step-1" class="step-content">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Nome Completo</span>
+                            </label>
+                            <input type="text" class="input input-bordered w-full" required>
+                        </div>
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">CPF</span>
+                            </label>
+                            <input type="text" class="input input-bordered w-full" required>
+                        </div>
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Matrícula</span>
+                            </label>
+                            <input type="text" class="input input-bordered w-full" required>
+                        </div>
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Departamento</span>
+                            </label>
+                            <select class="select select-bordered w-full">
+                                <option disabled selected>Selecione</option>
+                                <option>TI</option>
+                                <option>RH</option>
+                                <option>Financeiro</option>
+                                <option>Operações</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-8 flex justify-end">
+                        <button onclick="nextStep(1, 2)" class="btn btn-primary">
+                            Próximo <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Photo Section -->
+                <div id="step-2" class="step-content hidden">
+                    <div class="flex flex-col items-center">
+                        <div class="mb-6 text-center">
+                            <h2 class="text-xl font-semibold mb-2">Cadastro Facial</h2>
+                            <p class="text-gray-600">Posicione o rosto dentro do círculo</p>
+                        </div>
+                        
+                        <div class="relative mb-6">
+                            <div class="w-64 h-64 rounded-full border-4 border-dashed border-primary flex items-center justify-center">
+                                <img id="photo-preview" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
+                                     class="photo-preview hidden">
+                                <video id="register-camera" autoplay playsinline class="photo-preview hidden"></video>
+                                <div id="no-camera" class="text-center p-4">
+                                    <i class="fas fa-camera text-4xl text-gray-400 mb-2"></i>
+                                    <p class="text-gray-500">Pré-visualização da câmera</p>
+                                </div>
+                            </div>
+                            <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
+                                <button id="capture-btn" class="btn btn-circle btn-primary">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex space-x-4 mt-4">
+                            <button onclick="prevStep(2, 1)" class="btn btn-ghost">
+                                <i class="fas fa-arrow-left mr-2"></i> Voltar
+                            </button>
+                            <button onclick="nextStep(2, 3)" class="btn btn-primary">
+                                Próximo <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Confirmation Section -->
+                <div id="step-3" class="step-content hidden">
+                    <div class="text-center">
+                        <div class="mb-6">
+                            <i class="fas fa-check-circle text-6xl text-green-500 mb-4"></i>
+                            <h2 class="text-2xl font-bold mb-2">Cadastro Completo!</h2>
+                            <p class="text-gray-600">Os dados do funcionário foram registrados com sucesso.</p>
+                        </div>
+
+                        <div class="bg-gray-100 rounded-lg p-6 mb-6 text-left">
+                            <div class="flex items-center mb-4">
+                                <img id="confirm-photo" src="" class="w-16 h-16 rounded-full object-cover mr-4">
+                                <div>
+                                    <h3 id="confirm-name" class="font-bold"></h3>
+                                    <p id="confirm-dept" class="text-sm text-gray-600"></p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-sm text-gray-500">Matrícula</p>
+                                    <p id="confirm-id" class="font-medium"></p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">CPF</p>
+                                    <p id="confirm-cpf" class="font-medium"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-center space-x-4">
+                            <button onclick="prevStep(3, 2)" class="btn btn-ghost">
+                                <i class="fas fa-arrow-left mr-2"></i> Voltar
+                            </button>
+                            <button onclick="submitForm()" class="btn btn-success">
+                                <i class="fas fa-check mr-2"></i> Confirmar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Controle do stepper
+        function nextStep(current, next) {
+            document.getElementById(`step-${current}`).classList.add('hidden');
+            document.getElementById(`step-${next}`).classList.remove('hidden');
+            document.querySelectorAll('.steps li')[current-1].classList.remove('step-primary');
+            document.querySelectorAll('.steps li')[next-1].classList.add('step-primary');
+        }
+
+        function prevStep(current, prev) {
+            document.getElementById(`step-${current}`).classList.add('hidden');
+            document.getElementById(`step-${prev}`).classList.remove('hidden');
+            document.querySelectorAll('.steps li')[current-1].classList.remove('step-primary');
+            document.querySelectorAll('.steps li')[prev-1].classList.add('step-primary');
+        }
+
+        // Simulação de captura de foto
+        const captureBtn = document.getElementById('capture-btn');
+        const photoPreview = document.getElementById('photo-preview');
+        const registerCamera = document.getElementById('register-camera');
+        const noCamera = document.getElementById('no-camera');
+
+        // Iniciar câmera para cadastro
+        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    registerCamera.srcObject = stream;
+                    registerCamera.classList.remove('hidden');
+                    noCamera.classList.add('hidden');
+                })
+                .catch(err => {
+                    console.error("Erro ao acessar câmera:", err);
+                    photoPreview.classList.remove('hidden');
+                    noCamera.classList.add('hidden');
+                });
+        } else {
+            photoPreview.classList.remove('hidden');
+            noCamera.classList.add('hidden');
+        }
+
+        captureBtn.addEventListener('click', () => {
+            // Simular captura de foto
+            photoPreview.src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
+            photoPreview.classList.remove('hidden');
+            registerCamera.classList.add('hidden');
+        });
+
+        function submitForm() {
+            // Simular envio do formulário
+            alert('Funcionário cadastrado com sucesso!');
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>
