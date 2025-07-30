@@ -68,28 +68,57 @@ function apply($db, $data)
         $dataNascimento = $data['DATA_NASCIMENTO'];
         $faceId = $data['FACEID'];
 
-        $stmt = $db->prepare("INSERT INTO FUNCIONARIOS (NOME_FUNCIONARIO, CPF, RG, DATA_NASCIMENTO, FACEID, FK_EMPRESA, TIPO) 
-                              VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bindValue(1, $nomeFuncionario);
-        $stmt->bindValue(2, $cpfFuncionario);
-        $stmt->bindValue(3, $rgFuncionario);
-        $stmt->bindValue(4, $dataNascimento);
-        $stmt->bindValue(5, $faceId);
-        $stmt->bindValue(6, $empresaId); // FK_EMPRESA
-        $stmt->bindValue(7, 'F'); // FK_EMPRESA
+        $check = $db->prepare("SELECT ID_FUNCIONARIO FROM FUNCIONARIOS WHERE CPF = ? AND FK_EMPRESA = ?");
+        $check->bindValue(1, $cpfFuncionario);
+        $check->bindValue(2, $empresaId);
+        $resultCheck = $check->execute();
+        $row = $resultCheck->fetchArray(SQLITE3_ASSOC);
 
-        $result = $stmt->execute();
-
-        if ($result) {
-            echo json_encode([
-                "success" => true,
-                "message" => "Funcionário cadastrado com sucesso!"
-            ]);
+        if ($row && isset($row['ID_FUNCIONARIO'])) {
+            $idFuncionario = $row['ID_FUNCIONARIO'];
+            $stmt = $db->prepare("UPDATE FUNCIONARIOS SET NOME_FUNCIONARIO = ?, RG = ?, DATA_NASCIMENTO = ?, FACEID = ? WHERE ID_FUNCIONARIO = ?");
+            $stmt->bindValue(1, $nomeFuncionario);
+            $stmt->bindValue(2, $rgFuncionario);
+            $stmt->bindValue(3, $dataNascimento);
+            $stmt->bindValue(4, $faceId);
+            $stmt->bindValue(5, $idFuncionario);
+            $result = $stmt->execute();
+            if ($result) {
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Funcionário atualizado com sucesso!"
+                ]);
+            } else {
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Erro ao atualizar funcionário."
+                ]);
+            }
         } else {
-            echo json_encode([
-                "success" => false,
-                "message" => "Erro ao cadastrar funcionário."
-            ]);
+            // Não existe, faz INSERT
+            $stmt = $db->prepare("INSERT INTO FUNCIONARIOS (NOME_FUNCIONARIO, CPF, RG, DATA_NASCIMENTO, FACEID, FK_EMPRESA, TIPO) 
+                                  VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bindValue(1, $nomeFuncionario);
+            $stmt->bindValue(2, $cpfFuncionario);
+            $stmt->bindValue(3, $rgFuncionario);
+            $stmt->bindValue(4, $dataNascimento);
+            $stmt->bindValue(5, $faceId);
+            $stmt->bindValue(6, $empresaId); // FK_EMPRESA
+            $stmt->bindValue(7, 'F'); // TIPO
+
+            $result = $stmt->execute();
+
+            if ($result) {
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Funcionário cadastrado com sucesso!"
+                ]);
+            } else {
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Erro ao cadastrar funcionário."
+                ]);
+            }
         }
     } else {
         echo json_encode([
@@ -98,7 +127,6 @@ function apply($db, $data)
         ]);
     }
 }
-
 function loadEmpresa($db, $data)
 {
     session_start(); 
@@ -144,8 +172,6 @@ function loadEmpresa($db, $data)
         ]);
     }
 }
-
-
 function applyEmpresa($db, $data)
 {
     if ($data) {
@@ -172,7 +198,6 @@ function applyEmpresa($db, $data)
         }
     }
 }
-
 function loadFuncionario($db, $data)
 {
     session_start();
@@ -195,7 +220,6 @@ function loadFuncionario($db, $data)
 
     echo json_encode($funcionarios);
 }
-
 function load($db)
 {
     session_start(); 
@@ -218,8 +242,6 @@ function load($db)
 
     echo json_encode($funcionarios);
 }
-
-
 function update($db, $data)
 {
     if ($data) {

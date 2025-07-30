@@ -16,22 +16,7 @@ $(document).ready( async function() {
     Inputmask("999.999.999-99").mask("#showCpf");
     Inputmask("99.999.999-9").mask("#showRg");
 
-
-    
-
-    const res = await axios({
-        url: "../../../backend/backend.php",
-        method: "POST",
-        data: {
-            function: "load",
-            
-        },
-    });
-        console.log(res.data);
-        preencheTabela();
-
-        $("#totalFunc").text(res.data.length);
-
+    loadEmpresa();
 
 //!BOTOES
 
@@ -205,9 +190,13 @@ async function abrirCamera() {
         });
     
         if (res.data.success) {
-            showAlert("Funcionário cadastrado com sucesso!", "success");
-            window.location.href = "../painelPrincipal/painelPrincipal.php";
-            console.log(res.data.message);
+            showAlert(res.data.message, "success");
+            $("#close-camera-modal").click();
+            limpaTabela();
+            loadEmpresa();
+            
+
+
         } else {
             showAlert("Erro ao cadastrar funcionário.", "error");
             console.log(res.data);
@@ -219,35 +208,8 @@ async function abrirCamera() {
     return stream;
 }
 
-function showAlert(message, type = "error") {
-    const alertBox = document.getElementById("alert-box");
-    const alertMessage = document.getElementById("alert-message");
+async function preencheTabela(res) {
 
-    // Define a mensagem
-    alertMessage.textContent = message;
-
-    // Limpa classes antigas e aplica a cor conforme o tipo
-    alertBox.classList.remove("hidden", "hide", "bg-red-500", "bg-green-500");
-
-    if (type === "success") {
-        alertBox.classList.add("bg-green-500");
-    } else {
-        alertBox.classList.add("bg-red-500");
-    }
-
-    // Exibe o alerta
-    alertBox.classList.remove("hide");
-
-    // Oculta o alerta após 3 segundos
-    setTimeout(() => {
-        alertBox.classList.add("hide");
-        setTimeout(() => {
-            alertBox.classList.add("hidden");
-        }, 500); // Aguarda a animação de saída terminar
-    }, 3000);
-}
-
-async function preencheTabela() {
     if(res.data.length == 0) {
         const tabela    = $("#tblFuncionario tbody");
         const conteudo  = `
@@ -308,29 +270,87 @@ async function carregarNomeEmpresa() {
                 function: "getNomeEmpresa",
             },
         });
-        let nomeEmpresa = res.data[0].NOME_EMPRESA.toUpperCase();
-        let divBemVindo = $("#bemVindo");
-        let conteudo = `
-        <div id="welcome-message" class="welcome-message text-center">
-        <h1 class="text-4xl text-white font-sans">🐱‍👤 <i><STRONG>BEM-VINDO(A)</STRONG></i></h1><h2 id="tituloEmpresa" class="text-2xl text-white font-sans underline ml-12"><i><STRONG>${nomeEmpresa}</STRONG></i></h2>
-        </div>`
-        return divBemVindo.append(conteudo);    
+    let nomeEmpresa = res.data[0].NOME_EMPRESA.toUpperCase();
+    let divBemVindo = $("#bemVindo");
+    let conteudo = `
+    <div id="welcome-message" class="fixed inset-0 flex items-center justify-center z-50 text-center">
+        <div>
+            <h1 class="text-4xl text-white font-sans"><i><strong>BEM-VINDO(A) DE VOLTA</strong></i></h1>
+            <h2 id="tituloEmpresa" class="text-2xl text-white font-sans underline text-center"><i><strong>${nomeEmpresa}</strong></i></h2>
+        </div>
+    </div>`;
+    divBemVindo.append(conteudo);
+    // Animação de entrada
+    setTimeout(() => {
+        document.getElementById("welcome-message").classList.add("entrada");
+    }, 100);
+    // Animação de saída após 3s
+    setTimeout(() => {
+        const el = document.getElementById("welcome-message");
+        el.classList.remove("entrada");
+        el.classList.add("saida");
+        setTimeout(() => {
+            el.remove();
+            document.getElementById("controlador")?.classList.remove("hidden");
+        }, 500);
+    }, 1500);
+    return;
 }
 
+async function limpaTabela() {
+    const tabela = $("#tblFuncionario tbody");
+    tabela.empty();
+}
 
+async function loadEmpresa(){
+    const res = await axios({
+        url: "../../../backend/backend.php",
+        method: "POST",
+        data: {
+            function: "load",
+            
+        },
+    });
+        preencheTabela(res);
+        $("#totalFunc").text(res.data.length);
 
+}
 
-
-
-
-
-
-
-
-
-
-
-
+function showAlert(message, type = "error") {
+        const alertBox = document.getElementById("alert-box");
+        const alertMessage = document.getElementById("alert-message");
+    
+        if (!alertBox || !alertMessage) {
+            console.error("Elementos de alerta não encontrados no DOM.");
+            return;
+        }
+    
+        // Define a mensagem
+        alertMessage.textContent = message;
+    
+        // Limpa classes antigas e aplica a cor conforme o tipo
+        alertBox.classList.remove("hidden", "alert-hide", "bg-red-500", "bg-green-500");
+    
+        if (type === "success") {
+            alertBox.classList.add("bg-green-500");
+        } else {
+            alertBox.classList.add("bg-red-500");
+        }
+    
+        // Adiciona a animação de entrada
+        alertBox.classList.add("alert-show");
+    
+        // Remove a animação de entrada após 3 segundos e adiciona a de saída
+        setTimeout(() => {
+            alertBox.classList.remove("alert-show");
+            alertBox.classList.add("alert-hide");
+    
+            // Oculta o alerta após a animação de saída
+            setTimeout(() => {
+                alertBox.classList.add("hidden");
+            }, 500); // Aguarda a animação de saída terminar
+        }, 3000);
+    }      
 
 //!FRONT-END
 //#region
@@ -387,3 +407,39 @@ addEmployeeBtn.addEventListener('click', () => {
 //#endregion
 
 });
+/* Adicione este CSS ao seu arquivo de estilos global (ex: styes.css ou tailwind custom):
+
+.alert-animate-in {
+    animation: alertUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.alert-animate-out {
+    animation: alertDown 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes alertUp {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+    80% {
+        opacity: 1;
+        transform: translateY(-10px) scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes alertDown {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+}
+*/

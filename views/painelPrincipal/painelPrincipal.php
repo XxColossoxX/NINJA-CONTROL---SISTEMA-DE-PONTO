@@ -116,5 +116,7 @@ $empresaId = $_SESSION['empresa_id']; // Recupera o ID da empresa da sessão
     </div>
 
     <script src="./js/painelPrincipal.js"></script>
+    <link rel="stylesheet" href="./css/painelPrincipal.css">
+
 </body>
 </html>

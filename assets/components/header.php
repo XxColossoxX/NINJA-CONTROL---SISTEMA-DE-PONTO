@@ -182,8 +182,7 @@
             <div class="container mx-auto px-4 py-3 flex items-center justify-between">
                 <!-- Logo -->
                 <div class="text-lg font-bold">
-                    <span class="logo-text">🐱‍👤 NINJA CONTROL</span>
-                    <span class="logo-emoji">🐱‍👤</span>
+                    <span class="logo-text"> NINJA CONTROL</span>
                 </div>
 
                 <!-- Nome Centralizado -->
