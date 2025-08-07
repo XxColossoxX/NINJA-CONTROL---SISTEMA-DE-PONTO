@@ -47,7 +47,12 @@ if (isset($data['function'])) {
     echo json_encode(["error" => "Nenhuma função especificada"]);
 }
 
+<<<<<<< HEAD
 function apply($db, $data){
+=======
+function apply($db, $data)
+{
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
     session_start();
 
     if (!isset($_SESSION['empresa_id'])) {
@@ -64,7 +69,10 @@ function apply($db, $data){
         $nomeFuncionario = $data['NOME_FUNCIONARIO'];
         $cpfFuncionario = $data['CPF'];
         $rgFuncionario = $data['RG'];
+<<<<<<< HEAD
         $senhaFuncionario = $data['SENHA_FUNCIONARIO'];
+=======
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
         $dataNascimento = $data['DATA_NASCIMENTO'];
         $faceId = $data['FACEID'];
 
@@ -76,12 +84,20 @@ function apply($db, $data){
 
         if ($row && isset($row['ID_FUNCIONARIO'])) {
             $idFuncionario = $row['ID_FUNCIONARIO'];
+<<<<<<< HEAD
             $stmt = $db->prepare("UPDATE FUNCIONARIOS SET NOME_FUNCIONARIO = ?, RG = ?, DATA_NASCIMENTO = ?, FACEID = ?, SENHA_FUNCIONARIO = ? WHERE ID_FUNCIONARIO = ?");
+=======
+            $stmt = $db->prepare("UPDATE FUNCIONARIOS SET NOME_FUNCIONARIO = ?, RG = ?, DATA_NASCIMENTO = ?, FACEID = ? WHERE ID_FUNCIONARIO = ?");
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
             $stmt->bindValue(1, $nomeFuncionario);
             $stmt->bindValue(2, $rgFuncionario);
             $stmt->bindValue(3, $dataNascimento);
             $stmt->bindValue(4, $faceId);
+<<<<<<< HEAD
             $stmt->bindValue(5, $senhaFuncionario);
+=======
+            $stmt->bindValue(5, $idFuncionario);
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
             $result = $stmt->execute();
             if ($result) {
                 echo json_encode([
@@ -96,6 +112,7 @@ function apply($db, $data){
             }
         } else {
             // Não existe, faz INSERT
+<<<<<<< HEAD
             $stmt = $db->prepare("INSERT INTO FUNCIONARIOS (NOME_FUNCIONARIO, CPF, RG, SENHA_FUNCIONARIO, DATA_NASCIMENTO, FACEID, FK_EMPRESA, TIPO) 
                                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->bindValue(1, $nomeFuncionario);
@@ -106,6 +123,17 @@ function apply($db, $data){
             $stmt->bindValue(6, $faceId);
             $stmt->bindValue(7, $empresaId); // FK_EMPRESA
             $stmt->bindValue(8, 'F'); // TIPO
+=======
+            $stmt = $db->prepare("INSERT INTO FUNCIONARIOS (NOME_FUNCIONARIO, CPF, RG, DATA_NASCIMENTO, FACEID, FK_EMPRESA, TIPO) 
+                                  VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bindValue(1, $nomeFuncionario);
+            $stmt->bindValue(2, $cpfFuncionario);
+            $stmt->bindValue(3, $rgFuncionario);
+            $stmt->bindValue(4, $dataNascimento);
+            $stmt->bindValue(5, $faceId);
+            $stmt->bindValue(6, $empresaId); // FK_EMPRESA
+            $stmt->bindValue(7, 'F'); // TIPO
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
 
             $result = $stmt->execute();
 
@@ -128,8 +156,13 @@ function apply($db, $data){
         ]);
     }
 }
+<<<<<<< HEAD
 
 function carregaEmpresa($db, $data){
+=======
+function loadEmpresa($db, $data)
+{
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
     session_start(); 
 
     if ($data) {
@@ -173,8 +206,13 @@ function carregaEmpresa($db, $data){
         ]);
     }
 }
+<<<<<<< HEAD
 
 function applyEmpresa($db, $data){
+=======
+function applyEmpresa($db, $data)
+{
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
     if ($data) {
 
         $nomeEmpresa = $data['NOME_EMPRESA'];
@@ -199,6 +237,7 @@ function applyEmpresa($db, $data){
         }
     }
 }
+<<<<<<< HEAD
 
 function loadFuncionario($db, $data){
  if ($data) {
@@ -289,6 +328,32 @@ function carregaFuncionario($db, $data){
 }
 
 function load($db){
+=======
+function loadFuncionario($db, $data)
+{
+    session_start();
+
+    if (!isset($_SESSION['empresa_id'])) {
+        echo json_encode([
+            "success" => false,
+            "message" => "Sessão expirada. Faça login novamente."
+        ]);
+        exit;
+    }
+    $id = $data['ID_FUNCIONARIO'];
+
+    $result = $db->query("SELECT * FROM funcionarios WHERE FK_EMPRESA =" . $_SESSION['empresa_id'] . " AND ID_FUNCIONARIO =" . $id);
+    $funcionarios = [];
+
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $funcionarios[] = $row;
+    }
+
+    echo json_encode($funcionarios);
+}
+function load($db)
+{
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
     session_start(); 
 
     if (!isset($_SESSION['empresa_id'])) {
@@ -309,8 +374,13 @@ function load($db){
 
     echo json_encode($funcionarios);
 }
+<<<<<<< HEAD
 
 function update($db, $data){
+=======
+function update($db, $data)
+{
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
     if ($data) {
         $id = $data['ID_FUNCIONARIO'];
         $cpf = $data['CPF'];
@@ -335,7 +405,13 @@ function update($db, $data){
     }
 }
 
+<<<<<<< HEAD
 function deletaFuncionario($db, $data){
+=======
+
+function deletaFuncionario($db, $data)
+{
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
     if ($data) {
         $id = $data['ID_FUNCIONARIO'];
 
@@ -350,7 +426,12 @@ function deletaFuncionario($db, $data){
     }
 }
 
+<<<<<<< HEAD
 function getNomeEmpresa($db, $data){
+=======
+function getNomeEmpresa($db, $data)
+{
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
     session_start(); 
 
     if (!isset($_SESSION['empresa_id'])) {
@@ -377,6 +458,7 @@ function getNomeEmpresa($db, $data){
     echo json_encode($resultado);
 }
 
+<<<<<<< HEAD
 function getNomeFuncionario($db, $data){
     session_start(); 
 
@@ -404,4 +486,6 @@ function getNomeFuncionario($db, $data){
     echo json_encode($resultado);
 }
 
+=======
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
 ?>

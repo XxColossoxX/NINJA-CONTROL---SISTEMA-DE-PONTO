@@ -1,6 +1,9 @@
 let foto64 = ""; 
+<<<<<<< HEAD
 const tabela = $("#tblFuncionario tbody");
 
+=======
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
 
 $(document).ready( async function() {
 
@@ -18,15 +21,26 @@ $(document).ready( async function() {
     Inputmask("999.999.999-99").mask("#showCpf");
     Inputmask("99.999.999-9").mask("#showRg");
 
+<<<<<<< HEAD
     await recarregaTabela();
+=======
+    loadEmpresa();
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
 
 //!BOTOES
 
 $("#btnProximo").on('click', async function(){
+<<<<<<< HEAD
     let inputNome   = $("#inputNomeFuncionario").val()
     let inputCpf    = $("#inputCpfFuncionario").val()
     let inputRg     = $("#inputRgFuncionario").val()
     let inputData   = $("#inputDataNascFuncionario").val()
+=======
+    var inputNome   = $("#inputNomeFuncionario").val()
+    var inputCpf    = $("#inputCpfFuncionario").val()
+    var inputRg     = $("#inputRgFuncionario").val()
+    var inputData   = $("#inputDataNascFuncionario").val()
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
 
     if(!inputNome || !inputCpf || !inputRg || !inputData) {
         showAlert("Preencha todos os campos!", "error");
@@ -50,6 +64,7 @@ $(document).on("click", ".delete-icon", async function () {
                     ID_FUNCIONARIO: id,
                 },
         })
+<<<<<<< HEAD
         
         const loadFuncionario = await axios({
             url: "../../../backend/backend.php",
@@ -64,6 +79,11 @@ $(document).on("click", ".delete-icon", async function () {
         $("#totalFunc").empty()
         $("#totalFunc").text(loadFuncionario.data.length)
         showAlert("Funcionário deletado!","false")
+=======
+
+        $(`i.delete-icon[data-id="${id}"]`).closest("tr").remove();
+        showAlert("Funcionário deletado!","success")
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
     }
 });
 
@@ -92,11 +112,18 @@ $(document).on("click", ".edit-icon", function () {
 
 //!FUNCOES
 async function cadastrarFuncionario(){
+<<<<<<< HEAD
     let inputNome   = $("#inputNomeFuncionario").val()
     let inputCpf    = $("#inputCpfFuncionario").val()
     let inputRg     = $("#inputRgFuncionario").val()
     let inputSenha  = $("#inputSenhaFuncionario").val()
     let inputData   = $("#inputDataNascFuncionario").val()
+=======
+    var inputNome   = $("#inputNomeFuncionario").val()
+    var inputCpf    = $("#inputCpfFuncionario").val()
+    var inputRg     = $("#inputRgFuncionario").val()
+    var inputData   = $("#inputDataNascFuncionario").val()
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
 
     if(!inputNome || !inputCpf || !inputRg || !inputData) {
         showAlert("Preencha todos os campos!", "error");
@@ -121,7 +148,10 @@ async function cadastrarFuncionario(){
                 CPF: inputCpf,
                 DATA_NASCIMENTO: inputData,
                 RG: inputRg,
+<<<<<<< HEAD
                 SENHA_FUNCIONARIO: inputSenha,
+=======
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
                 FACEID: foto64,
             },
         });
@@ -154,8 +184,11 @@ async function abrirCamera() {
     const inputCpf      = $("#inputCpfFuncionario").val();
     const inputRg       = $("#inputRgFuncionario").val();
     const inputData     = $("#inputDataNascFuncionario").val();
+<<<<<<< HEAD
     const inputSenha    = $("#inputSenhaFuncionario").val()
 
+=======
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
 
     displayNome.textContent = inputNome;
     displayCpf.textContent = inputCpf;
@@ -201,7 +234,10 @@ async function abrirCamera() {
                 NOME_FUNCIONARIO: inputNome,
                 CPF: inputCpf,
                 DATA_NASCIMENTO: inputData,
+<<<<<<< HEAD
                 SENHA_FUNCIONARIO: inputSenha,
+=======
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
                 RG: inputRg,
                 FACEID: foto64,
             },
@@ -210,19 +246,37 @@ async function abrirCamera() {
         if (res.data.success) {
             showAlert(res.data.message, "success");
             $("#close-camera-modal").click();
+<<<<<<< HEAD
             recarregaTabela();
             return
         } else {
             showAlert("Erro ao cadastrar funcionário.", "error");
             console.log(res.data);
         }
+=======
+            limpaTabela();
+            loadEmpresa();
+            
+
+
+        } else {
+            showAlert("Erro ao cadastrar funcionário.", "error");
+            console.log(res.data);
+
+        }
+    
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
     });
 
     return stream;
 }
 
 async function preencheTabela(res) {
+<<<<<<< HEAD
     tabela.empty();
+=======
+
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
     if(res.data.length == 0) {
         const tabela    = $("#tblFuncionario tbody");
         const conteudo  = `
@@ -235,6 +289,10 @@ async function preencheTabela(res) {
                     </tr>
        
         `
+<<<<<<< HEAD
+=======
+       
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
         tabela.append(conteudo);
     }   
 
@@ -309,6 +367,7 @@ async function carregarNomeEmpresa() {
     return;
 }
 
+<<<<<<< HEAD
 async function recarregaTabela() {
     const tabela = $("#tblFuncionario tbody");
     tabela.empty();
@@ -320,6 +379,14 @@ async function recarregaTabela() {
 
 async function loadEmpresa(){
     tabela.empty();
+=======
+async function limpaTabela() {
+    const tabela = $("#tblFuncionario tbody");
+    tabela.empty();
+}
+
+async function loadEmpresa(){
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
     const res = await axios({
         url: "../../../backend/backend.php",
         method: "POST",
@@ -328,10 +395,16 @@ async function loadEmpresa(){
             
         },
     });
+<<<<<<< HEAD
         await preencheTabela(res);
         $("totalFunc").empty();
         $("#totalFunc").text(res.data.length);
         return
+=======
+        preencheTabela(res);
+        $("#totalFunc").text(res.data.length);
+
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
 }
 
 function showAlert(message, type = "error") {
@@ -368,7 +441,11 @@ function showAlert(message, type = "error") {
                 alertBox.classList.add("hidden");
             }, 500); // Aguarda a animação de saída terminar
         }, 3000);
+<<<<<<< HEAD
 }      
+=======
+    }      
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
 
 //!FRONT-END
 //#region
@@ -425,3 +502,42 @@ addEmployeeBtn.addEventListener('click', () => {
 //#endregion
 
 });
+<<<<<<< HEAD
+=======
+/* Adicione este CSS ao seu arquivo de estilos global (ex: styes.css ou tailwind custom):
+
+.alert-animate-in {
+    animation: alertUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.alert-animate-out {
+    animation: alertDown 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes alertUp {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+    80% {
+        opacity: 1;
+        transform: translateY(-10px) scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes alertDown {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+}
+*/
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9

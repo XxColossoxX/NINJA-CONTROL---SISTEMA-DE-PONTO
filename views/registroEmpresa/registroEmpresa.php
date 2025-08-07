@@ -3,7 +3,11 @@ require_once('../../assets/components/background.php')
 ?>
 
     <!-- Formulário de Registro -->
+<<<<<<< HEAD
     <div id="login-system" class="w-[90%] sm:w-full max-w-md mx-auto bg-white bg-opacity-90 shadow-xl rounded-2xl p-4 sm:p-8">
+=======
+    <div id="login-system" class="w-96 bg-white bg-opacity-90 shadow-xl rounded-2xl p-8">
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
         <div class="text-center">
             <img class="mx-auto w-20" src="../../assets/img/ninjaLogo.png" alt="Ninja Control">
             <h2 class="text-3xl font-bold text-gray-800 mt-2 mb-2"><i>REGISTRO EMPRESA</i></h2><h1 class="text-3x1 font-bold text-gray-700 mb-2">Cadastre sua empresa no melhor software do Brasil !</h1> 

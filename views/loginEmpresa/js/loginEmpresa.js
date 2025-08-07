@@ -1,5 +1,9 @@
 $(document).ready(async function() {
+<<<<<<< HEAD
     Inputmask("99.999.999/9999-99").mask("#inputCnpjLogin");
+=======
+    // Inputmask("99.999.999/9999-99").mask("#inputCnpjLogin");
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
 
 
     //!BOTOES
@@ -29,7 +33,11 @@ $(document).ready(async function() {
             url: "../../../backend/backend.php",
             method: "POST",
             data:{
+<<<<<<< HEAD
                 function: "carregaEmpresa",
+=======
+                function: "loadEmpresa",
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
                 CNPJ_EMPRESA: cnpjEmpresa,
                 SENHA_EMPRESA: senhaEmpresa,
 

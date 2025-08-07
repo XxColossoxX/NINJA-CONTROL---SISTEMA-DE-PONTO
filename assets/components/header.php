@@ -53,6 +53,17 @@
             100% { background-position: 0% 50%; }
         }
 
+<<<<<<< HEAD
+=======
+        .bg-animated-gradient {
+            background: linear-gradient(45deg, rgb(114, 114, 114), rgb(121, 121, 122), rgb(109, 109, 109), rgb(153, 152, 153), rgb(130, 129, 129), #000000, #000000);
+            background-size: 400% 400%;
+            animation: gradientAnimation 20s ease infinite;
+            height: 100vh;
+            width: 100%;
+        }
+
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
         .ninja-image-animate {
             animation: scaleIn 0.5s ease forwards, scaleOut 0.5s ease 1.5s forwards;
         }
@@ -170,6 +181,7 @@
 <div id="controlador" class="hidden">
 
         <!-- Navbar -->
+<<<<<<< HEAD
         <nav class="bg-white text-black shadow-md fixed top-0 left-0 w-full z-10">
             <div class="container mx-auto px-4 py-3 flex items-center justify-between">
                 <!-- Logo -->
@@ -180,35 +192,67 @@
 
                 <!-- Nome Centralizado -->
                 <div class="text-xl font-semibold text-black absolute left-1/2 transform -translate-x-1/2">
+=======
+        <nav class="bg-gray-800 text-white shadow-md fixed top-0 left-0 w-full z-10">
+            <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+                <!-- Logo -->
+                <div class="text-lg font-bold">
+                    <span class="logo-text"> NINJA CONTROL</span>
+                </div>
+
+                <!-- Nome Centralizado -->
+                <div class="text-xl font-semibold absolute left-1/2 transform -translate-x-1/2">
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
                     FUNCIONÁRIOS
                 </div>
 
                 <!-- Botão de Menu -->
                 <button id="menu-toggle" class="block hover:opacity-80">
                     <div class="space-y-1">
+<<<<<<< HEAD
                         <span style="display: block; width: 1.5rem; height: 0.125rem; background-color: #000000ff !important;"></span>
                         <span style="display: block; width: 1.5rem; height: 0.125rem; background-color: #000000ff !important;"></span>
                         <span style="display: block; width: 1.5rem; height: 0.125rem; background-color: #000000ff !important;"></span>
+=======
+                        <span style="display: block; width: 1.5rem; height: 0.125rem; background-color: #f0f0f0 !important;"></span>
+                        <span style="display: block; width: 1.5rem; height: 0.125rem; background-color: #f0f0f0 !important;"></span>
+                        <span style="display: block; width: 1.5rem; height: 0.125rem; background-color: #f0f0f0 !important;"></span>
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
                     </div>
                 </button>
             </div>
 
             <!-- Menu Responsivo -->
+<<<<<<< HEAD
             <div id="menu" class="absolute top-0 right-0 bg-white text-white w-48 h-screen menu-slide menu-hidden shadow-lg">
                 <!-- Cabeçalho do Menu -->
                 <div class="bg-gray-100 text-black text-center py-4 font-bold text-lg relative">
                     NINJA CONTROL
                     <!-- Botão para fechar o menu -->
                     <button id="menu-close" class="absolute top-2 right-2 text-red-500 text-1xl font-bold hover:text-gray-800 focus:outline-none">
+=======
+            <div id="menu" class="absolute top-0 right-0 bg-gray-300 text-white w-48 h-screen menu-slide menu-hidden shadow-lg">
+                <!-- Cabeçalho do Menu -->
+                <div class="bg-gray-400 text-center py-4 font-bold text-lg relative">
+                    NINJA CONTROL
+                    <!-- Botão para fechar o menu -->
+                    <button id="menu-close" class="absolute top-2 right-2 text-white text-2xl font-bold hover:text-gray-300 focus:outline-none">
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
                         X
                     </button>
                 </div>
 
                 <!-- Opções do Menu -->
                 <ul class="flex flex-col space-y-4 mt-8 px-4">
+<<<<<<< HEAD
                     <li><a href="#" class="text-black hover:text-gray-300">◾ PONTO </a></li>
                     <li><a href="#" class="text-black hover:text-gray-300">◾ FUNCIONÁRIO </a></li>
                     <li><a href="../../index.php" class="text-black hover:text-gray-300">◾ LOGOUT </a></li>
+=======
+                    <li><a href="#" class="hover:text-gray-300">◾ PONTO 🎥</a></li>
+                    <li><a href="#" class="hover:text-gray-300">◾ FUNCIONÁRIO 👥</a></li>
+                    <li><a href="../../index.php" class="hover:text-gray-300">◾ LOGOUT 🕳</a></li>
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
                 </ul>
             </div>
         </nav>

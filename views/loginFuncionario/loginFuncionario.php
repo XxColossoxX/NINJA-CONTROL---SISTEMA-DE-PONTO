@@ -3,17 +3,29 @@ require_once('../../assets/components/background.php')
 ?>
 
   <!-- Formulário de Registro -->
+<<<<<<< HEAD
   <div id="login-system" class="w-[90%] sm:w-full max-w-md mx-auto bg-white bg-opacity-90 shadow-xl rounded-2xl p-4 sm:p-8">
         <div class="text-center">
             <img class="mx-auto w-20" src="../../assets/img/ninjaLogo.png" alt="Ninja Control">
             <h2 class="text-3xl font-bold text-gray-800 mt-2 mb-2">LOGIN FUNCIONÁRIO</h2><h1 class="text-3x1 font-bold text-gray-700 mb-2">Solicite seu acesso ao suporte da sua empresa!</h1> 
+=======
+  <div id="login-system" class="w-96 bg-white bg-opacity-90 shadow-xl rounded-2xl p-8">
+        <div class="text-center">
+            <img class="mx-auto w-20" src="../../assets/img/ninjaLogo.png" alt="Ninja Control">
+            <h2 class="text-3xl font-bold text-gray-800 mt-2 mb-2"><i>LOGIN FUNCIONÁRIO</i></h2><h1 class="text-3x1 font-bold text-gray-700 mb-2">Solicite seu acesso ao suporte da sua empresa!</h1> 
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
         </div>
 
         
         <!-- Campo Usuário -->
         <div class="mb-4">
+<<<<<<< HEAD
             <label class="block text-gray-700 font-bold">Digite o CPF:</label>
             <input id="inputCpfFuncionario" type="text" placeholder="Digite seu usuário" 
+=======
+            <label class="block text-gray-700 font-bold">Usuário:</label>
+            <input id="inputUsuarioLogin" type="text" placeholder="Digite seu usuário" 
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-500 focus:border-gray-500" /> 
         </div>
         
@@ -21,7 +33,11 @@ require_once('../../assets/components/background.php')
         <div class="mb-6">
             <label class="block text-gray-700 font-bold">Senha:</label>
             <div class="relative">
+<<<<<<< HEAD
                 <input id="inputSenhaFuncionario" type="password" placeholder="Digite sua senha" 
+=======
+                <input id="inputSenhaLogin" type="password" placeholder="Digite sua senha" 
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
                     class="w-full border border-gray-300 rounded-md px-3 py-2 pr-10 focus:ring-2 focus:ring-gray-500 focus:border-gray-500" />
                 <button type="button" id="toggleSenha" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 focus:outline-none">
                     <i class="fas fa-eye" id="iconSenha"></i>

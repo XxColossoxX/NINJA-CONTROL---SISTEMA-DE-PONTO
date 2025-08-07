@@ -11,8 +11,14 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<<<<<<< HEAD
     <!-- criar mascaras -->
     <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js"></script>
+=======
+    <!-- inputmask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/inputmask.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/jquery.inputmask.min.js"></script>
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -35,11 +41,19 @@
         }
 
         .bg-animated-gradient {
+<<<<<<< HEAD
             background: linear-gradient(45deg, #000000, #14213d, #708d81, #e5e5e5, #ffffff);
             background-size: 400% 400%;
             animation: gradientAnimation 20s ease infinite;
             height: 100vh;
             width: 100%; 
+=======
+            background: linear-gradient(45deg, rgb(114, 114, 114), rgb(121, 121, 122), rgb(109, 109, 109), rgb(153, 152, 153), rgb(130, 129, 129), #000000, #000000);
+            background-size: 400% 400%;
+            animation: gradientAnimation 20s ease infinite;
+            height: 100vh;
+            width: 100%;
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
         }
 
         /* Animações de entrada/saída */
@@ -107,8 +121,12 @@
     </style>
 </head>
 
+<<<<<<< HEAD
 <body class="bg-animated-gradient flex items-center justify-center">
 
     <div id="alert-box" class="hidden fixed top-12 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-md text-white">
         <span id="alert-message"></span>
     </div>
+=======
+<body class="bg-animated-gradient flex items-center justify-center">
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9

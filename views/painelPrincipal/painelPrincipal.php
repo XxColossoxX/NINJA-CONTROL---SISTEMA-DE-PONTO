@@ -7,20 +7,28 @@ if (!isset($_SESSION['empresa_id'])) {
     exit;
 }
 require_once('../../assets/components/header.php');
+<<<<<<< HEAD
 require_once('../../assets/components/background.php');
 
+=======
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
 
 $empresaId = $_SESSION['empresa_id']; // Recupera o ID da empresa da sessão
 ?>
         <!-- Dashboard -->
         <div class="content container mx-auto mt-8 px-4 ">
             <div class="flex justify-end mb-4">
+<<<<<<< HEAD
                 <button id="add-employee-btn" class="bg-green-400 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+=======
+                <button id="add-employee-btn" class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded">
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
                     ADICIONAR FUNCIONÁRIO
                 </button>
             </div>
             <div class="overflow-x-auto">
                 <table id="tblFuncionario" class="table-auto w-full bg-white shadow-md rounded-lg">
+<<<<<<< HEAD
                     <thead class="bg-gray-600 text-white">
                         <tr>
                             <th class="px-4 py-2 border-r-4 border-gray-600 text-center rounded-tl-lg"><strong>ID</strong></th>
@@ -29,13 +37,27 @@ $empresaId = $_SESSION['empresa_id']; // Recupera o ID da empresa da sessão
                             <th class="px-4 py-2 border-r-4 border-gray-600 text-center hidden md:table-cell"><strong>RG</strong></th>
                             <th class="px-4 py-2 border-r-4 border-gray-600 text-center "><strong>IMAGEM</strong></th>
                             <th class="px-2 py-1 border-r-4 border-gray-600 text-center"><strong>EDITAR</strong></th>
+=======
+                    <thead class="bg-gray-800 text-white">
+                        <tr>
+                            <th class="px-4 py-2 border-r-4 border-gray-800 text-center rounded-tl-lg"><strong>ID</strong></th>
+                            <th class="px-4 py-2 border-r-4 border-gray-800 text-center "><strong>NOME</strong></th>
+                            <th class="px-4 py-2 border-r-4 border-gray-800 text-center hidden md:table-cell"><strong>CPF</strong></th>
+                            <th class="px-4 py-2 border-r-4 border-gray-800 text-center hidden md:table-cell"><strong>RG</strong></th>
+                            <th class="px-4 py-2 border-r-4 border-gray-800 text-center "><strong>IMAGEM</strong></th>
+                            <th class="px-2 py-1 border-r-4 border-gray-800 text-center"><strong>EDITAR</strong></th>
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
                             <th class="px-2 py-1 text-center rounded-tr-lg"><strong>EXCLUIR</strong></th>
                         </tr>
                     </thead>
                     <tbody>
                         <!-- As linhas da tabela serão preenchidas dinamicamente -->
                     </tbody>
+<<<<<<< HEAD
                     <tfoot class="bg-gray-600 text-white">
+=======
+                    <tfoot class="bg-gray-800 text-white">
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
                         <tr>
                             <td colspan="7" class="px-4 py-2 text-center rounded-bl-lg rounded-br-lg">
                                 <strong>Total de Funcionários:</strong> <span id="totalFunc">0</span>
@@ -67,10 +89,13 @@ $empresaId = $_SESSION['empresa_id']; // Recupera o ID da empresa da sessão
                     <input id="inputRgFuncionario" type="text" placeholder="Digite o RG" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="mb-4">
+<<<<<<< HEAD
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="cpf">Senha Acesso</label>
                     <input id="inputSenhaFuncionario" type="password" placeholder="Digite a senha de acesso do funcionario" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="mb-4">
+=======
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="cpf">DATA_NASCIMENTO</label>
                     <input id="inputDataNascFuncionario" type="date" placeholder="dd/mm/aaaa" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
@@ -109,7 +134,10 @@ $empresaId = $_SESSION['empresa_id']; // Recupera o ID da empresa da sessão
                 <p><strong>Nome:</strong> <span id="display-nome"></span></p>
                 <p><strong>CPF:</strong> <span id="display-cpf"></span></p>
                 <p><strong>RG:</strong> <span id="display-rg"></span></p>
+<<<<<<< HEAD
                 <p><strong>Senha Acesso:</strong> <span id="display-rg"></span></p>
+=======
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
                 <p><strong>Data de Nascimento:</strong> <span id="display-data"></span></p>
                 <div id="welcome-message" class="mt-6 text-green-500 font-bold hidden">
                     Bem-vindo, <span id="welcome-nome"></span>!

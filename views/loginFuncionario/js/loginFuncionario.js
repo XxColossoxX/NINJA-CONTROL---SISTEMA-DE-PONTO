@@ -1,14 +1,28 @@
 $(document).ready(async function() {
+<<<<<<< HEAD
     let input = $("#inputCpfFuncionario")
     Inputmask("999.999.999-99").mask(input)
 
     // $("#inputCpfFuncionario").Inputmask("999.999.999-99")
+=======
+
+    //animacao inicio
+   setTimeout(() => {
+    document.getElementById("welcome-message").classList.add("hidden");
+    document.getElementById("login-system").classList.remove("hidden");
+}, 4000);
+
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
 
     //!BOTOES
     //Botao de Login Empresa
     //#region
    $("#btnEntrar").on('click', function(){
+<<<<<<< HEAD
         loginFuncionario();
+=======
+        loginEmpresa();
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
    })
    //#endregion
    
@@ -60,11 +74,19 @@ $('#toggleSenha').on('click', function () {
    
    //cadastrarEmpresa
    //#region 
+<<<<<<< HEAD
    async function loginFuncionario() {
     const usuarioFuncionario  = $("#inputCpfFuncionario").val(); ;
     const senhaFuncionario    = $("#inputSenhaFuncionario").val(); ;
 
     if (!usuarioFuncionario || !senhaFuncionario) {
+=======
+   async function loginEmpresa() {
+    const usuarioEmpresa    = $("#inputUsuarioLogin").val(); ;
+    const senhaEmpresa      = $("#inputSenhaLogin").val(); ;
+
+    if (!usuarioEmpresa || !senhaEmpresa) {
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
         showAlert("Por favor, preencha todos os campos.", "error");
         return;
     }
@@ -74,9 +96,15 @@ $('#toggleSenha').on('click', function () {
             url: "../../../backend/backend.php",
             method: "POST",
             data:{
+<<<<<<< HEAD
                 function: "loadFuncionario",
                 CPF: usuarioFuncionario,
                 SENHA_FUNCIONARIO: senhaFuncionario,
+=======
+                function: "loadEmpresa",
+                USUARIO_EMPRESA: usuarioEmpresa,
+                SENHA_EMPRESA: senhaEmpresa,
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
 
             }
         });
@@ -84,7 +112,11 @@ $('#toggleSenha').on('click', function () {
         if (res.data.success) {
             // Login bem-sucedido, redireciona para o dashboard
             console.log(res.data.message, "success");
+<<<<<<< HEAD
             window.location.href = `../../../views/pontoFuncionario/pontoFuncionario.php?id:${res.data.data.ID_FUNCIONARIO}`;
+=======
+            window.location.href = "../../../views/painelPrincipal/painelPrincipal.php";
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
         } else {
             // Exibe mensagem de erro
             showAlert(res.data.error);

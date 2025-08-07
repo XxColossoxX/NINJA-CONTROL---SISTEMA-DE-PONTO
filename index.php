@@ -4,8 +4,13 @@ require_once('assets/components/background.php')
 
     <!-- Mensagem de Boas-Vindas -->
     <div id="welcome-message" class="welcome-message text-center">
+<<<<<<< HEAD
         <p class="sm:text-2x1 text-3xl md:text-2x1 text-white mb-1">SEJA BEM VINDO(A)<br>AO</p>
         <h1 class=" sm:text-3x1 text-5xl text-white font-sans"><strong>NINJA CONTROL</strong></h1>
+=======
+        <p class="text-3xl md:text-2x1 text-white mb-1">SEJA BEM VINDO(A)<br>AO</p>
+        <h1 class=" text-5xl text-white font-sans"><strong>NINJA CONTROL</strong></h1>
+>>>>>>> d384aeecb3bc838be5bb8e1e56820b07e71af5f9
     </div>
 
     <!-- Imagem com animação -->
