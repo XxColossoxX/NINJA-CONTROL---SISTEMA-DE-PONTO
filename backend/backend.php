@@ -90,6 +90,7 @@ function apply($db, $data){
             $stmt->bindValue(3, $dataNascimento);
             $stmt->bindValue(4, $faceId);
             $stmt->bindValue(5, $senhaFuncionario);
+            $stmt->bindValue(6, $idFuncionario);
             $result = $stmt->execute();
             if ($result) {
                 echo json_encode([
