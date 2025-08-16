@@ -55,7 +55,7 @@ if (isset($data['function'])) {
     echo json_encode(["error" => "Nenhuma função especificada"]);
 }
 
-function apply($db, $data){
+function apply($db, $data) {
     session_start();
 
     if (!isset($_SESSION['empresa_id'])) {
@@ -66,75 +66,72 @@ function apply($db, $data){
         exit;
     }
 
-    $empresaId = $_SESSION['empresa_id']; 
+    $empresaId = $_SESSION['empresa_id'];
 
-    if ($data) {
-        $nomeFuncionario = $data['NOME_FUNCIONARIO'];
-        $cpfFuncionario = $data['CPF'];
-        $rgFuncionario = $data['RG'];
-        $senhaFuncionario = $data['SENHA_FUNCIONARIO'];
-        $dataNascimento = $data['DATA_NASCIMENTO'];
-        $faceId = $data['FACEID'];
-
-        $check = $db->prepare("SELECT ID_FUNCIONARIO FROM FUNCIONARIOS WHERE CPF = ? AND FK_EMPRESA = ?");
-        $check->bindValue(1, $cpfFuncionario);
-        $check->bindValue(2, $empresaId);
-        $resultCheck = $check->execute();
-        $row = $resultCheck->fetchArray(SQLITE3_ASSOC);
-
-        if ($row && isset($row['ID_FUNCIONARIO'])) {
-            $idFuncionario = $row['ID_FUNCIONARIO'];
-            $stmt = $db->prepare("UPDATE FUNCIONARIOS SET NOME_FUNCIONARIO = ?, RG = ?, DATA_NASCIMENTO = ?, FACEID = ?, SENHA_FUNCIONARIO = ? WHERE ID_FUNCIONARIO = ?");
-            $stmt->bindValue(1, $nomeFuncionario);
-            $stmt->bindValue(2, $rgFuncionario);
-            $stmt->bindValue(3, $dataNascimento);
-            $stmt->bindValue(4, $faceId);
-            $stmt->bindValue(5, $senhaFuncionario);
-            $stmt->bindValue(6, $idFuncionario);
-            $result = $stmt->execute();
-            if ($result) {
-                echo json_encode([
-                    "success" => true,
-                    "message" => "Funcionário atualizado com sucesso!"
-                ]);
-            } else {
-                echo json_encode([
-                    "success" => false,
-                    "message" => "Erro ao atualizar funcionário."
-                ]);
-            }
-        } else {
-            // Não existe, faz INSERT
-            $stmt = $db->prepare("INSERT INTO FUNCIONARIOS (NOME_FUNCIONARIO, CPF, RG, SENHA_FUNCIONARIO, DATA_NASCIMENTO, FACEID, FK_EMPRESA, TIPO) 
-                                  VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bindValue(1, $nomeFuncionario);
-            $stmt->bindValue(2, $cpfFuncionario);
-            $stmt->bindValue(3, $rgFuncionario);
-            $stmt->bindValue(4, $senhaFuncionario);
-            $stmt->bindValue(5, $dataNascimento);
-            $stmt->bindValue(6, $faceId);
-            $stmt->bindValue(7, $empresaId); // FK_EMPRESA
-            $stmt->bindValue(8, 'F'); // TIPO
-
-            $result = $stmt->execute();
-
-            if ($result) {
-                echo json_encode([
-                    "success" => true,
-                    "message" => "Funcionário cadastrado com sucesso!"
-                ]);
-            } else {
-                echo json_encode([
-                    "success" => false,
-                    "message" => "Erro ao cadastrar funcionário."
-                ]);
-            }
-        }
-    } else {
+    if (!$data) {
         echo json_encode([
             "success" => false,
             "message" => "Dados não fornecidos."
         ]);
+        exit;
+    }
+
+    $idFuncionario = isset($data['ID_FUNCIONARIO']) ? $data['ID_FUNCIONARIO'] : null;
+    $nomeFuncionario = $data['NOME_FUNCIONARIO'];
+    $cpfFuncionario = $data['CPF'];
+    $rgFuncionario = $data['RG'];
+    $senhaFuncionario = $data['SENHA_FUNCIONARIO'];
+    $dataNascimento = $data['DATA_NASCIMENTO'];
+    $faceId = $data['FACEID'];
+
+    if ($idFuncionario > 0) {
+        $stmt = $db->prepare("UPDATE FUNCIONARIOS SET NOME_FUNCIONARIO = ?, CPF = ?, RG = ?, DATA_NASCIMENTO = ?, FACEID = ?, SENHA_FUNCIONARIO = ? WHERE ID_FUNCIONARIO = ?");
+        $stmt->bindValue(1, $nomeFuncionario);
+        $stmt->bindValue(2, $cpfFuncionario);
+        $stmt->bindValue(3, $rgFuncionario);
+        $stmt->bindValue(4, $dataNascimento);
+        $stmt->bindValue(5, $faceId);
+        $stmt->bindValue(6, $senhaFuncionario);
+        $stmt->bindValue(7, $idFuncionario);
+
+        $result = $stmt->execute();
+
+        if ($result) {
+            echo json_encode([
+                "success" => true,
+                "message" => "Funcionário atualizado com sucesso!"
+            ]);
+        } else {
+            echo json_encode([
+                "success" => false,
+                "message" => "Erro ao atualizar funcionário.",
+                "error" => $db->lastErrorMsg()
+            ]);
+        }
+    } else {
+        $stmt = $db->prepare("INSERT INTO FUNCIONARIOS SET NOME_FUNCIONARIO = ?, CPF = ?, RG = ?, DATA_NASCIMENTO = ?, FACEID = ?, SENHA_FUNCIONARIO = ? WHERE FK_EMPRESA = ?");
+        $stmt->bindValue(1, $nomeFuncionario);
+        $stmt->bindValue(2, $cpfFuncionario);
+        $stmt->bindValue(3, $rgFuncionario);
+        $stmt->bindValue(4, $dataNascimento);
+        $stmt->bindValue(5, $faceId);
+        $stmt->bindValue(6, $senhaFuncionario);
+
+        $result = $stmt->execute();
+
+        if ($result) {
+            echo json_encode([
+                "success" => true,
+                "message" => "Funcionário atualizado com sucesso!"
+            ]);
+        } else {
+            echo json_encode([
+                "success" => false,
+                "message" => "Erro ao atualizar funcionário.",
+                "error" => $db->lastErrorMsg()
+            ]);
+        }
+
     }
 }
 

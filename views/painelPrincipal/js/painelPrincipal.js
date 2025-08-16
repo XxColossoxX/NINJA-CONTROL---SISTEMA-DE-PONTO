@@ -1,4 +1,5 @@
 let foto64 = ""; 
+let id = '';
 const tabela = $("#tblFuncionario tbody");
 
 
@@ -36,7 +37,11 @@ $("#btnProximo").on('click', async function(){
     $("#camera-modal").removeClass("hidden");
     await abrirCamera();
 
-})
+});
+
+$('#add-employee-btn').on("click", async function(){
+    id = 0;
+});
 
 $(document).on("click", ".delete-icon", async function () {
     const id = $(this).data("id");
@@ -68,7 +73,12 @@ $(document).on("click", ".delete-icon", async function () {
 });
 
 $(document).on("click", ".edit-icon", function () {
-    const id = $(this).data("id");
+    id = $(this).data("id");
+    $("#inputNomeFuncionario").val('');
+    $("#inputCpfFuncionario").val('');
+    $("#inputRgFuncionario").val('');
+    $("#inputSenhaFuncionario").val('');
+    $("#inputDataNascFuncionario").val('')
 
     const res = axios({
         url: "../../../backend/backend.php",
@@ -78,9 +88,6 @@ $(document).on("click", ".edit-icon", function () {
             ID_FUNCIONARIO: id,
         },
     }).then((res) => {
-        console.log(res.data);
-        console.log(res.data[0]);
-        
         $("#form-modal").removeClass("hidden");
         $("#inputNomeFuncionario").val(res.data.data.NOME_FUNCIONARIO);
         $("#inputCpfFuncionario").val(res.data.data.CPF);
@@ -92,53 +99,6 @@ $(document).on("click", ".edit-icon", function () {
 });
 
 //!FUNCOES
-async function cadastrarFuncionario(){
-    let inputNome   = $("#inputNomeFuncionario").val()
-    let inputCpf    = $("#inputCpfFuncionario").val()
-    let inputRg     = $("#inputRgFuncionario").val()
-    let inputSenha  = $("#inputSenhaFuncionario").val()
-    let inputData   = $("#inputDataNascFuncionario").val()
-
-    if(!inputNome || !inputCpf || !inputRg || !inputData) {
-        showAlert("Preencha todos os campos!", "error");
-        return;
-    }
-
-    await abrirCamera();
-
-    // Verificar se a foto foi capturada
-    if (!foto64) {
-        showAlert("Erro ao capturar a foto. Tente novamente.", "error");
-        return;
-    }
-
-    try {
-        const res = await axios({
-            url: "../../../backend/backend.php",
-            method: "POST",
-            data: {
-                function: "apply",
-                NOME_FUNCIONARIO: inputNome,
-                CPF: inputCpf,
-                DATA_NASCIMENTO: inputData,
-                RG: inputRg,
-                SENHA_FUNCIONARIO: inputSenha,
-                FACEID: foto64,
-            },
-        });
-
-        if (res.data.success) {
-            showAlert("Funcionário cadastrado com sucesso!", "success");
-            
-        } else {
-            showAlert("Erro ao cadastrar funcionário.", "error");
-        }
-    } catch (error) {
-        console.error("Erro ao enviar os dados:", error);
-        showAlert("Erro ao enviar os dados. Tente novamente.", "error");
-    }
-}
-
 async function abrirCamera() {
     const video = document.getElementById("register-camera");
     const cameraError = document.getElementById("camera-error");
@@ -199,6 +159,7 @@ async function abrirCamera() {
             method: "POST",
             data: {
                 function: "apply",
+                ID_FUNCIONARIO: id,
                 NOME_FUNCIONARIO: inputNome,
                 CPF: inputCpf,
                 DATA_NASCIMENTO: inputData,
@@ -220,7 +181,7 @@ async function abrirCamera() {
     });
 
     return stream;
-}
+};
 
 async function preencheTabela(res) {
     tabela.empty();
@@ -255,7 +216,7 @@ async function preencheTabela(res) {
                 <td class="px-4 py-2 text-center border-r-2 border-gray-100 hidden md:table-cell">${cpfFuncionario}</td>
                 <td class="px-4 py-2 text-center border-r-2 border-gray-100 hidden md:table-cell">${rgFuncionario}</td>
                 <td class="px-4 py-2 flex justify-center items-center border-r-2 border-gray-100">
-                    <img src="${imagemFuncionario}" class="w-16 h-16 rounded-full border-4 border-gray-250">
+                    <div class="w-20 h-20 rounded-full border-4 border-gray-300 bg-center bg-cover" style="background-image: url('${imagemFuncionario}'); background-size: 200%;"></div>
                 </td>
                 <td class="px-2 py-1 text-center border-r-2 border-gray-100 ">
                     <i id="btnEdit" class="fas fa-edit text-blue-500 hover:text-blue-700 cursor-pointer edit-icon" data-id="${idFuncionario}" title="Editar"></i>
@@ -273,7 +234,7 @@ async function preencheTabela(res) {
             showAlert("NÃO HÁ FUNCIONÁRIOS CADASTRADOS !", "error");
         }, 2000);        
     }
-}
+};
 
 async function carregarNomeEmpresa() {
     const res = await axios({
@@ -308,7 +269,7 @@ async function carregarNomeEmpresa() {
         }, 500);
     }, 1500);
     return;
-}
+};
 
 async function recarregaTabela() {
     const tabela = $("#tblFuncionario tbody");
@@ -317,7 +278,7 @@ async function recarregaTabela() {
 
     await loadEmpresa()
     return
-}
+};
 
 async function loadEmpresa(){
     tabela.empty();
@@ -333,7 +294,7 @@ async function loadEmpresa(){
         $("totalFunc").empty();
         $("#totalFunc").text(res.data.length);
         return
-}
+};
 
 function showAlert(message, type = "error") {
         const alertBox = document.getElementById("alert-box");
@@ -369,7 +330,7 @@ function showAlert(message, type = "error") {
                 alertBox.classList.add("hidden");
             }, 500); // Aguarda a animação de saída terminar
         }, 3000);
-}      
+};      
 
 //!FRONT-END
 //#region
