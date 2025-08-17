@@ -1,17 +1,8 @@
-function getQueryString(param) {
-    var urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(param);
-}
-
 let foto64 = ""; 
-let id = getQueryString('id')
 const tabela = $("#tblFuncionario tbody");
 
 
-$(document).ready( async function() {
-
-    carregarNomeFuncionario()
-    
+$(document).ready( async function() {    
    setTimeout(() => {
     document.getElementById("welcome-message").classList.add("hidden");
     document.getElementById("controlador").classList.remove("hidden");
@@ -275,42 +266,6 @@ async function preencheTabela(res) {
             showAlert("NÃO HÁ FUNCIONÁRIOS CADASTRADOS !", "error");
         }, 2000);        
     }
-}
-
-async function carregarNomeFuncionario() {
-    const res = await axios({
-            url: "../../../backend/backend.php",
-            method: "POST",
-            data: {
-                function: "getDadosFuncionario",
-                id
-            },
-        });
-    let nomeFuncionario = res.data[0].NOME_EMPRESA.toUpperCase();
-    let divBemVindo = $("#bemVindo");
-    let conteudo = `
-        <div id="welcome-message" class="fixed inset-0 flex items-center justify-center z-50 text-center">
-            <div>
-                <h1 class="text-4xl text-white font-sans"><i><strong>BEM-VINDO(A) DE VOLTA</strong></i></h1>
-                <h2 id="tituloEmpresa" class="text-2xl text-white font-sans underline text-center"><i><strong>${nomeFuncionario}</strong></i></h2>
-            </div>
-        </div>`;
-    divBemVindo.append(conteudo);
-    // Animação de entrada
-    setTimeout(() => {
-        document.getElementById("welcome-message").classList.add("entrada");
-    }, 100);
-    // Animação de saída após 3s
-    setTimeout(() => {
-        const el = document.getElementById("welcome-message");
-        el.classList.remove("entrada");
-        el.classList.add("saida");
-        setTimeout(() => {
-            el.remove();
-            document.getElementById("controlador")?.classList.remove("hidden");
-        }, 500);
-    }, 1500);
-    return;
 }
 
 async function recarregaTabela() {

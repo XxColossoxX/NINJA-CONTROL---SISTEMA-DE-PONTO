@@ -1,5 +1,4 @@
-
-        @keyframes gradient {
+@keyframes gradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
@@ -41,4 +40,21 @@
                 opacity: 1;
             }
         }
-    
+        @media (max-width: 640px) {
+          .welcome-message {
+            font-size: 1.2rem !important;
+            padding: 0.2rem !important;
+          }
+          .welcome-message h1,
+          .welcome-message h2,
+          .welcome-message p {
+            font-size: 1.1rem !important;
+            line-height: 1.3rem !important;
+            margin-bottom: 0.3rem !important;
+          }
+          .bgBtn, .btn, .button, a.bgBtn {
+            font-size: 0.95rem !important;
+            padding: 0.4rem 0.6rem !important;
+            border-radius: 0.5rem !important;
+          }
+        }

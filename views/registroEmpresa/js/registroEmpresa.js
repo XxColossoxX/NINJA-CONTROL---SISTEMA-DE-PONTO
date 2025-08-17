@@ -93,7 +93,8 @@ async function cadastrarEmpresa() {
 
 //função olho senha
 //#region
-$('#toggleSenhaEmpresa').click(function () {
+// Alternar visualização da senha
+$('#toggleSenhaEmpresa').on('click', function() {
     const input = $('#inputSenhaEmpresa');
     const icon = $('#iconSenhaEmpresa');
     if (input.attr('type') === 'password') {
@@ -105,9 +106,9 @@ $('#toggleSenhaEmpresa').click(function () {
     }
 });
 
-$('#toggleConfirmaSenha').click(function () {
+$('#toggleConfirmaSenha').on('click', function() {
     const input = $('#inputConfirmaSenha');
-    const icon = $('#iconConfirmaSenha');
+    const icon = $('#iconConfirmaSenha'); // Corrigido para usar o ícone correto
     if (input.attr('type') === 'password') {
         input.attr('type', 'text');
         icon.removeClass('fa-eye').addClass('fa-eye-slash');

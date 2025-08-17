@@ -47,38 +47,88 @@
   transform: scale(0.95);
 }
 
-/* Responsividade para modais em telas pequenas */
+/* Responsividade aprimorada para modais e botões em telas pequenas */
 @media (max-width: 640px) {
   #form-modal > div,
   #camera-modal > div {
-    width: 95vw !important;
+    width: 98vw !important;
     min-width: unset !important;
     max-width: 99vw !important;
-    padding: 1rem !important;
+    padding: 0.7rem !important;
     flex-direction: column !important;
+    border-radius: 0.7rem !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
   }
   #camera-modal > div {
     padding: 0.5rem !important;
   }
   #camera-modal .w-1\/2,
-  #camera-modal .pl-6 {
-    width: 100% !important;
-    padding-left: 0 !important;
-    margin-bottom: 1rem;
-  }
+  #camera-modal .pl-6,
   #form-modal .w-1\/2 {
     width: 100% !important;
+    padding-left: 0 !important;
+    margin-bottom: 0.7rem;
   }
   #camera-modal .w-64,
   #camera-modal .h-64 {
-    width: 60vw !important;
-    height: 60vw !important;
-    max-width: 90vw !important;
-    max-height: 90vw !important;
+    width: 55vw !important;
+    height: 55vw !important;
+    max-width: 80vw !important;
+    max-height: 80vw !important;
   }
   #camera-modal h2,
   #form-modal h2 {
+    font-size: 1rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  /* Botões */
+  button,
+  .btn,
+  .bgBtn,
+  .button,
+  a.bgBtn {
+    font-size: 0.95rem !important;
+    padding: 0.5rem 0.7rem !important;
+    border-radius: 0.5rem !important;
+    min-width: 120px !important;
+    max-width: 100vw !important;
+  }
+  /* Espaçamento entre botões */
+  .space-y-3 > * + * {
+    margin-top: 0.5rem !important;
+  }
+  /* Inputs */
+  input, select, textarea {
+    font-size: 0.95rem !important;
+    padding: 0.4rem 0.6rem !important;
+    border-radius: 0.4rem !important;
+  }
+  .welcome-message {
+    font-size: 1.2rem !important;
+    padding: 0.2rem !important;
+  }
+  .welcome-message h1,
+  .welcome-message h2,
+  .welcome-message p {
     font-size: 1.1rem !important;
+    line-height: 1.3rem !important;
+    margin-bottom: 0.3rem !important;
+  }
+  #login-system2 h1,
+  #login-system h1 {
+    font-size: 1.1rem !important;
+    margin-bottom: 0.3rem !important;
+  }
+  #login-system {
+    width: 95vw !important;
+    max-width: 99vw !important;
+    padding: 0.7rem !important;
+    border-radius: 0.7rem !important;
+  }
+  .bgBtn, .btn, .button, a.bgBtn {
+    font-size: 0.95rem !important;
+    padding: 0.4rem 0.6rem !important;
+    border-radius: 0.5rem !important;
   }
 }
 

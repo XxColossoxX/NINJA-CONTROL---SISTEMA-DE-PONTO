@@ -2,9 +2,31 @@
 require_once('assets/components/background.php')
 ?>
 
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ninja Control</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/img/ninjaLogo.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/img/ninjaLogo.png">
+    <link rel="icon" href="/assets/img/icons/ninjaLogo16.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/assets/img/icons/ninjaLogo16.ico" type="image/x-icon">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js');
+        });
+      }
+    </script>
+</head>
+<body>
+
     <!-- Mensagem de Boas-Vindas -->
     <div id="welcome-message" class="welcome-message text-center">
-        <p class="sm:text-2x1 text-3xl md:text-2x1 text-white mb-1">SEJA BEM VINDO(A)<br>AO</p>
+        <p class="sm:text-2x1 text-3xl md:text-2x1 text-white mb-5">SEJA BEM-VINDO(A)</p>
         <h1 class=" sm:text-3x1 text-5xl text-white font-sans"><strong>NINJA CONTROL</strong></h1>
     </div>
 

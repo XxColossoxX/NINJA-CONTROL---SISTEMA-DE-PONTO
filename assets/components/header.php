@@ -22,6 +22,9 @@
     
     <!-- Ícone -->
     <link rel="icon" type="image/x-icon" href="../../assets/img/icons/ninja_lock_icon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/img/ninjaLogo.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/img/ninjaLogo.png">
+    <link rel="icon" type="image/x-icon" href="assets/img/icons/ninja_lock_icon.ico">
 
     <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js"></script>
 

@@ -21,7 +21,9 @@
     <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js"></script>
     
     <!-- Ícone -->
-    <link rel="icon" type="image/x-icon" href="../../assets/img/icons/ninja_lock_icon.ico">
+    <link rel="icon" type="image/png" href="/assets/img/ninjaLogo.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/img/ninjaLogo.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/img/ninjaLogo.png">
 
     <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js"></script>
 
@@ -168,6 +170,7 @@
     </div>       
 
 <div id="controlador" class="hidden">
+    
 
         <!-- Navbar -->
         <nav class="bg-white text-black shadow-md fixed top-0 left-0 w-full z-10">
@@ -179,7 +182,7 @@
                 </div>
 
                 <!-- Nome Centralizado -->
-                <div class="text-xl font-semibold text-black absolute left-1/2 transform -translate-x-1/2">
+                <div id="nomeHeader" class="text-2xl font-semibold text-center text-black absolute left-1/2 transform -translate-x-1/2">
                     PONTO FUNCIONÁRIO
                 </div>
 
@@ -212,3 +215,24 @@
                 </ul>
             </div>
         </nav>
+
+        <script>
+            $(document).ready(function() {
+                // Abrir menu hamburguer
+                $('#menu-toggle').on('click', function(e) {
+                    e.stopPropagation();
+                    $('#menu').removeClass('menu-hidden').addClass('menu-visible');
+                });
+                // Fechar menu hamburguer
+                $('#menu-close').on('click', function(e) {
+                    e.stopPropagation();
+                    $('#menu').removeClass('menu-visible').addClass('menu-hidden');
+                });
+                // Fechar ao clicar fora do menu
+                $(document).on('click', function(e) {
+                    if (!$(e.target).closest('#menu, #menu-toggle').length) {
+                        $('#menu').removeClass('menu-visible').addClass('menu-hidden');
+                    }
+                });
+            });
+        </script>

@@ -1,5 +1,6 @@
 let foto64 = ""; 
 let id = '';
+let dataMethod = ""; 
 const tabela = $("#tblFuncionario tbody");
 
 
@@ -22,7 +23,6 @@ $(document).ready( async function() {
     await recarregaTabela();
 
 //!BOTOES
-
 $("#btnProximo").on('click', async function(){
     let inputNome   = $("#inputNomeFuncionario").val()
     let inputCpf    = $("#inputCpfFuncionario").val()
@@ -40,7 +40,21 @@ $("#btnProximo").on('click', async function(){
 });
 
 $('#add-employee-btn').on("click", async function(){
-    id = 0;
+    dataMethod = "insert";
+    id = '';
+
+    $("#form-modal").removeClass("hidden");
+    $("#inputNomeFuncionario").val('');
+    $("#inputCpfFuncionario").val('');
+    $("#inputRgFuncionario").val('');
+    $("#inputSenhaFuncionario").val('');
+    $("#inputDataNascFuncionario").val('');
+
+    inputNome  = ('')  
+    inputCpf   = ('')
+    inputRg    = ('')
+    inputData  = ('')
+    inputSenha = ('')
 });
 
 $(document).on("click", ".delete-icon", async function () {
@@ -72,29 +86,32 @@ $(document).on("click", ".delete-icon", async function () {
     }
 });
 
-$(document).on("click", ".edit-icon", function () {
+$(document).on("click", ".edit-icon", async function () {
     id = $(this).data("id");
+    dataMethod = "update";
+
     $("#inputNomeFuncionario").val('');
     $("#inputCpfFuncionario").val('');
     $("#inputRgFuncionario").val('');
     $("#inputSenhaFuncionario").val('');
     $("#inputDataNascFuncionario").val('')
 
-    const res = axios({
+    const res = await axios({
         url: "../../../backend/backend.php",
         method: "POST",
         data: {
-            function: "carregaFuncionario",
+            function: "loadDadosFuncionario",
             ID_FUNCIONARIO: id,
         },
-    }).then((res) => {
-        $("#form-modal").removeClass("hidden");
-        $("#inputNomeFuncionario").val(res.data.data.NOME_FUNCIONARIO);
-        $("#inputCpfFuncionario").val(res.data.data.CPF);
-        $("#inputRgFuncionario").val(res.data.data.RG);
-        $("#inputSenhaFuncionario").val(res.data.data.SENHA_FUNCIONARIO);
-        $("#inputDataNascFuncionario").val(res.data.data.DATA_NASCIMENTO);
-    });
+    })
+    console.log(res.data.data);
+    $("#form-modal").removeClass("hidden");
+    $("#inputNomeFuncionario").val(res.data.data.NOME_FUNCIONARIO);
+    $("#inputCpfFuncionario").val(res.data.data.CPF);
+    $("#inputRgFuncionario").val(res.data.data.RG);
+    $("#inputSenhaFuncionario").val(res.data.data.SENHA_FUNCIONARIO);
+    $("#inputDataNascFuncionario").val(res.data.data.DATA_NASCIMENTO);
+
 
 });
 
@@ -153,30 +170,58 @@ async function abrirCamera() {
         // Exibir mensagem de boas-vindas
         welcomeNome.textContent = inputNome;
         welcomeMessage.classList.remove("hidden");
-    
-        const res = await axios({
-            url: "../../../backend/backend.php",
-            method: "POST",
-            data: {
-                function: "apply",
-                ID_FUNCIONARIO: id,
-                NOME_FUNCIONARIO: inputNome,
-                CPF: inputCpf,
-                DATA_NASCIMENTO: inputData,
-                SENHA_FUNCIONARIO: inputSenha,
-                RG: inputRg,
-                FACEID: foto64,
-            },
-        });
-    
-        if (res.data.success) {
-            showAlert(res.data.message, "success");
-            $("#close-camera-modal").click();
-            recarregaTabela();
-            return
-        } else {
-            showAlert("Erro ao cadastrar funcionário.", "error");
-            console.log(res.data);
+
+        if(dataMethod === "update") {
+            const res = await axios({
+                url: "../../../backend/backend.php",
+                method: "POST",
+                data: {
+                    function: "updateFuncionario",
+                    ID_FUNCIONARIO: id,
+                    NOME_FUNCIONARIO: inputNome,
+                    CPF: inputCpf,
+                    DATA_NASCIMENTO: inputData,
+                    SENHA_FUNCIONARIO: inputSenha,
+                    RG: inputRg,
+                    FACEID: foto64,
+                },
+            });  
+
+            if (res.data.success) {
+                showAlert(res.data.message, "success");
+                $("#close-camera-modal").click();
+                recarregaTabela();
+                return
+            } else {
+                showAlert("Erro ao cadastrar funcionário.", "error");
+                console.log(res.data);
+            }      
+        }
+
+        if(dataMethod === "insert") {
+            const res = await axios({
+                url: "../../../backend/backend.php",
+                method: "POST",
+                data: {
+                    function: "applyFuncionario",
+                    NOME_FUNCIONARIO: inputNome,
+                    CPF: inputCpf,
+                    DATA_NASCIMENTO: inputData,
+                    SENHA_FUNCIONARIO: inputSenha,
+                    RG: inputRg,
+                    FACEID: foto64,
+                },
+            });  
+
+            if (res.data.success) {
+                showAlert(res.data.message, "success");
+                $("#close-camera-modal").click();
+                recarregaTabela();
+                return
+            } else {
+                showAlert("Erro ao cadastrar funcionário.", "error");
+                console.log(res.data);
+            }      
         }
     });
 
@@ -286,7 +331,7 @@ async function loadEmpresa(){
         url: "../../../backend/backend.php",
         method: "POST",
         data: {
-            function: "load",
+            function: "loadPainel",
             
         },
     });
@@ -330,20 +375,17 @@ function showAlert(message, type = "error") {
                 alertBox.classList.add("hidden");
             }, 500); // Aguarda a animação de saída terminar
         }, 3000);
-};      
+};     
 
 //!FRONT-END
 //#region
-// Botões de fechar os modais
 const closeFormModalBtn     = document.getElementById('close-form-modal');
 const closeCameraModalBtn   = document.getElementById('close-camera-modal');
 
-// Fechar o modal do formulário
 closeFormModalBtn.addEventListener('click', () => {
     formModal.classList.add('hidden');
 });
 
-// Fechar o modal de captura de rosto
 closeCameraModalBtn.addEventListener('click', () => {
     cameraModal.classList.add('hidden');
 });
@@ -352,7 +394,6 @@ document.getElementById("close-camera-modal").addEventListener("click", function
     const cameraModal = document.getElementById("camera-modal");
     const video = document.getElementById("register-camera");
 
-    // Parar o stream da câmera
     if (video.srcObject) {
         video.srcObject.getTracks().forEach((track) => track.stop());
     }
@@ -385,5 +426,4 @@ addEmployeeBtn.addEventListener('click', () => {
     formModal.classList.remove('hidden');
 });
 //#endregion
-
 });

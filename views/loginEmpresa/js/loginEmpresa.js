@@ -29,7 +29,7 @@ $(document).ready(async function() {
             url: "../../../backend/backend.php",
             method: "POST",
             data:{
-                function: "carregaEmpresa",
+                function: "loadEmpresa",
                 CNPJ_EMPRESA: cnpjEmpresa,
                 SENHA_EMPRESA: senhaEmpresa,
 

@@ -42,6 +42,8 @@
 
 
     <script src="/views/loginEmpresa/js/loginEmpresa.js"></script>
+    <link rel="stylesheet" href="/views/loginEmpresa/css/loginEmpresa.css">
+
 
 </body>
 </html>

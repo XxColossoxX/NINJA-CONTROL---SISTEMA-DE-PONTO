@@ -45,6 +45,8 @@ require_once('../../assets/components/background.php')
     </div>
 
     <script src="/views/loginFuncionario/js/loginFuncionario.js"></script>
+    <link rel="stylesheet" href="/views/loginEmpresa/css/loginEmpresa.css">
+
 
 </body>
 </html>
