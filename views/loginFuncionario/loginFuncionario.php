@@ -31,11 +31,14 @@ require_once('../../assets/components/background.php')
         
         <!-- Botões -->
         <div class="flex flex-col space-y-3">
-            <button id="btnEntrar" class="bgBtn w-full bg-gray-700 transform transition-transform duration-300 hover:scale-110 text-white py-2 rounded-md text-center transition">
-                <strong> Entrar </strong><i class="fas fa-arrow-right ml-2"></i>
+            <button id="btnEntrar" class="bgBtn w-[95%] sm:w-full bg-gray-700 text-white py-2 sm:py-3 rounded-md text-center transition sm:hover:scale-110 mx-auto block">
+                <strong>Entrar</strong>
+                <i class="fas fa-arrow-right ml-2"></i>
             </button>
-            <a href="../../../index.php" class="bgBtn w-full bg-gray-700 transform transition-transform duration-300 hover:scale-110 text-white py-2 rounded-md text-center transition">
-            <STRONG> Voltar</STRONG> <i class="fas fa-arrow-left ml-2"></i>
+
+            <a href="../../../index.php" class="bgBtn w-[95%] sm:w-full bg-gray-700 text-white py-2 sm:py-3 rounded-md text-center transition sm:hover:scale-110 mx-auto block mt-3">
+                <strong>Voltar</strong>
+                <i class="fas fa-arrow-left ml-2"></i>
             </a>
         </div>
     </div>

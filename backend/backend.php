@@ -249,6 +249,7 @@ function applyEmpresa($db, $data){
 }
 function applyFuncionario($db, $data){
     session_start();
+    
     if (!isset($_SESSION['empresa_id'])) {
         echo json_encode([
             "success" => false,
@@ -256,6 +257,7 @@ function applyFuncionario($db, $data){
         ]);
         exit;
     }
+
     $empresaId = $_SESSION['empresa_id'];
     if ($data) {
         $nomeFuncionario = $data['NOME_FUNCIONARIO'];
@@ -264,7 +266,9 @@ function applyFuncionario($db, $data){
         $dataNascimento = $data['DATA_NASCIMENTO'];
         $faceId = $data['FACEID'];
         $senhaFuncionario = isset($data['SENHA_FUNCIONARIO']) ? $data['SENHA_FUNCIONARIO'] : '';
+        
         $stmt = $db->prepare("INSERT INTO FUNCIONARIOS (NOME_FUNCIONARIO, CPF, RG, DATA_NASCIMENTO, FACEID, FK_EMPRESA, TIPO, SENHA_FUNCIONARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        
         $stmt->bindValue(1, $nomeFuncionario);
         $stmt->bindValue(2, $cpfFuncionario);
         $stmt->bindValue(3, $rgFuncionario);
@@ -273,6 +277,7 @@ function applyFuncionario($db, $data){
         $stmt->bindValue(6, $empresaId);
         $stmt->bindValue(7, 'F');
         $stmt->bindValue(8, $senhaFuncionario);
+
         $result = $stmt->execute();
         if ($result) {
             echo json_encode([

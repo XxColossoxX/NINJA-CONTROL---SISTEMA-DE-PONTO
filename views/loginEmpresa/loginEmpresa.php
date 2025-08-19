@@ -28,14 +28,16 @@
     
     <!-- Botões -->
     <div class="flex flex-col space-y-3">
-        <button id="btnEntrar" class="bgBtn w-full bg-gray-700 transform transition-transform duration-300 hover:scale-105 text-white py-2 rounded-md text-center text-sm sm:text-base">
-            <strong>Entrar</strong> <i class="fa fa-check ml-2"></i>
-        </button>
-        <a href="../registroEmpresa/registroEmpresa.php" class="bgBtn w-full bg-gray-700 transform transition-transform duration-300 hover:scale-105 text-white py-2 rounded-md text-center text-sm sm:text-base">
-            <strong>Registrar</strong> <i class="fas fa-arrow-right ml-2"></i>
-        </a>
-        <a href="../../../index.php" class="bgBtn w-full bg-gray-700 transform transition-transform duration-300 hover:scale-105 text-white py-2 rounded-md text-center text-sm sm:text-base">
-            <strong>Voltar</strong> <i class="fas fa-arrow-left ml-2"></i>
+        <div class="flex flex-col space-y-3">
+            <button id="btnEntrar" class="bgBtn w-[95%] sm:w-full bg-gray-700 text-white py-2 sm:py-3 rounded-md text-center transition sm:hover:scale-110 mx-auto block">
+                <strong>Entrar</strong>
+                <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+
+            <a href="../../../index.php" class="bgBtn w-[95%] sm:w-full bg-gray-700 text-white py-2 sm:py-3 rounded-md text-center transition sm:hover:scale-110 mx-auto block mt-3">
+                <strong>Voltar</strong>
+                <i class="fas fa-arrow-left ml-2"></i>
+            </a>
         </a>
     </div>
 </div>

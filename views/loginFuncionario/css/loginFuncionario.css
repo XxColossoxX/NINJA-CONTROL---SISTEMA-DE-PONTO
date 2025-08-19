@@ -58,3 +58,13 @@
             border-radius: 0.5rem !important;
           }
         }
+
+        @media (max-width: 640px) {
+            .mobile-btn-adjust {
+                width: 95% !important;         /* Aumenta largura no mobile */
+                padding-top: 10px !important;  /* Diminui altura */
+                padding-bottom: 10px !important;
+                transform: none !important;    /* Remove efeito de hover */
+                transition: none !important;
+            }
+        }

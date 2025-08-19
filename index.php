@@ -26,8 +26,8 @@ require_once('assets/components/background.php')
 
     <!-- Mensagem de Boas-Vindas -->
     <div id="welcome-message" class="welcome-message text-center">
-        <p class="sm:text-2x1 text-3xl md:text-2x1 text-white mb-5">SEJA BEM-VINDO(A)</p>
-        <h1 class=" sm:text-3x1 text-5xl text-white font-sans"><strong>NINJA CONTROL</strong></h1>
+        <p class="text-lg sm:text-2xl md:text-3xl text-white mb-3">SEJA BEM-VINDO(A)</p>
+        <h1 class="text-2xl sm:text-4xl md:text-5xl text-white font-sans font-bold"><strong>NINJA CONTROL</strong></h1>
     </div>
 
     <!-- Imagem com animação -->
@@ -38,13 +38,13 @@ require_once('assets/components/background.php')
     <div id="login-system2" class="hidden">
         <img id="ninja-img" class="mx-auto w-20" src="../assets/img/ninjaLogo.png" alt="Ninja Control">
         <h1 class="text-center text-white font-bold text-3xl mb-2">NINJA CONTROL</h1>
-        <div id="login-system" class="w-96 bg-white bg-opacity-90 shadow-xl rounded-2xl p-8 hidden">
+        <div id="login-system" class="w-[90%] sm:w-96 bg-white bg-opacity-90 shadow-xl rounded-2xl p-4 sm:p-8 hidden mx-auto">
             <!-- Botões -->
             <div class="flex flex-col space-y-3">
-                <a href="views/loginFuncionario/loginFuncionario.php" class="bgBtn w-full bg-gray-700 transform transition-transform duration-300 hover:scale-110 text-white py-2 rounded-md text-center transition">
+                <a href="views/loginFuncionario/loginFuncionario.php" class="bgBtn w-[95%] sm:w-full bg-gray-700 text-white py-2 sm:py-3 rounded-md text-center transition sm:hover:scale-110 mx-auto block">
                 <STRONG>FUNCIONÁRIO</STRONG> <i class="fas fa-arrow-right ml-2"></i>
                 </a>
-                <a href="views/loginEmpresa/loginEmpresa.php" class="bgBtn w-full bg-gray-700 transform transition-transform duration-300 hover:scale-110 text-white py-2 rounded-md text-center transition">
+                <a href="views/loginEmpresa/loginEmpresa.php" class="bgBtn w-[95%] sm:w-full bg-gray-700 text-white py-2 sm:py-3 rounded-md text-center transition sm:hover:scale-110 mx-auto block">
                 <STRONG>EMPRESA</STRONG> <i class="fas fa-arrow-right ml-2"></i>
                 </a>
             </div>
