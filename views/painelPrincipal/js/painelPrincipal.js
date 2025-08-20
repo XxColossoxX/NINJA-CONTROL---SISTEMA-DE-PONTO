@@ -5,14 +5,7 @@ const tabela = $("#tblFuncionario tbody");
 
 
 $(document).ready( async function() {
-
     carregarNomeEmpresa()
-    
-   setTimeout(() => {
-    document.getElementById("welcome-message").classList.add("hidden");
-    document.getElementById("controlador").classList.remove("hidden");
-}, 4000);
-
 
     Inputmask("999.999.999-99").mask("#inputCpfFuncionario");
     Inputmask("99.999.999-9").mask("#inputRgFuncionario");
@@ -21,7 +14,7 @@ $(document).ready( async function() {
     Inputmask("99.999.999-9").mask("#showRg");
 
     await recarregaTabela();
-
+    
 //!BOTOES
 $("#btnProximo").on('click', async function(){
     let inputNome   = $("#inputNomeFuncionario").val()
@@ -281,6 +274,48 @@ async function preencheTabela(res) {
     }
 };
 
+function loaderM(mensagem, mostrar) {
+    // Se já existe, remove para evitar duplicidade
+    $('#custom-loader-overlay').remove();
+
+    if (mostrar) {
+        // Cria overlay com spinner e mensagem
+        const loaderHtml = `
+        <div id="custom-loader-overlay" style="
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            gap: 1rem;
+            font-family: Arial, sans-serif;
+            color: white;
+            font-size: 1.25rem;
+        ">
+            <div class="loader-spinner" style="
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            animation: spin 1s linear infinite;
+            "></div>
+            <div>${mensagem}</div>
+        </div>
+        <style>
+            @keyframes spin {
+            0% { transform: rotate(0deg);}
+            100% { transform: rotate(360deg);}
+            }
+        </style>
+        `;
+
+        $('body').append(loaderHtml);
+    }
+};
+
 async function carregarNomeEmpresa() {
     const res = await axios({
             url: "../../../backend/backend.php",
@@ -298,30 +333,35 @@ async function carregarNomeEmpresa() {
             <h2 id="tituloEmpresa" class="text-2xl text-white font-sans underline text-center"><i><strong>${nomeEmpresa}</strong></i></h2>
         </div>
     </div>`;
+
     divBemVindo.append(conteudo);
     // Animação de entrada
     setTimeout(() => {
-        document.getElementById("welcome-message").classList.add("entrada");
+        $("#welcome-message").addClass("entrada");
     }, 100);
+
     // Animação de saída após 3s
     setTimeout(() => {
-        const el = document.getElementById("welcome-message");
-        el.classList.remove("entrada");
-        el.classList.add("saida");
+        const el = $("#welcome-message");
+        el.removeClass("entrada");
+        el.removeClass("saida");
         setTimeout(() => {
             el.remove();
-            document.getElementById("controlador")?.classList.remove("hidden");
+            $(".controlador").removeClass("hidden");
+            $("#controlador").removeClass("hidden");
         }, 500);
     }, 1500);
     return;
 };
 
 async function recarregaTabela() {
+    loaderM('Carregando Funcionários, Aguarde!', true)
     const tabela = $("#tblFuncionario tbody");
     tabela.empty();
 
 
     await loadEmpresa()
+    loaderM('',false)
     return
 };
 
@@ -377,53 +417,41 @@ function showAlert(message, type = "error") {
         }, 3000);
 };     
 
-//!FRONT-END
-//#region
-const closeFormModalBtn     = document.getElementById('close-form-modal');
-const closeCameraModalBtn   = document.getElementById('close-camera-modal');
+// FRONT-END
+$(document).ready(function () {
+    //#region
 
-closeFormModalBtn.addEventListener('click', () => {
-    formModal.classList.add('hidden');
+    // Botões de fechar modal
+    $('#close-form-modal').on('click', function () {
+        $('#form-modal').addClass('hidden');
+    });
+
+    $('#close-camera-modal').on('click', function () {
+        const video = $('#register-camera')[0];
+
+        if (video.srcObject) {
+            video.srcObject.getTracks().forEach(track => track.stop());
+        }
+
+        $('#camera-modal').addClass('hidden');
+    });
+
+    // Menu hambúrguer
+    $('#menu-toggle').on('click', function () {
+        $('#menu').removeClass('menu-hidden').addClass('menu-visible');
+    });
+
+    $('#menu-close').on('click', function () {
+        $('#menu').removeClass('menu-visible').addClass('menu-hidden');
+    });
+
+    // Abrir modal de formulário de funcionário
+    $('#add-employee-btn').on('click', function () {
+        $('#form-modal').removeClass('hidden');
+    });
+
+    //#endregion
 });
 
-closeCameraModalBtn.addEventListener('click', () => {
-    cameraModal.classList.add('hidden');
-});
-
-document.getElementById("close-camera-modal").addEventListener("click", function () {
-    const cameraModal = document.getElementById("camera-modal");
-    const video = document.getElementById("register-camera");
-
-    if (video.srcObject) {
-        video.srcObject.getTracks().forEach((track) => track.stop());
-    }
-
-    cameraModal.classList.add("hidden");
-});
-
-const menuToggle    = document.getElementById("menu-toggle");
-const menuClose     = document.getElementById("menu-close");
-const menu          = document.getElementById("menu");
-
-menuToggle.addEventListener("click", () => {
-    menu.classList.remove("menu-hidden");
-    menu.classList.add("menu-visible");
-});
-
-menuClose.addEventListener("click", () => {
-    menu.classList.remove("menu-visible");
-    menu.classList.add("menu-hidden");
-});
-
-const addEmployeeBtn    = document.getElementById('add-employee-btn');
-const formModal         = document.getElementById('form-modal');
-const cameraModal       = document.getElementById('camera-modal');
-const nextToCameraBtn   = document.getElementById('next-to-camera');
-const video             = document.getElementById('video');
-const captureBtn        = document.getElementById('capture-btn');
-
-addEmployeeBtn.addEventListener('click', () => {
-    formModal.classList.remove('hidden');
-});
 //#endregion
 });

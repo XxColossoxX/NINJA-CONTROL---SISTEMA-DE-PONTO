@@ -202,18 +202,15 @@ function loadDadosFuncionario($db, $data){
         ]);
     }
 }
-function loadPainel($db){
+function loadPainel($db) {
     session_start(); 
 
     if (!isset($_SESSION['empresa_id'])) {
-        echo json_encode([
-            "success" => false,
-            "message" => "Sessão expirada. Faça login novamente."
-        ]);
+        header("Location: index.php");
         exit;
     }
 
-    $result = $db->query("SELECT * FROM funcionarios WHERE FK_EMPRESA =" . $_SESSION['empresa_id']);
+    $result = $db->query("SELECT * FROM funcionarios WHERE FK_EMPRESA = " . $_SESSION['empresa_id']);
     $funcionarios = [];
 
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
