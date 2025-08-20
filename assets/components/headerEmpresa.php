@@ -267,48 +267,6 @@
 
 
     <script>
-        function loaderM(mensagem, mostrar) {
-            // Se já existe, remove para evitar duplicidade
-            $('#custom-loader-overlay').remove();
-
-            if (mostrar) {
-                // Cria overlay com spinner e mensagem
-                const loaderHtml = `
-                <div id="custom-loader-overlay" style="
-                    position: fixed;
-                    inset: 0;
-                    background: rgba(0,0,0,0.6);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    z-index: 9999;
-                    gap: 1rem;
-                    font-family: Arial, sans-serif;
-                    color: white;
-                    font-size: 1.25rem;
-                ">
-                    <div class="loader-spinner" style="
-                    border: 4px solid rgba(255, 255, 255, 0.3);
-                    border-top: 4px solid white;
-                    border-radius: 50%;
-                    width: 36px;
-                    height: 36px;
-                    animation: spin 1s linear infinite;
-                    "></div>
-                    <div>${mensagem}</div>
-                </div>
-                <style>
-                    @keyframes spin {
-                    0% { transform: rotate(0deg);}
-                    100% { transform: rotate(360deg);}
-                    }
-                </style>
-                `;
-
-                $('body').append(loaderHtml);
-            }
-        };
-
         $(document).ready(function () {
              $('#config-overlay, #config-panel').hide();
             // Abrir menu hamburguer

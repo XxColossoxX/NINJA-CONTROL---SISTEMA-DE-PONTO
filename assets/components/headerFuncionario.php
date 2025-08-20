@@ -172,49 +172,111 @@
 <div id="controlador" class="hidden">
     
 
-        <!-- Navbar -->
-        <nav class="bg-white text-black shadow-md fixed top-0 left-0 w-full z-10">
-            <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-                <!-- Logo -->
-                <div class="flex items-center text-lg text-black font-bold">
-                    <img id="ninja-img" class="w-10 mr-2" src="../../assets/img/ninjaLogo.png" alt="Ninja Control" />
-                    <span class="logo-text">NINJA CONTROL</span>
-                </div>
+<!-- Navbar -->
+<nav class="bg-white text-black shadow-md fixed top-0 left-0 w-full z-10">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between relative">
+        <!-- Logo -->
+        <div class="flex items-center text-lg font-bold">
+            <img id="ninja-img" class="w-10 mr-2" src="../../assets/img/ninjaLogo.png" alt="Ninja Control" />
+            <span class="logo-text">NINJA CONTROL</span>
+        </div>
 
-                <!-- Nome Centralizado -->
-                <div id="nomeHeader" class="text-2xl font-semibold text-center text-black absolute left-1/2 transform -translate-x-1/2">
-                    PONTO FUNCIONÁRIO
-                </div>
+        <!-- Nome Centralizado -->
+        <div class="text-xl font-semibold absolute left-1/2 transform -translate-x-1/2">
+            FUNCIONÁRIOS
+        </div>
 
-                <!-- Botão de Menu -->
-                <button id="menu-toggle" class="block hover:opacity-80">
-                    <div class="space-y-1">
-                        <span style="display: block; width: 1.5rem; height: 0.125rem; background-color: #000000ff !important;"></span>
-                        <span style="display: block; width: 1.5rem; height: 0.125rem; background-color: #000000ff !important;"></span>
-                        <span style="display: block; width: 1.5rem; height: 0.125rem; background-color: #000000ff !important;"></span>
-                    </div>
-                </button>
+        <!-- Botão Menu -->
+        <button id="menu-toggle" class="block hover:opacity-80">
+            <div class="space-y-1">
+                <span style="display: block; width: 1.5rem; height: 0.125rem; background-color: #000000ff;"></span>
+                <span style="display: block; width: 1.5rem; height: 0.125rem; background-color: #000000ff;"></span>
+                <span style="display: block; width: 1.5rem; height: 0.125rem; background-color: #000000ff;"></span>
+            </div>
+        </button>
+    </div>
+
+    <!-- Menu lateral -->
+    <div id="menu" class="absolute top-0 right-0 bg-white text-black w-48 h-screen menu-slide menu-hidden shadow-lg">
+        <!-- Cabeçalho do Menu -->
+        <div class="bg-gray-100 text-center py-4 font-bold text-lg relative">
+            NINJA CONTROL
+            <button id="menu-close" class="absolute top-2 right-2 text-red-500 font-bold hover:text-gray-800 focus:outline-none">
+                X
+            </button>
+        </div>
+
+        <!-- Itens do Menu -->
+        <ul class="flex flex-col justify-between h-[85%] px-4 py-4">
+
+            <!-- Itens principais -->
+            <div class="space-y-4">
+                <li>
+                    <a href="#" class="flex items-center gap-2 hover:text-gray-500">
+                        <i class="fas fa-clock"></i> PONTO
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center gap-2 hover:text-gray-500">
+                        <i class="fas fa-history"></i> HISTÓRICO
+                    </a>
+                </li>
+                <li>
+                    <a href="../../index.php" class="flex items-center gap-2 hover:text-gray-500">
+                        <i class="fas fa-sign-out-alt"></i> LOGOUT
+                    </a>
+                </li>
             </div>
 
-            <!-- Menu Responsivo -->
-            <div id="menu" class="absolute top-0 right-0 bg-white text-white w-48 h-screen menu-slide menu-hidden shadow-lg">
-                <!-- Cabeçalho do Menu -->
-                <div class="bg-gray-100 text-black text-center py-4 font-bold text-lg relative">
-                    NINJA CONTROL
-                    <!-- Botão para fechar o menu -->
-                    <button id="menu-close" class="absolute top-2 right-2 text-red-500 text-1xl font-bold hover:text-gray-800 focus:outline-none">
-                        X
-                    </button>
-                </div>
-
-                <!-- Opções do Menu -->
-                <ul class="flex flex-col space-y-4 mt-8 px-4">
-                    <li><a href="#" class="text-black hover:text-gray-300">◾ PONTO </a></li>
-                    <li><a href="#" class="text-black hover:text-gray-300">◾ FUNCIONÁRIO </a></li>
-                    <li><a href="../../index.php" class="text-black hover:text-gray-300">◾ LOGOUT </a></li>
-                </ul>
+            <!-- Configurações -->
+            <div>
+                <li>
+                    <a href="#" id="config-link" class="flex items-center gap-2 hover:text-gray-500">
+                        <i class="fas fa-cog"></i> CONFIGURAÇÕES
+                    </a>
+                </li>
             </div>
-        </nav>
+
+        </ul>
+    </div>
+</nav>
+
+<!-- Modal Overlay -->
+<div id="config-overlay" style="display: none;"></div>
+
+<!-- Modal Configurações -->
+<div id="config-panel" style="display: none;">
+    <div>
+        <h2 class="text-2xl font-bold mb-4 text-gray-700">Configurações</h2>
+        <form id="config-form" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-600">Nome Completo</label>
+                <input id="inputLocEmpresa" type="text" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-600">CPF</label>
+                <input id="inputRazaoEmpresa" type="text" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-600">RG</label>
+                <input id="inputUsuarioEmpresa" type="text" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-600">Data Nascimento</label>
+                <input id="inputCnpj" type="text" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-600">Senha Funcionario</label>
+                <input id="inputSenhaEmpresa" type="password" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
+            </div>
+            <div class="text-right">
+                <button id="btnEnviar" type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Salvar</button>
+            </div>
+        </form>
+        <button id="close-config">&times;</button>
+    </div>
+</div>
+
 
         <script>
             $(document).ready(function() {
@@ -235,4 +297,40 @@
                     }
                 });
             });
+
+            $(document).ready(function () {
+                $('#config-overlay, #config-panel').hide();
+
+                // Abrir menu hamburguer
+                $('#menu-toggle').click(function () {
+                    $('#menu').removeClass('menu-hidden').addClass('menu-visible');
+                });
+
+                // Fechar menu hamburguer
+                $('#menu-close').click(function () {
+                    $('#menu').removeClass('menu-visible').addClass('menu-hidden');
+                });
+
+                // Abrir modal configurações
+                $('#config-link').click(function (e) {
+                    e.preventDefault();
+                    $('#config-overlay, #config-panel').fadeIn(200);
+                    $('#menu').removeClass('menu-visible').addClass('menu-hidden');
+                });
+
+                // Fechar modal (botão X e clique no overlay)
+                $('#close-config, #config-overlay').click(function () {
+                    $('#config-overlay, #config-panel').fadeOut(200);
+                });
+
+                // Submit form - só alert (pode ser substituído por AJAX)
+                $('#config-form').submit(function (e) {
+                    e.preventDefault();
+                    var data = $(this).serialize();
+                    console.log('Configurações enviadas:', data);
+                    alert('Configurações salvas!');
+                    $('#config-overlay, #config-panel').fadeOut(200);
+                });
+            });
+
         </script>

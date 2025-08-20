@@ -355,13 +355,10 @@ async function carregarNomeEmpresa() {
 };
 
 async function recarregaTabela() {
-    loaderM('Carregando Funcionários, Aguarde!', true)
     const tabela = $("#tblFuncionario tbody");
     tabela.empty();
 
-
     await loadEmpresa()
-    loaderM('',false)
     return
 };
 
