@@ -199,12 +199,22 @@
                     <div class="space-y-4">
                         <li>
                             <a href="#" class="flex items-center gap-2 hover:text-gray-500">
-                                <i class="fas fa-clock"></i> PONTO
+                                <i class="fas fa-clock"></i> REGISTRAR PONTO 
                             </a>
                         </li>
                         <li>
                             <a href="#" class="flex items-center gap-2 hover:text-gray-500">
-                                <i class="fas fa-users"></i> FUNCIONÁRIO
+                                <i class="fas fa-history"></i> HISTÓRICO PONTOS
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center gap-2 hover:text-gray-500">
+                                <i class="fas fa-users"></i> PAINEL DE FUNCIONÁRIOS
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center gap-2 hover:text-gray-500">
+                                <i class="fas fa-building"></i> DADOS EMPRESA
                             </a>
                         </li>
                         <li>

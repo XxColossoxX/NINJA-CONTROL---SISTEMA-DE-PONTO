@@ -227,8 +227,7 @@ async function preencheTabela(res) {
                         <td class="px-6 py-4 rounded-lg"></td>
                         <td class="px-6 py-4 rounded-lg"></td>
                     </tr>
-       
-        `
+            `
         tabela.append(conteudo);
     }   
 

@@ -213,12 +213,17 @@
             <div class="space-y-4">
                 <li>
                     <a href="#" class="flex items-center gap-2 hover:text-gray-500">
-                        <i class="fas fa-clock"></i> PONTO
+                        <i class="fas fa-clock"></i> REGISTRAR PONTO
+                    </a>
+                </li>
+                <li>
+                    <a href="../../views/historicoPonto/historicoPonto.php" class="flex items-center gap-2 hover:text-gray-500">
+                        <i class="fas fa-history"></i> HISTÓRICO PONTOS
                     </a>
                 </li>
                 <li>
                     <a href="#" class="flex items-center gap-2 hover:text-gray-500">
-                        <i class="fas fa-history"></i> HISTÓRICO
+                        <i class="fas fa-building"></i> DADOS EMPRESA
                     </a>
                 </li>
                 <li>
