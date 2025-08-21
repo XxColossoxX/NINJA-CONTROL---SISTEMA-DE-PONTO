@@ -162,3 +162,93 @@
 #welcome-message h2 {
   font-size: 1.3rem !important;
 }
+
+.tab-button.active {
+    border-color: #14b8a6;
+    color: #14b8a6;
+}
+
+.tab-content {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-pulse {
+    animation: pulse 2s infinite;
+}
+
+.camera-container {
+  position: relative;
+  width: 200px;  /* alinhado ao círculo */
+  height: 200px;
+  margin: 0 auto; /* centraliza */
+}
+
+#camera-container {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    background-color: #ddd;
+    position: relative;
+    z-index: 2;
+}
+
+#video-camera {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%) scaleX(-1) scale(1.3);
+    transform-origin: center center;
+    z-index: 1;
+}
+
+.video-feed {
+  clip-path: circle(50% at center);
+  -webkit-clip-path: circle(50% at center);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.circle-ring {
+  width: 200px;  /* igual ao círculo da câmera */
+  height: 200px;
+  border-radius: 50%;
+  box-shadow: 
+    0 0 0 4px #14b8a6 inset;
+  animation: pulse-ring 2.5s infinite;
+  background: transparent;
+}
+
+@keyframes pulse-ring {
+  0%, 100% {
+    box-shadow:
+      0 0 0 4px #14b8a6 inset;
+  }
+  50% {
+    box-shadow:
+      0 0 0 7px #14b8a6 inset;
+  }
+}

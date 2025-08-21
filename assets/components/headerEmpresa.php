@@ -168,7 +168,7 @@
 
                 <!-- Nome Centralizado -->
                 <div class="text-xl font-semibold absolute left-1/2 transform -translate-x-1/2">
-                    FUNCIONÁRIOS
+                    PAINEL FUNCIONÁRIOS
                 </div>
 
                 <!-- Botão Menu -->
@@ -236,7 +236,6 @@
                 </ul>
             </div>
         </nav>
-
     </div>
 
     <!-- Modal Overlay -->

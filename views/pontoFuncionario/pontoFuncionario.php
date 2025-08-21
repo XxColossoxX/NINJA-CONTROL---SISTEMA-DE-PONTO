@@ -183,14 +183,69 @@ $localizacaoEmpresa = 'R. Pasteur, 463 - Batel, Curitiba - PR'; // Trocar para v
     </div>
 </div>
 
+<!-- Modal de Bater Ponto -->
+<div id="modal-bater-ponto" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden flex items-center justify-center">
+    <div class="bg-white rounded-xl shadow-lg w-[95vw] max-w-3xl relative p-4">
+        <h2 class="text-xl font-bold text-center mb-4"><i class="fas fa-fingerprint mr-2 text-teal-600"></i>Registro de Ponto</h2>
+
+        <!-- Abas -->
+        <div class="flex border-b border-gray-200 mb-4">
+            <button class="tab-button text-gray-600 font-semibold px-4 py-2 border-b-2 border-transparent hover:border-teal-500 hover:text-teal-600" data-tab="info-tab">
+                <i class="fas fa-user mr-2"></i>Informações
+            </button>
+            <button class="tab-button text-gray-600 font-semibold px-4 py-2 border-b-2 border-transparent hover:border-teal-500 hover:text-teal-600" data-tab="local-tab">
+                <i class="fas fa-map-marker-alt mr-2"></i>Localização
+            </button>
+        </div>
+
+        <!-- Conteúdo das Abas -->
+        <div id="info-tab" class="tab-content">
+            <div class="grid grid-cols-2 gap-4 text-sm text-gray-700">
+                <div><strong><i class="fas fa-id-badge mr-2"></i>Nome:</strong> <span id="tab-nome"></span></div>
+                <div><strong><i class="fas fa-building mr-2"></i>Empresa:</strong> <span id="tab-empresa"></span></div>
+                <div><strong><i class="fas fa-id-card mr-2"></i>RG:</strong> <span id="tab-rg"></span></div>
+                <div><strong><i class="fas fa-address-card mr-2"></i>CPF:</strong> <span id="tab-cpf"></span></div>
+                <div><strong><i class="fas fa-calendar-alt mr-2"></i>Nascimento:</strong> <span id="tab-nascimento"></span></div>
+            </div>
+        </div>
+
+        <div id="local-tab" class="tab-content hidden">
+            <div class="text-gray-700 text-sm mb-3">
+                <i class="fas fa-map-marker-alt mr-2"></i><strong>Localização da Empresa:</strong>
+                <div class="bg-gray-100 p-3 rounded mt-1" id="tab-localizacao"></div>
+            </div>
+        </div>
+
+        <div class="camera-container">
+            <div id="camera-container">
+                <video id="video-camera" autoplay muted playsinline class="video-feed"></video>
+            </div>            
+            <div class="overlay">
+                <div class="circle-ring"></div>
+            </div>
+        </div>
+
+
+        <!-- Botões -->
+        <div class="flex justify-between items-center mt-4">
+            <button id="btn-fechar-ponto" class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 transition">
+                <i class="fas fa-times mr-2"></i>Fechar
+            </button>
+            <button id="btn-efetuar-ponto" class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 transition font-bold">
+                <i class="fas fa-check-circle mr-2"></i>Efetuar Ponto
+            </button>
+        </div>
+    </div>
+</div>
+
 <script src="./js/pontoFuncionario.js"></script>
 <link rel="stylesheet" href="./css/pontoFuncionario.css">
 <script>
-    const faceIdFuncionario = "<?php echo isset($_SESSION['funcionario_faceid']) ? $_SESSION['funcionario_faceid'] : ''; ?>";
-    const nomeFuncionario   = "<?php echo isset($_SESSION['funcionario_nome']) ? $_SESSION['funcionario_nome'] : ''; ?>";
-    const cpfFuncionario    = "<?php echo isset($_SESSION['funcionario_cpf']) ? $_SESSION['funcionario_cpf'] : ''; ?>";
-    const rgFuncionario     = "<?php echo isset($_SESSION['funcionario_rg']) ? $_SESSION['funcionario_rg'] : ''; ?>";
-    const nomeEmpresa       = "<?php echo isset($_SESSION['funcionario_nome_empresa']) ? $_SESSION['funcionario_nome_empresa'] : ''; ?>";
+    const faceIdFuncionario         = "<?php echo isset($_SESSION['funcionario_faceid']) ? $_SESSION['funcionario_faceid'] : ''; ?>";
+    const nomeFuncionario           = "<?php echo isset($_SESSION['funcionario_nome']) ? $_SESSION['funcionario_nome'] : ''; ?>";
+    const cpfFuncionario            = "<?php echo isset($_SESSION['funcionario_cpf']) ? $_SESSION['funcionario_cpf'] : ''; ?>";
+    const rgFuncionario             = "<?php echo isset($_SESSION['funcionario_rg']) ? $_SESSION['funcionario_rg'] : ''; ?>";
+    const nomeEmpresa               = "<?php echo isset($_SESSION['funcionario_nome_empresa']) ? $_SESSION['funcionario_nome_empresa'] : ''; ?>";
     const dataNascimentoFuncionario = "<?php echo isset($_SESSION['funcionario_data_nascimento']) ? $_SESSION['funcionario_data_nascimento'] : ''; ?>";
     const localizacaoEmpresa = "<?php echo $localizacaoEmpresa; ?>";
 
@@ -245,6 +300,7 @@ $localizacaoEmpresa = 'R. Pasteur, 463 - Batel, Curitiba - PR'; // Trocar para v
             }
         });
     });
+
 </script>
 
 

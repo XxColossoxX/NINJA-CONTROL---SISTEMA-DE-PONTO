@@ -130,5 +130,12 @@
     padding: 0.4rem 0.6rem !important;
     border-radius: 0.5rem !important;
   }
+
+  #close-form-modal {
+    top: 0;
+    right: 0;
+    margin: .5rem; /* equivale a m-2 */
+  }
+
 }
 

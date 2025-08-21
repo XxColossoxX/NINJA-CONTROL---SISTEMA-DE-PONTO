@@ -159,6 +159,16 @@
             width: 100%; /* Preenche a largura do contêiner */
             height: 100%; /* Preenche a altura do contêiner */
         }
+
+        nav.header-funcionario {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 64px; /* altura fixa */
+            background: white;
+            z-index: 30;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
         
     </style>
 </head>
@@ -173,7 +183,7 @@
     
 
 <!-- Navbar -->
-<nav class="bg-white text-black shadow-md fixed top-0 left-0 w-full z-10">
+<nav class="header-funcionario">
     <div class="container mx-auto px-4 py-3 flex items-center justify-between relative">
         <!-- Logo -->
         <div class="flex items-center text-lg font-bold">

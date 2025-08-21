@@ -1,4 +1,5 @@
 let foto64 = ""; 
+let cameraStream = null;
 const tabela = $("#tblFuncionario tbody");
 
 
@@ -89,131 +90,90 @@ $(document).on("click", ".edit-icon", function () {
 
 //!FUNCOES
 
+$(document).ready(function () {
+    let cameraStream = null;
 
-async function cadastrarFuncionario(){
-    let inputNome   = $("#inputNomeFuncionario").val()
-    let inputCpf    = $("#inputCpfFuncionario").val()
-    let inputRg     = $("#inputRgFuncionario").val()
-    let inputData   = $("#inputDataNascFuncionario").val()
+    // Abas
+    $('.tab-button').on('click', function () {
+        const tabId = $(this).data('tab');
+        $('.tab-button').removeClass('active');
+        $(this).addClass('active');
+        $('.tab-content').addClass('hidden');
+        $('#' + tabId).removeClass('hidden');
+    });
 
-    if(!inputNome || !inputCpf || !inputRg || !inputData) {
-        showAlert("Preencha todos os campos!", "error");
-        return;
-    }
+    // Abrir modal com câmera
+    $('#btnBaterPonto').on('click', async function () {
+        // Preenche os dados nas abas
+        $('#tab-nome').text(nomeFuncionario);
+        $('#tab-empresa').text(nomeEmpresa);
+        $('#tab-rg').text(rgFuncionario);
+        $('#tab-cpf').text(cpfFuncionario);
+        $('#tab-nascimento').text(dataNascimentoFuncionario);
+        $('#tab-localizacao').text(localizacaoEmpresa);
 
-    await abrirCamera();
+        $('#modal-bater-ponto').removeClass('hidden');
+        $('.tab-button').first().click(); // Ativa primeira aba
 
-    // Verificar se a foto foi capturada
-    if (!foto64) {
-        showAlert("Erro ao capturar a foto. Tente novamente.", "error");
-        return;
-    }
+        // Delay para garantir que o vídeo esteja no DOM e visível
+        setTimeout(async () => {
+            try {
+                cameraStream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: 'user',
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    },
+                    audio: false
+                });
 
-    try {
-        const res = await axios({
-            url: "../../../backend/backend.php",
-            method: "POST",
-            data: {
-                function: "apply",
-                NOME_FUNCIONARIO: inputNome,
-                CPF: inputCpf,
-                DATA_NASCIMENTO: inputData,
-                RG: inputRg,
-                FACEID: foto64,
-            },
-        });
+                const videoElement = $('#video-camera')[0];
+                if (videoElement) {
+                    if ("srcObject" in videoElement) {
+                        videoElement.srcObject = cameraStream;
+                    } else {
+                        // Para navegadores antigos
+                        videoElement.src = window.URL.createObjectURL(cameraStream);
+                    }
+                    videoElement.play();
+                } else {
+                    alert("Elemento de vídeo não encontrado!");
+                }
+            } catch (err) {
+                alert('Erro ao acessar câmera: ' + err.message);
+            }
+        }, 100); // 100ms de delay
+    });
 
-        if (res.data.success) {
-            showAlert("Funcionário cadastrado com sucesso!", "success");
-            
-        } else {
-            showAlert("Erro ao cadastrar funcionário.", "error");
-        }
-    } catch (error) {
-        console.error("Erro ao enviar os dados:", error);
-        showAlert("Erro ao enviar os dados. Tente novamente.", "error");
-    }
-}
-
-async function abrirCamera() {
-    const video = document.getElementById("register-camera");
-    const cameraError = document.getElementById("camera-error");
-    const displayNome = document.getElementById("display-nome");
-    const displayCpf = document.getElementById("display-cpf");
-    const displayRg = document.getElementById("display-rg");
-    const displayData = document.getElementById("display-data");
-    const welcomeMessage = document.getElementById("welcome-message");
-    const welcomeNome = document.getElementById("welcome-nome");
-    let stream;
-
-    // Preencher os dados do formulário na seção de dados
-    const inputNome     = $("#inputNomeFuncionario").val();
-    const inputCpf      = $("#inputCpfFuncionario").val();
-    const inputRg       = $("#inputRgFuncionario").val();
-    const inputData     = $("#inputDataNascFuncionario").val();
-
-    displayNome.textContent = inputNome;
-    displayCpf.textContent = inputCpf;
-    displayRg.textContent = inputRg;
-    displayData.textContent = inputData;
-
-    try {
-        // Solicitar permissão para acessar a câmera
-        stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject = stream;
-        video.classList.remove("hidden");
-        cameraError.classList.add("hidden");
-    } catch (error) {
-        console.error("Erro ao acessar a câmera:", error);
-        cameraError.classList.remove("hidden");
-        video.classList.add("hidden");
-    }
-
-    // Capturar a foto ao clicar no botão "Capturar"
-    document.getElementById("btnCapturar").addEventListener("click", async function () {
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
-
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        // Converter a imagem para Base64
-        foto64 = canvas.toDataURL("image/png");
-        console.log("Foto capturada:", foto64);
-
-
-        // Exibir mensagem de boas-vindas
-        welcomeNome.textContent = inputNome;
-        welcomeMessage.classList.remove("hidden");
-    
-        const res = await axios({
-            url: "../../../backend/backend.php",
-            method: "POST",
-            data: {
-                function: "apply",
-                NOME_FUNCIONARIO: inputNome,
-                CPF: inputCpf,
-                DATA_NASCIMENTO: inputData,
-                RG: inputRg,
-                FACEID: foto64,
-            },
-        });
-    
-        if (res.data.success) {
-            showAlert(res.data.message, "success");
-            $("#close-camera-modal").click();
-            recarregaTabela();
-            return
-        } else {
-            showAlert("Erro ao cadastrar funcionário.", "error");
-            console.log(res.data);
+    // Fechar modal e parar a câmera
+    $('#btn-fechar-ponto').on('click', function () {
+        $('#modal-bater-ponto').addClass('hidden');
+        if (cameraStream) {
+            cameraStream.getTracks().forEach(track => track.stop());
+            cameraStream = null;
         }
     });
 
-    return stream;
-}
+    // Capturar imagem e converter para base64
+    $('#btn-efetuar-ponto').on('click', function () {
+        const video = $('#video-camera')[0];
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        const base64Image = canvas.toDataURL('image/jpeg');
+
+        console.log("Imagem capturada em Base64:", base64Image);
+
+        // Aqui você pode enviar o base64 para o backend via AJAX
+        // $.post('/sua-rota', { imagem: base64Image }, function(response) { ... });
+
+        alert('Ponto registrado com sucesso!');
+        $('#btn-fechar-ponto').click(); // Fecha o modal
+    });
+});
 
 async function preencheTabela(res) {
     tabela.empty();
