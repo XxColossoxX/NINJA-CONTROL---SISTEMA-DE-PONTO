@@ -4,6 +4,8 @@ const tabela = $("#tblFuncionario tbody");
 
 
 $(document).ready( async function() {    
+    $('#controlador').removeClass('hidden');
+
    setTimeout(() => {
     document.getElementById("welcome-message").classList.add("hidden");
     document.getElementById("controlador").classList.remove("hidden");

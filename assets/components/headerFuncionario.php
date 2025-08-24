@@ -181,7 +181,6 @@
 
 <div id="controlador" class="hidden">
     
-
 <!-- Navbar -->
 <nav class="header-funcionario">
     <div class="container mx-auto px-4 py-3 flex items-center justify-between relative">
@@ -256,41 +255,41 @@
     </div>
 </nav>
 
-<!-- Modal Overlay -->
-<div id="config-overlay" style="display: none;"></div>
+    <!-- Modal Overlay -->
+    <div id="config-overlay" style="display: none;"></div>
 
-<!-- Modal Configurações -->
-<div id="config-panel" style="display: none;">
-    <div>
-        <h2 class="text-2xl font-bold mb-4 text-gray-700">Configurações</h2>
-        <form id="config-form" class="space-y-4">
+        <!-- Modal Configurações -->
+        <div id="config-panel" style="display: none;">
             <div>
-                <label class="block text-sm font-medium text-gray-600">Nome Completo</label>
-                <input id="inputLocEmpresa" type="text" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
+                <h2 class="text-2xl font-bold mb-4 text-gray-700">Configurações</h2>
+                <form id="config-form" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600">Nome Completo</label>
+                        <input id="inputLocEmpresa" type="text" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600">CPF</label>
+                        <input id="inputRazaoEmpresa" type="text" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600">RG</label>
+                        <input id="inputUsuarioEmpresa" type="text" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600">Data Nascimento</label>
+                        <input id="inputCnpj" type="text" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600">Senha Funcionario</label>
+                        <input id="inputSenhaEmpresa" type="password" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
+                    </div>
+                    <div class="text-right">
+                        <button id="btnEnviar" type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Salvar</button>
+                    </div>
+                </form>
+                <button id="close-config">&times;</button>
             </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-600">CPF</label>
-                <input id="inputRazaoEmpresa" type="text" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-600">RG</label>
-                <input id="inputUsuarioEmpresa" type="text" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-600">Data Nascimento</label>
-                <input id="inputCnpj" type="text" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-600">Senha Funcionario</label>
-                <input id="inputSenhaEmpresa" type="password" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
-            </div>
-            <div class="text-right">
-                <button id="btnEnviar" type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Salvar</button>
-            </div>
-        </form>
-        <button id="close-config">&times;</button>
-    </div>
-</div>
+        </div>
 
 
         <script>

@@ -27,6 +27,10 @@ if (isset($data['function'])) {
             getNomeEmpresa($db, $data);
             break;
 
+        case 'getLocEmpresa': // get localização empresa
+            getLocEmpresa($db, $data);
+            break;
+
         case 'getDadosFuncionario': // get dados funcionário
             getDadosFuncionario($db, $data);
             break;
@@ -59,12 +63,12 @@ function loadEmpresa($db, $data){
     session_start(); 
 
     if ($data) {
-        $usuarioEmpresa = $data['CNPJ_EMPRESA'];
+        $cnpjEmpresa = $data['CNPJ_EMPRESA'];
         $senhaEmpresa = $data['SENHA_EMPRESA'];
 
      
         $stmt = $db->prepare("SELECT ID_EMPRESA, CNPJ_EMPRESA, SENHA_EMPRESA FROM EMPRESA WHERE CNPJ_EMPRESA = ? AND SENHA_EMPRESA = ?");
-        $stmt->bindValue(1, $usuarioEmpresa);
+        $stmt->bindValue(1, $cnpjEmpresa);
         $stmt->bindValue(2, $senhaEmpresa);
 
         $result = $stmt->execute();
@@ -122,16 +126,22 @@ function loadFuncionario($db, $data){
                 $_SESSION['funcionario_faceid'] = $idFuncionario['FACEID'];
                 $_SESSION['funcionario_fk_empresa'] = $idFuncionario['FK_EMPRESA'];
 
-                // Nova consulta para buscar o nome da empresa
                 $nomeEmpresa = null;
                 if (!empty($idFuncionario['FK_EMPRESA'])) {
-                    $stmtEmpresa = $db->prepare("SELECT NOME_EMPRESA FROM EMPRESA WHERE ID_EMPRESA = ?");
+                    $stmtEmpresa = $db->prepare("SELECT RAZAO_SOCIAL, RAZAO_FANTASIA, CNPJ_EMPRESA, LOC_EMPRESA, DSC_EMPRESA, TEL_EMPRESA, EMAIL_EMPRESA FROM EMPRESA WHERE ID_EMPRESA = ?");
                     $stmtEmpresa->bindValue(1, $idFuncionario['FK_EMPRESA']);
+
                     $resultEmpresa = $stmtEmpresa->execute();
                     $empresaRow = $resultEmpresa->fetchArray(SQLITE3_ASSOC);
+
                     if ($empresaRow) {
-                        $nomeEmpresa = $empresaRow['NOME_EMPRESA'];
-                        $_SESSION['funcionario_nome_empresa'] = $nomeEmpresa;
+                        $_SESSION['empresa_razao_fantasia'] = $empresaRow['RAZAO_FANTASIA'];
+                        $_SESSION['empresa_razao_social'] = $empresaRow['RAZAO_SOCIAL'];
+                        $_SESSION['empresa_cnpj'] = $empresaRow['CNPJ_EMPRESA'];
+                        $_SESSION['empresa_loc'] = $empresaRow['LOC_EMPRESA'];
+                        $_SESSION['empresa_dsc'] = $empresaRow['DSC_EMPRESA'];
+                        $_SESSION['empresa_tel'] = $empresaRow['TEL_EMPRESA'];
+                        $_SESSION['empresa_email'] = $empresaRow['EMAIL_EMPRESA'];
                     }
                 }
 
@@ -166,7 +176,7 @@ function loadDadosFuncionario($db, $data){
     if ($data) {
         $idFuncionarioLogado = $data['ID_FUNCIONARIO'];
      
-        $stmt = $db->prepare("SELECT ID_FUNCIONARIO, NOME_FUNCIONARIO, CPF, RG, SENHA_FUNCIONARIO, DATA_NASCIMENTO, FACEID FROM FUNCIONARIOS WHERE ID_FUNCIONARIO = ?");
+        $stmt = $db->prepare("SELECT ID_FUNCIONARIO, NOME_FUNCIONARIO, CPF, RG, SENHA_FUNCIONARIO, DATA_NASCIMENTO, FACEID, TEL_FUNCIONARIO, EMAIL_FUNCIONARIO FROM FUNCIONARIOS WHERE ID_FUNCIONARIO = ?");
 
         $stmt->bindValue(1, $idFuncionarioLogado);
 
@@ -222,23 +232,24 @@ function loadPainel($db) {
 function applyEmpresa($db, $data){
     if ($data) {
 
-        $nomeEmpresa = $data['NOME_EMPRESA'];
+        $nomeEmpresa = $data['RAZAO_SOCIAL'];
         $senhaEmpresa = $data['SENHA_EMPRESA'];
-        $usuarioEmpresa = $data['USUARIO_EMPRESA'];
+        $razaoFantasia = $data['RAZAO_FANTASIA'];
         $cnpjEmpresa = $data['CNPJ_EMPRESA'];
         $empresaTipo = $data['TIPO'];
 
-        $stmt = $db->prepare("INSERT INTO EMPRESA (NOME_EMPRESA, SENHA_EMPRESA, USUARIO_EMPRESA, CNPJ_EMPRESA, TIPO) VALUES (?, ?, ?, ?,?)");
+        $stmt = $db->prepare("INSERT INTO EMPRESA (RAZAO_SOCIAL, SENHA_EMPRESA, RAZAO_FANTASIA, CNPJ_EMPRESA, TIPO) VALUES (?, ?, ?, ?, ?)");
         $stmt->bindValue(1, $nomeEmpresa);
         $stmt->bindValue(2, $senhaEmpresa);
-        $stmt->bindValue(3, $usuarioEmpresa);
+        $stmt->bindValue(3, $razaoFantasia);
         $stmt->bindValue(4, $cnpjEmpresa);
         $stmt->bindValue(5, $empresaTipo);
 
 
 
         if ($stmt->execute()) {
-            echo json_encode(["message" => "Funcionário cadastrado com sucesso!"]);
+            echo json_encode(["message" => "Funcionário cadastrado com sucesso!",
+                                     "status" => "success"]);
         } else {
             echo json_encode(["error" => "Erro ao cadastrar funcionário."]);
         }
@@ -261,11 +272,13 @@ function applyFuncionario($db, $data){
         $cpfFuncionario = $data['CPF'];
         $rgFuncionario = $data['RG'];
         $dataNascimento = $data['DATA_NASCIMENTO'];
+        $telFuncionario = $data['TEL_FUNCIONARIO'];
+        $emailFuncionario = $data['EMAIL_FUNCIONARIO'];
         $faceId = $data['FACEID'];
         $senhaFuncionario = isset($data['SENHA_FUNCIONARIO']) ? $data['SENHA_FUNCIONARIO'] : '';
-        
-        $stmt = $db->prepare("INSERT INTO FUNCIONARIOS (NOME_FUNCIONARIO, CPF, RG, DATA_NASCIMENTO, FACEID, FK_EMPRESA, TIPO, SENHA_FUNCIONARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        
+
+        $stmt = $db->prepare("INSERT INTO FUNCIONARIOS (NOME_FUNCIONARIO, CPF, RG, DATA_NASCIMENTO, FACEID, FK_EMPRESA, TIPO, SENHA_FUNCIONARIO, TEL_FUNCIONARIO, EMAIL_FUNCIONARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
         $stmt->bindValue(1, $nomeFuncionario);
         $stmt->bindValue(2, $cpfFuncionario);
         $stmt->bindValue(3, $rgFuncionario);
@@ -274,6 +287,8 @@ function applyFuncionario($db, $data){
         $stmt->bindValue(6, $empresaId);
         $stmt->bindValue(7, 'F');
         $stmt->bindValue(8, $senhaFuncionario);
+        $stmt->bindValue(9, $telFuncionario);
+        $stmt->bindValue(10, $emailFuncionario);
 
         $result = $stmt->execute();
         if ($result) {
@@ -307,12 +322,37 @@ function getNomeEmpresa($db, $data){
 
     $empresaId = $_SESSION['empresa_id'];
 
-    $stmt = $db->prepare("SELECT NOME_EMPRESA FROM EMPRESA WHERE ID_EMPRESA = ?");
+    $stmt = $db->prepare("SELECT RAZAO_FANTASIA FROM EMPRESA WHERE ID_EMPRESA = ?");
     $resultado = [];
     $stmt->bindValue(1, $empresaId);
 
     $result = $stmt->execute();
 
+
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $resultado[] = $row;
+    }
+
+    echo json_encode($resultado);
+}
+function getLocEmpresa($db, $data){
+    session_start(); 
+
+    if (!isset($_SESSION['empresa_id'])) {
+        echo json_encode([
+            "success" => false,
+            "message" => "Sessão expirada. Faça login novamente."
+        ]);
+        exit;
+    }
+
+    $empresaId = $_SESSION['empresa_id'];
+
+    $stmt = $db->prepare("SELECT LOC_EMPRESA FROM EMPRESA WHERE ID_EMPRESA = ?");
+    $resultado = [];
+    $stmt->bindValue(1, $empresaId);
+
+    $result = $stmt->execute();
 
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $resultado[] = $row;

@@ -241,38 +241,33 @@
     <!-- Modal Overlay -->
     <div id="config-overlay" style="display: none;"></div>
 
-    <!-- Modal Configurações -->
+    <!-- Modal Alteração de Senha -->
     <div id="config-panel" style="display: none;">
         <div>
-            <h2 class="text-2xl font-bold mb-4 text-gray-700">Configurações</h2>
+            <h2 class="text-2xl font-bold mb-4 text-gray-700">Alteração de Senha</h2>
             <form id="config-form" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-600">Localização Empresa</label>
-                    <input id="inputLocEmpresa" type="text" name="nome" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
+                    <label class="block text-sm font-medium text-gray-600">Senha Atual</label>
+                    <input id="senhaAtual" type="password" name="senha_atual" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" required />
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-600">Razão Social</label>
-                    <input id="inputRazaoEmpresa" type="text" name="nome" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
+                    <label class="block text-sm font-medium text-gray-600">Nova Senha</label>
+                    <input id="novaSenha" type="password" name="nova_senha" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" required />
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-600">Usuário Empresa</label>
-                    <input id="inputUsuarioEmpresa" type="text" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-600">CNPJ</label>
-                    <input id="inputCnpj" type="text" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-600">Senha Empresa:</label>
-                    <input id="inputSenhaEmpresa" type="password" name="nome" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
+                    <label class="block text-sm font-medium text-gray-600">Confirmar Nova Senha</label>
+                    <input id="confirmarNovaSenha" type="password" name="confirmar_nova_senha" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" required />
                 </div>
                 <div class="text-right">
-                    <button id="btnEnviar" type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Salvar</button>
+                    <button id="btnAlterarSenha" type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        Alterar Senha
+                    </button>
                 </div>
             </form>
             <button id="close-config">&times;</button>
         </div>
     </div>
+
 
 
     <script>

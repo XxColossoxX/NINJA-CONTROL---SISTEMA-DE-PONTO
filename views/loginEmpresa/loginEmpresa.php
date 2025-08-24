@@ -18,13 +18,18 @@
     </div>
     
     <!-- Campo Senha -->
-    <div class="mb-6">
-        <label class="block text-gray-700 font-bold">Senha:</label>
-        <div class="relative">
-            <input id="inputSenhaLogin" type="password" placeholder="Digite sua senha" 
-                class="w-full border border-gray-300 rounded-md px-3 py-2 pr-10 text-sm sm:text-base focus:ring-2 focus:ring-gray-500 focus:border-gray-500" />
+        <!-- Senha -->
+        <div class="mb-4 relative">
+            <label class="block text-gray-700 font-bold">Senha:</label>
+            <div class="relative">
+                <input id="inputSenhaLogin" type="password" placeholder="Digite a senha"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 pr-10 focus:ring-2 focus:ring-gray-500 focus:border-gray-500" />
+                <button type="button" id="toggleSenhaLogin"
+                    class="absolute right-3 top-[calc(50%+2px)] transform -translate-y-1/2 text-gray-500">
+                    <i class="fas fa-eye" id="iconSenhaLogin"></i>
+                </button>
+            </div>
         </div>
-    </div>
     
     <!-- Botões -->
     <div class="flex flex-col space-y-3">
@@ -33,6 +38,11 @@
                 <strong>Entrar</strong>
                 <i class="fas fa-arrow-right ml-2"></i>
             </button>
+            
+            <a href="../../views/registroEmpresa/registroEmpresa.php" class="bgBtn w-[95%] sm:w-full bg-gray-700 text-white py-2 sm:py-3 rounded-md text-center transition sm:hover:scale-110 mx-auto block mt-3">
+                <strong>Registrar</strong>
+                <i class="fas fa-arrow-left ml-2"></i>
+            </a>
 
             <a href="../../../index.php" class="bgBtn w-[95%] sm:w-full bg-gray-700 text-white py-2 sm:py-3 rounded-md text-center transition sm:hover:scale-110 mx-auto block mt-3">
                 <strong>Voltar</strong>
@@ -42,10 +52,8 @@
     </div>
 </div>
 
-
-    <script src="/views/loginEmpresa/js/loginEmpresa.js"></script>
-    <link rel="stylesheet" href="/views/loginEmpresa/css/loginEmpresa.css">
-
+<script src="/views/loginEmpresa/js/loginEmpresa.js"></script>
+<link rel="stylesheet" href="/views/loginEmpresa/css/loginEmpresa.css">
 
 </body>
 </html>

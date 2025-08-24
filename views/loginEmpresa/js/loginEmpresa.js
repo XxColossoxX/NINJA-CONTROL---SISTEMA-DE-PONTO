@@ -3,7 +3,22 @@ $(document).ready(async function() {
 
 
     //!BOTOES
-    //Botao de Login Empresa
+    //funcaoOlhoSenha
+   //#region 
+    // Função para alternar a visibilidade da senha
+$('#toggleSenhaLogin').on('click', function() {
+    const input = $('#inputSenhaLogin');
+    const icon = $('#iconSenhaLogin');
+    if (input.attr('type') === 'password') {
+        input.attr('type', 'text');
+        icon.removeClass('fa-eye').addClass('fa-eye-slash');
+    } else {
+        input.attr('type', 'password');
+        icon.removeClass('fa-eye-slash').addClass('fa-eye');
+    }
+});
+   
+   //#endregion
     //#region
    $("#btnEntrar").on('click', function(){
         loginEmpresa();

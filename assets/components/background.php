@@ -109,6 +109,56 @@
 
 <body class="bg-animated-gradient flex items-center justify-center">
 
-    <div id="alert-box" class="hidden fixed top-12 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-md text-white">
-        <span id="alert-message"></span>
+    <div id="alert-box" class="hidden fixed top-6 right-6 px-6 py-4 rounded-lg shadow-lg text-white bg-teal-600 flex items-center gap-3 animate__animated animate__fadeInDown z-50" style="min-width:220px;">
+        <i id="alert-icon" class="fas fa-info-circle text-2xl"></i>
+        <span id="alert-message" class="font-semibold"></span>
+        <button id="alert-close" class="ml-auto text-white text-xl hover:text-gray-300"><i class="fas fa-times"></i></button>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"></script>
+    <script>
+    function showAlert(message, type = 'info') {
+        const alertBox = document.getElementById('alert-box');
+        const alertIcon = document.getElementById('alert-icon');
+        const alertMessage = document.getElementById('alert-message');
+        
+        alertMessage.textContent = message;
+        alertBox.classList.remove('hidden');
+        alertBox.classList.add('animate__fadeInDown');
+        // Icon by type
+        
+        if(type === 'success') {
+            alertBox.classList.remove('bg-teal-600','bg-red-600','bg-yellow-500');
+            alertBox.classList.add('bg-green-600');
+            alertIcon.className = 'fas fa-check-circle text-2xl';
+        } else if(type === 'error') {
+            alertBox.classList.remove('bg-teal-600','bg-green-600','bg-yellow-500');
+            alertBox.classList.add('bg-red-600');
+            alertIcon.className = 'fas fa-exclamation-circle text-2xl';
+        } else if(type === 'warning') {
+            alertBox.classList.remove('bg-teal-600','bg-green-600','bg-red-600');
+            alertBox.classList.add('bg-yellow-500');
+            alertIcon.className = 'fas fa-exclamation-triangle text-2xl';
+        } else {
+            alertBox.classList.remove('bg-green-600','bg-red-600','bg-yellow-500');
+            alertBox.classList.add('bg-teal-600');
+            alertIcon.className = 'fas fa-info-circle text-2xl';
+        }
+        setTimeout(() => {
+            alertBox.classList.add('animate__fadeOutUp');
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+                alertBox.classList.remove('animate__fadeInDown','animate__fadeOutUp');
+            }, 600);
+        }, 3000);
+    }
+    document.getElementById('alert-close').onclick = function() {
+        const alertBox = document.getElementById('alert-box');
+        alertBox.classList.add('animate__fadeOutUp');
+        setTimeout(() => {
+            alertBox.classList.add('hidden');
+            alertBox.classList.remove('animate__fadeInDown','animate__fadeOutUp');
+        }, 600);
+    };
+    </script>
+</body>
+</html>

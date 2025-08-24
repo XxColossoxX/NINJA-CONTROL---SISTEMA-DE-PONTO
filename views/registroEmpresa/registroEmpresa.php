@@ -6,7 +6,7 @@ require_once('../../assets/components/background.php')
     <div id="login-system" class="w-[90%] sm:w-full max-w-md mx-auto bg-white bg-opacity-90 shadow-xl rounded-2xl p-4 sm:p-8">
         <div class="text-center">
             <img class="mx-auto w-20" src="../../assets/img/ninjaLogo.png" alt="Ninja Control">
-            <h2 class="text-3xl font-bold text-gray-800 mt-2 mb-2"><i>REGISTRO EMPRESA</i></h2><h1 class="text-3x1 font-bold text-gray-700 mb-2">Cadastre sua empresa no melhor software do Brasil !</h1> 
+            <h2 class="text-3xl font-bold text-gray-800 mt-2 mb-2"><i>REGISTRO EMPRESA</i></h2><h1 class="text-3x1 font-bold text-gray-700 mb-2">Cadastre sua empresa no melhor software do Brasil!</h1> 
         </div>
 
         <!-- Nome Empresa -->
@@ -16,9 +16,9 @@ require_once('../../assets/components/background.php')
                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-500 focus:border-gray-500" />
         </div>
 
-        <!-- Usuário -->
+        <!-- Razão Fantasia -->
         <div class="mb-4">
-            <label class="block text-gray-700 font-bold">Usuário:</label>
+            <label class="block text-gray-700 font-bold">Razão Fantasia:</label>
             <input id="inputUsuarioEmpresa" type="text" placeholder="Digite como te chamaremos"
                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-500 focus:border-gray-500" />
         </div>
@@ -66,11 +66,7 @@ require_once('../../assets/components/background.php')
         </div>
     </div>
 
-    <div id="alert-box" class="hidden fixed top-4 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-md text-white">
-        <span id="alert-message"></span>
-    </div>
-
-    <script src="./js/registroEmpresa.js"></script>
+<script src="./js/registroEmpresa.js"></script>
 
 </body>
 </html>

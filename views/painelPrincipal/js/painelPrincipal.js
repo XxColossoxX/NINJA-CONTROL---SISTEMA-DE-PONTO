@@ -9,11 +9,13 @@ $(document).ready( async function() {
 
     Inputmask("999.999.999-99").mask("#inputCpfFuncionario");
     Inputmask("99.999.999-9").mask("#inputRgFuncionario");
+    Inputmask("(99)99999-9999").mask("#inputCelularFuncionario");
 
     Inputmask("999.999.999-99").mask("#showCpf");
     Inputmask("99.999.999-9").mask("#showRg");
 
     await recarregaTabela();
+    await verificaLoc();
     
 //!BOTOES
 $("#btnProximo").on('click', async function(){
@@ -65,7 +67,7 @@ $(document).on("click", ".delete-icon", async function () {
             });
 
             if (res.data) {
-                $(`i.delete-icon[data-id="${id}"]`).closest("tr").remove();
+                recarregaTabela();
                 $("#totalFunc").text(res.data.total_funcionarios_empresa);
                 showAlert("Funcionário deletado!", "false");
             
@@ -126,6 +128,8 @@ async function abrirCamera() {
     const inputRg       = $("#inputRgFuncionario").val();
     const inputData     = $("#inputDataNascFuncionario").val();
     const inputSenha    = $("#inputSenhaFuncionario").val()
+    const inputCelular  = $("#inputCelularFuncionario").val();
+    const inputEmail    = $("#inputEmailFuncionario").val()
 
 
     displayNome.textContent = inputNome;
@@ -175,6 +179,8 @@ async function abrirCamera() {
                     CPF: inputCpf,
                     DATA_NASCIMENTO: inputData,
                     SENHA_FUNCIONARIO: inputSenha,
+                    TEL_FUNCIONARIO: inputCelular,
+                    EMAIL_FUNCIONARIO: inputEmail,
                     RG: inputRg,
                     FACEID: foto64,
                 },
@@ -197,10 +203,13 @@ async function abrirCamera() {
                 method: "POST",
                 data: {
                     function: "applyFuncionario",
+                    ID_FUNCIONARIO: id,
                     NOME_FUNCIONARIO: inputNome,
                     CPF: inputCpf,
                     DATA_NASCIMENTO: inputData,
                     SENHA_FUNCIONARIO: inputSenha,
+                    TEL_FUNCIONARIO: inputCelular,
+                    EMAIL_FUNCIONARIO: inputEmail,
                     RG: inputRg,
                     FACEID: foto64,
                 },
@@ -222,99 +231,105 @@ async function abrirCamera() {
 };
 
 async function preencheTabela(res) {
+    const tabela = $("#tblFuncionario tbody");
     tabela.empty();
-    if(res.data.length == 0) {
-        const tabela    = $("#tblFuncionario tbody");
-        const conteudo  = `
-                    <tr class="border-b border-gray-200 hover:bg-gray-100 rounded-lg"> 
-                        <td class="px-6 py-4 rounded-lg"></td>
-                        <td class="px-6 py-4 rounded-lg"></td>
-                        <td class="px-6 py-4 rounded-lg"></td>
-                        <td class="px-6 py-4 rounded-lg"></td>
-                        <td class="px-6 py-4 rounded-lg"></td>
-                    </tr>
-       
-        `
-        tabela.append(conteudo);
-    }   
 
-
-    for (let i = 0; i < res.data.length; i++) {
-        let idFuncionario       = res.data[i].ID_FUNCIONARIO;
-        let nomeFuncionario     = res.data[i].NOME_FUNCIONARIO;
-        let cpfFuncionario      = res.data[i].CPF;
-        let rgFuncionario       = res.data[i].RG;
-        let imagemFuncionario   = res.data[i].FACEID;
-
-        const tabela = $("#tblFuncionario tbody");
+    if (res.data.length === 0) {
         const conteudo = `
-            <tr class="border-b border-gray-200 hover:bg-gray-100 rounded-lg"> 
-                <td class="px-4 py-2 text-center border-r-2 border-gray-100">${idFuncionario}</td>
-                <td class="px-4 py-2 text-center border-r-2 border-gray-100 sm:rounded-tl-lg">${nomeFuncionario}</td>
-                <td class="px-4 py-2 text-center border-r-2 border-gray-100 hidden md:table-cell">${cpfFuncionario}</td>
-                <td class="px-4 py-2 text-center border-r-2 border-gray-100 hidden md:table-cell">${rgFuncionario}</td>
-                <td class="px-4 py-2 flex justify-center items-center border-r-2 border-gray-100">
-                    <div class="w-20 h-20 rounded-full border-4 border-gray-300 bg-center bg-cover" style="background-image: url('${imagemFuncionario}'); background-size: 200%;"></div>
-                </td>
-                <td class="px-2 py-1 text-center border-r-2 border-gray-100 ">
-                    <i id="btnEdit" class="fas fa-edit text-blue-500 hover:text-blue-700 cursor-pointer edit-icon" data-id="${idFuncionario}" title="Editar"></i>
-                
-                </td>
-                <td class="px-2 py-1 text-center">
-                    <i class="fas fa-trash text-red-500 hover:text-red-700 cursor-pointer delete-icon" data-id="${idFuncionario}" id="btnDeletar" title="Excluir"></i>
-                </td>
+            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                <td class="px-6 py-4 text-center text-gray-400" colspan="5">Nenhum funcionário cadastrado</td>
             </tr>
         `;
         tabela.append(conteudo);
+        return;
     }
-    if(res.data.length < 1){
-        setTimeout(() => {
-            showAlert("NÃO HÁ FUNCIONÁRIOS CADASTRADOS !", "error");
-        }, 2000);        
-    }
-};
 
-function loaderM(mensagem, mostrar) {
-    // Se já existe, remove para evitar duplicidade
-    $('#custom-loader-overlay').remove();
+    for (let i = 0; i < res.data.length; i++) {
+        const func = res.data[i];
+        const primeiroNome = func.NOME_FUNCIONARIO.split(" ")[0];
 
-    if (mostrar) {
-        // Cria overlay com spinner e mensagem
-        const loaderHtml = `
-        <div id="custom-loader-overlay" style="
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            gap: 1rem;
-            font-family: Arial, sans-serif;
-            color: white;
-            font-size: 1.25rem;
-        ">
-            <div class="loader-spinner" style="
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid white;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            animation: spin 1s linear infinite;
-            "></div>
-            <div>${mensagem}</div>
-        </div>
-        <style>
-            @keyframes spin {
-            0% { transform: rotate(0deg);}
-            100% { transform: rotate(360deg);}
-            }
-        </style>
+        const conteudo = `
+            <tr class="border-b border-gray-200 hover:bg-blue-50 transition-all">
+                <td class="px-2 py-2 text-center align-middle" style="min-width:56px; width:56px;">
+                    <button class="info-icon icon-btn inline-flex items-center justify-center w-9 h-9 bg-gray-100 hover:bg-blue-200 text-blue-600 text-base rounded-full transition" data-id="${func.ID_FUNCIONARIO}" title="Mais informações">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </td>
+
+
+                <!-- Imagem + Nome -->
+                <td class="px-2 py-2 sm:px-4 sm:py-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-blue-300 bg-center bg-cover shadow-md" style="background-image: url('${func.FACEID}');"></div>
+                        <span class="font-semibold text-gray-800 text-base sm:text-lg">
+                            <span class="block sm:hidden">${primeiroNome}</span>
+                            <span class="hidden sm:block">${func.NOME_FUNCIONARIO}</span>
+                        </span>
+                    </div>
+                </td>
+
+                <!-- CPF (visível apenas no desktop) -->
+                <td class="hidden md:table-cell px-2 py-2 text-center text-gray-600">${func.CPF}</td>
+
+                <!-- Botão Editar -->
+                <td class="px-2 py-2 text-center">
+                    <button class="icon-btn edit-icon inline-flex items-center justify-center w-9 h-9 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full transition" data-id="${func.ID_FUNCIONARIO}" title="Editar">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </td>
+
+                <!-- Botão Excluir -->
+                <td class="px-2 py-2 text-center">
+                    <button class="icon-btn delete-icon inline-flex items-center justify-center w-9 h-9 bg-red-100 hover:bg-red-200 text-red-600 rounded-full transition" data-id="${func.ID_FUNCIONARIO}" title="Excluir">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
         `;
 
-        $('body').append(loaderHtml);
+        tabela.append(conteudo);
     }
 };
+
+// Modal de informações do funcionário
+$(document).on("click", ".info-icon", async function () {
+    const id = $(this).data("id");
+    const res = await axios({
+        url: "../../../backend/backend.php",
+        method: "POST",
+        data: {
+            function: "loadDadosFuncionario",
+            ID_FUNCIONARIO: id,
+        },
+    });
+    const f = res.data.data;
+    // Remove modal anterior se existir
+    $("#modal-info-funcionario").remove();
+    // Cria modal
+    const modal = `
+        <div id="modal-info-funcionario" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+            <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md relative animate-fade-in">
+                <button id="close-modal-info" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button>
+                <div class="flex flex-col items-center gap-3">
+                    <div class="w-24 h-24 rounded-full border-4 border-blue-300 bg-center bg-cover mb-2" style="background-image: url('${f.FACEID}');"></div>
+                    <h2 class="text-xl font-bold text-blue-700 mb-1">${f.NOME_FUNCIONARIO}</h2>
+                    <div class="w-full flex flex-col gap-2 text-gray-700">
+                        <div><i class="fas fa-id-card mr-2 text-blue-500"></i> <b>CPF:</b> ${f.CPF}</div>
+                        <div><i class="fas fa-address-card mr-2 text-blue-500"></i> <b>RG:</b> ${f.RG}</div>
+                        <div><i class="fas fa-calendar-alt mr-2 text-blue-500"></i> <b>Nascimento:</b> ${f.DATA_NASCIMENTO}</div>
+                        ${f.TEL_FUNCIONARIO ? `<div><i class='fas fa-phone mr-2 text-blue-500'></i> <b>Telefone:</b> ${f.TEL_FUNCIONARIO}</div>` : ''}
+                        ${f.EMAIL_FUNCIONARIO ? `<div><i class='fas fa-envelope mr-2 text-blue-500'></i> <b>Email:</b> ${f.EMAIL_FUNCIONARIO}</div>` : ''}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    $("body").append(modal);
+});
+
+$(document).on("click", "#close-modal-info", function () {
+    $("#modal-info-funcionario").remove();
+});
 
 async function carregarNomeEmpresa() {
     const res = await axios({
@@ -324,7 +339,7 @@ async function carregarNomeEmpresa() {
                 function: "getNomeEmpresa",
             },
         });
-    let nomeEmpresa = res.data[0].NOME_EMPRESA.toUpperCase();
+    let nomeEmpresa = res.data[0].RAZAO_FANTASIA.toUpperCase();
     let divBemVindo = $("#bemVindo");
     let conteudo = `
     <div id="welcome-message" class="fixed inset-0 flex items-center justify-center z-50 text-center">
@@ -358,11 +373,11 @@ async function recarregaTabela() {
     const tabela = $("#tblFuncionario tbody");
     tabela.empty();
 
-    await loadEmpresa()
+    await loadFuncionariosEmpresa()
     return
 };
 
-async function loadEmpresa(){
+async function loadFuncionariosEmpresa(){
     tabela.empty();
     const res = await axios({
         url: "../../../backend/backend.php",
@@ -376,43 +391,21 @@ async function loadEmpresa(){
         $("totalFunc").empty();
         $("#totalFunc").text(res.data.length);
         return
-};
+}; 
 
-function showAlert(message, type = "error") {
-        const alertBox = document.getElementById("alert-box");
-        const alertMessage = document.getElementById("alert-message");
-    
-        if (!alertBox || !alertMessage) {
-            console.error("Elementos de alerta não encontrados no DOM.");
-            return;
-        }
-    
-        // Define a mensagem
-        alertMessage.textContent = message;
-    
-        // Limpa classes antigas e aplica a cor conforme o tipo
-        alertBox.classList.remove("hidden", "alert-hide", "bg-red-500", "bg-green-500");
-    
-        if (type === "success") {
-            alertBox.classList.add("bg-green-500");
-        } else {
-            alertBox.classList.add("bg-red-500");
-        }
-    
-        // Adiciona a animação de entrada
-        alertBox.classList.add("alert-show");
-    
-        // Remove a animação de entrada após 3 segundos e adiciona a de saída
-        setTimeout(() => {
-            alertBox.classList.remove("alert-show");
-            alertBox.classList.add("alert-hide");
-    
-            // Oculta o alerta após a animação de saída
-            setTimeout(() => {
-                alertBox.classList.add("hidden");
-            }, 500); // Aguarda a animação de saída terminar
-        }, 3000);
-};     
+async function verificaLoc(){
+    const res = await axios({
+        url: "../../../backend/backend.php",
+        method: "POST",
+        data: {
+            function: "getLocEmpresa",
+        },
+    });
+    console.log(res);
+    if(res.data[0].LOC_EMPRESA === null || res.data[0].LOC_EMPRESA === ""){
+        showAlert("Por favor, defina a localização da empresa em Dados Empresa.", "warning");
+    }
+}
 
 // FRONT-END
 $(document).ready(function () {

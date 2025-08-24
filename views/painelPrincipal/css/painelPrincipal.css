@@ -139,3 +139,32 @@
 
 }
 
+#tblFuncionario td:nth-child(1), /* primeiro <td> da linha (botão info) */
+#tblFuncionario th:nth-child(1)  /* primeiro <th> do cabeçalho */
+{
+  display: table-cell !important;
+  width: 48px !important;
+  min-width: 48px !important;
+  max-width: 48px !important;
+}
+
+#tblFuncionario tbody tr td:first-child {
+  min-width: 56px !important;
+  width: 56px !important;
+}
+
+@media (max-width: 640px) {
+  button.icon-btn,
+  .btn.icon-btn,
+  .bgBtn.icon-btn,
+  .button.icon-btn,
+  a.bgBtn.icon-btn {
+    min-width: unset !important;
+    width: 36px !important;  /* largura quadrada para manter bolinha */
+    padding: 0 !important;   /* deixa o botão mais compacto */
+  }
+}
+
+.margin-top-large {
+  margin-top: 6rem; /* 96px */
+}

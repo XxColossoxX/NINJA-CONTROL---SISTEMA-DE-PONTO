@@ -14,10 +14,9 @@ $(document).ready(async function() {
    
    // Botao Alternar visibilidade da senha
    //#region
-$('#toggleSenha').on('click', function () {
-    const input = $('#inputSenhaLogin');
-    const icon = $('#iconSenha');
-
+$('#toggleSenhaFuncionario').on('click', function() {
+    const input = $('#inputSenhaFuncionario');
+    const icon = $('#iconSenhaFuncionario');
     if (input.attr('type') === 'password') {
         input.attr('type', 'text');
         icon.removeClass('fa-eye').addClass('fa-eye-slash');
@@ -30,34 +29,6 @@ $('#toggleSenha').on('click', function () {
 
 
    //!FUNCOES:
-   //funcaoOlhoSenha
-   //#region 
-    // Função para alternar a visibilidade da senha
-    function togglePassword(inputId, iconId) {
-       const input = $('#inputId');
-       const icon = $('#iconId');
-   
-       if (input.type === "password") {
-           input.type = "text";
-           icon.classList.remove("fa-eye");
-           icon.classList.add("fa-eye-slash");
-       } else {
-           input.type = "password";
-           icon.classList.remove("fa-eye-slash");
-           icon.classList.add("fa-eye");
-       }
-   }
-   
-   // Adiciona eventos de clique nos botões
-   document.getElementById("toggleSenhaEmpresa").addEventListener("click", function () {
-       togglePassword("inputSenhaEmpresa", "iconSenhaEmpresa");
-   });
-   
-   document.getElementById("toggleConfirmaSenha").addEventListener("click", function () {
-       togglePassword("inputConfirmaSenha", "iconConfirmaSenha");
-   });
-   //#endregion
-   
    //cadastrarEmpresa
    //#region 
    async function loginFuncionario() {
