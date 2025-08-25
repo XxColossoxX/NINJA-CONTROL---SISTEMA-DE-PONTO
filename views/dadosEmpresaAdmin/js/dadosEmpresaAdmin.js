@@ -17,7 +17,10 @@ $(document).ready( async function() {
     $('#fechar-modal-edicao').on('click', function () {
         $('#modal-editar-empresa').addClass('hidden');
     });
-    
+    $("#btnLoc").on('click', function(){
+        locEmpresa();
+    })
+
     $("#btnSalvar").on('click', async function() {
         const nome = $('#inputNomeFantasia').val();
         const endereco = $('#inputEndereco').val();
@@ -51,42 +54,44 @@ $(document).ready( async function() {
         }
     });
 
-    $('#inputEndereco').on('focus', function () {
-        locEmpresa();
-    });
-
     //FUNCOES:
-    async function locEmpresa(){
-        if (navigator.geolocation) {
+ async function locEmpresa() {
+    if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             (position) => {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            getEndereco(lat, lng);
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                console.log(`Latitude: ${lat}, Longitude: ${lng}`);
+                getEndereco(lat, lng);
             },
             (error) => {
-            console.error("Erro ao obter localização:", error.message);
+                console.error("Erro ao obter localização:", error.message);
+            },
+            {
+                enableHighAccuracy: true, // Força o uso do GPS com mais precisão
+                timeout: 5000, // Tempo máximo para tentar pegar a localização
+                maximumAge: 0 // Não usar dados de localização cacheados
             }
         );
-        }
-    };
+    }
+}
 
     function getEndereco(latitude, longitude) {
-    const apiKey = 'AIzaSyBqt1LWE7_-MKKThz0YpgSJLWnRM5sQAWE';
+        const apiKey = 'AIzaSyDwpxfS7AptP74paz0S889G-uy4hE9bJV4';
 
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
+        console.log(latitude,longitude)
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-        if (data.status === "OK") {
-            const enderecoCompleto = data.results[0].formatted_address;
-            console.log("Endereço:", enderecoCompleto);
-        } else {
-            console.error("Erro na geocodificação:", data.status);
-        }
-        })
-        .catch(error => console.error("Erro na requisição:", error));
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+            if (data.status === "OK") {
+                const enderecoCompleto = data.results[0].formatted_address;
+                console.log("Endereço:", enderecoCompleto);
+            } else {
+                console.error("Erro na geocodificação:", data.status);
+            }
+        }).catch(error => console.error("Erro na requisição:", error));
     };
 
     async function getDadosEmpresa(){

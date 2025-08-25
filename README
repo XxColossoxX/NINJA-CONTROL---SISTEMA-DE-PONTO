@@ -1,4 +1,0 @@
-instalar o servidor para rodar os codigos do banco
-
-npm install express sqlite3 cors
-

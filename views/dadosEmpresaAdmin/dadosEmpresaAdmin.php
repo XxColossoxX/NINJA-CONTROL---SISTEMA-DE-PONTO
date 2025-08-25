@@ -7,22 +7,6 @@ if (!isset($_SESSION['empresa_id'])) {
 }
 require_once('../../assets/components/background.php');
 require_once('../../assets/components/headerEmpresa.php');
-
-$nomeFuncionario = isset($_SESSION['funcionario_nome']) ? $_SESSION['funcionario_nome'] : '';
-$faceIdFuncionario = isset($_SESSION['funcionario_faceid']) ? $_SESSION['funcionario_faceid'] : '';
-$fotoFuncionario = isset($_SESSION['funcionario_faceid']) ? $_SESSION['funcionario_faceid'] : '';
-$rgFuncionario = isset($_SESSION['funcionario_rg']) ? $_SESSION['funcionario_rg'] : '';
-$cpfFuncionario = isset($_SESSION['funcionario_cpf']) ? $_SESSION['funcionario_cpf'] : '';
-$dataNascimentoFuncionario = isset($_SESSION['funcionario_data_nascimento']) ? $_SESSION['funcionario_data_nascimento'] : 'Data de Nascimento'; 
-
-$idEmpresa = isset($_SESSION['empresa_id']) ? $_SESSION['empresa_id'] : '';
-$socialEmpresa = isset($_SESSION['empresa_razao_social']) ? $_SESSION['empresa_razao_social'] : ''; 
-$fantasiaEmpresa = isset($_SESSION['empresa_razao_fantasia']) ? $_SESSION['empresa_razao_fantasia'] : ''; 
-$cnpjEmpresa = isset($_SESSION['empresa_cnpj']) ? $_SESSION['empresa_cnpj'] : ''; 
-$locEmpresa = isset($_SESSION['empresa_loc']) ? $_SESSION['empresa_loc'] : ''; 
-$dscEmpresa = isset($_SESSION['empresa_dsc']) ? $_SESSION['empresa_dsc'] : ''; 
-$telEmpresa = isset($_SESSION['empresa_tel']) ? $_SESSION['empresa_tel'] : ''; 
-$emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] : ''; 
 ?>
 
 <div class="min-h-screen flex flex-col items-center justify-center">
@@ -93,19 +77,19 @@ $emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] :
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-semibold text-gray-700">Nome Fantasia</label>
-                    <input id="inputNomeFantasia" type="text" placeholder="Digite o Nome Fantasia" name="fantasia" value="<?php echo $fantasiaEmpresa; ?>" class="w-full border border-gray-300 rounded px-3 py-2" required>
+                    <input id="inputNomeFantasia" type="text" placeholder="Digite o Nome Fantasia" name="fantasia" value="" class="w-full border border-gray-300 rounded px-3 py-2" required>
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700">CNPJ</label>
-                    <input id="inputCnpj" type="text" name="cnpj" placeholder="Digite o CNPJ" value="<?php echo $cnpjEmpresa; ?>" class="w-full border border-gray-300 rounded px-3 py-2" required>
+                    <input id="inputCnpj" type="text" name="cnpj" placeholder="Digite o CNPJ" value="" class="w-full border border-gray-300 rounded px-3 py-2" required>
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Endereço</label>
                     <div class="relative">
-                        <input id="inputEndereco" type="text" name="endereco" placeholder="Digite o Endereço ou aperte o botao" value="<?php echo $locEmpresa; ?>" 
+                        <input id="inputEndereco" type="text" name="endereco" placeholder="Digite o Endereço ou aperte o botao" value="" 
                             class="w-full border border-gray-300 rounded px-3 py-2 pr-10" />
 
-                        <button type="button" id="btnBuscarLocalizacao"
+                        <button type="button" id="btnLoc"
                             class="absolute top-1/2 right-2 transform -translate-y-1/2 text-teal-600 hover:text-teal-800">
                             <i class="fas fa-map-marker-alt"></i>
                         </button>

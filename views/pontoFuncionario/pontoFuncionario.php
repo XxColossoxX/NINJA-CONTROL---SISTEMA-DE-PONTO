@@ -11,18 +11,12 @@ require_once('../../assets/components/headerFuncionario.php');
 $idFuncionario = $_SESSION['funcionario_id'];
 $nomeFuncionario = isset($_SESSION['funcionario_nome']) ? $_SESSION['funcionario_nome'] : '';
 $faceIdFuncionario = isset($_SESSION['funcionario_faceid']) ? $_SESSION['funcionario_faceid'] : '';
-$fotoFuncionario = isset($_SESSION['funcionario_faceid']) ? $_SESSION['funcionario_faceid'] : '';
+$fotoFuncionario = isset($_SESSION['funcionario_faceid']) ? $_SESSION['funcionario_faceid'] : ''; // Exemplo: usar faceId como url da foto
 $rgFuncionario = isset($_SESSION['funcionario_rg']) ? $_SESSION['funcionario_rg'] : '';
 $cpfFuncionario = isset($_SESSION['funcionario_cpf']) ? $_SESSION['funcionario_cpf'] : '';
-$dataNascimentoFuncionario = isset($_SESSION['funcionario_data_nascimento']) ? $_SESSION['funcionario_data_nascimento'] : 'Data de Nascimento'; 
-
-$socialEmpresa = isset($_SESSION['empresa_razao_social']) ? $_SESSION['empresa_razao_social'] : 'Razão Social da Empresa'; 
-$fantasiaEmpresa = isset($_SESSION['empresa_razao_fantasia']) ? $_SESSION['empresa_razao_fantasia'] : 'Razão Fantasia da Empresa'; 
-$cnpjEmpresa = isset($_SESSION['empresa_cnpj']) ? $_SESSION['empresa_cnpj'] : 'CNPJ da Empresa'; 
-$locEmpresa = isset($_SESSION['empresa_loc']) ? $_SESSION['empresa_loc'] : 'Localização da Empresa'; 
-$dscEmpresa = isset($_SESSION['empresa_dsc']) ? $_SESSION['empresa_dsc'] : 'Descrição da Empresa'; 
-$telEmpresa = isset($_SESSION['empresa_tel']) ? $_SESSION['empresa_tel'] : 'Telefone da Empresa'; 
-$emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] : 'Email da Empresa'; 
+$nomeEmpresa = isset($_SESSION['funcionario_nome_empresa']) ? $_SESSION['funcionario_nome_empresa'] : 'Nome da Empresa'; // Trocar para valor real depois
+$dataNascimentoFuncionario = isset($_SESSION['funcionario_data_nascimento']) ? $_SESSION['funcionario_data_nascimento'] : 'Data de Nascimento'; // Trocar para valor real depois
+$localizacaoEmpresa = 'R. Pasteur, 463 - Batel, Curitiba - PR'; // Trocar para valor real depois
 
 ?>
 
@@ -54,7 +48,7 @@ $emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] :
                                 <i class="fas fa-building mr-3 text-gray-500 text-2xl"></i>
                                 <span class="text-lg text-gray-500 font-semibold">Empresa:</span>
                             </div>
-                            <span class="text-xl text-gray-700 text-left break-words whitespace-nowrap overflow-hidden text-ellipsis min-w-[220px]"><?php echo htmlspecialchars($fantasiaEmpresa); ?></span>
+                            <span class="text-xl text-gray-700 text-left break-words whitespace-nowrap overflow-hidden text-ellipsis min-w-[220px]"><?php echo htmlspecialchars($nomeEmpresa); ?></span>
                         </div>
                         <div class="grid grid-cols-2 items-center mb-4 gap-x-8 gap-y-2">
                             <div class="flex items-center min-w-[180px]">
@@ -123,7 +117,7 @@ $emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] :
                 <label class="block text-gray-700 text-sm font-bold md:mb-2 mb-1" for="localizacao">Localização</label>
                 <div class="flex items-center bg-gray-100 rounded-lg md:p-2 p-1">
                     <i class="fas fa-map-marker-alt text-teal-600 text-xl mr-2"></i>
-                    <input id="inputLocalizacao" type="text" value="<?php echo htmlspecialchars($locEmpresa); ?>" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100" readonly>
+                    <input id="inputLocalizacao" type="text" value="<?php echo htmlspecialchars($localizacaoEmpresa); ?>" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100" readonly>
                 </div>
             </div>
             <div class="flex justify-center md:mt-8 mt-2 md:mb-2 mb-1">
@@ -189,14 +183,69 @@ $emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] :
     </div>
 </div>
 
+<!-- Modal de Bater Ponto -->
+<div id="modal-bater-ponto" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden flex items-center justify-center">
+    <div class="bg-white rounded-xl shadow-lg w-[95vw] max-w-3xl relative p-4">
+        <h2 class="text-xl font-bold text-center mb-4"><i class="fas fa-fingerprint mr-2 text-teal-600"></i>Registro de Ponto</h2>
+
+        <!-- Abas -->
+        <div class="flex border-b border-gray-200 mb-4">
+            <button class="tab-button text-gray-600 font-semibold px-4 py-2 border-b-2 border-transparent hover:border-teal-500 hover:text-teal-600" data-tab="info-tab">
+                <i class="fas fa-user mr-2"></i>Informações
+            </button>
+            <button class="tab-button text-gray-600 font-semibold px-4 py-2 border-b-2 border-transparent hover:border-teal-500 hover:text-teal-600" data-tab="local-tab">
+                <i class="fas fa-map-marker-alt mr-2"></i>Localização
+            </button>
+        </div>
+
+        <!-- Conteúdo das Abas -->
+        <div id="info-tab" class="tab-content">
+            <div class="grid grid-cols-2 gap-4 text-sm text-gray-700">
+                <div><strong><i class="fas fa-id-badge mr-2"></i>Nome:</strong> <span id="tab-nome"></span></div>
+                <div><strong><i class="fas fa-building mr-2"></i>Empresa:</strong> <span id="tab-empresa"></span></div>
+                <div><strong><i class="fas fa-id-card mr-2"></i>RG:</strong> <span id="tab-rg"></span></div>
+                <div><strong><i class="fas fa-address-card mr-2"></i>CPF:</strong> <span id="tab-cpf"></span></div>
+                <div><strong><i class="fas fa-calendar-alt mr-2"></i>Nascimento:</strong> <span id="tab-nascimento"></span></div>
+            </div>
+        </div>
+
+        <div id="local-tab" class="tab-content hidden">
+            <div class="text-gray-700 text-sm mb-3">
+                <i class="fas fa-map-marker-alt mr-2"></i><strong>Localização da Empresa:</strong>
+                <div class="bg-gray-100 p-3 rounded mt-1" id="tab-localizacao"></div>
+            </div>
+        </div>
+
+        <div class="camera-container">
+            <div id="camera-container">
+                <video id="video-camera" autoplay muted playsinline class="video-feed"></video>
+            </div>            
+            <div class="overlay">
+                <div class="circle-ring"></div>
+            </div>
+        </div>
+
+
+        <!-- Botões -->
+        <div class="flex justify-between items-center mt-4">
+            <button id="btn-fechar-ponto" class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 transition">
+                <i class="fas fa-times mr-2"></i>Fechar
+            </button>
+            <button id="btn-efetuar-ponto" class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 transition font-bold">
+                <i class="fas fa-check-circle mr-2"></i>Efetuar Ponto
+            </button>
+        </div>
+    </div>
+</div>
+
 <script src="./js/pontoFuncionario.js"></script>
 <link rel="stylesheet" href="./css/pontoFuncionario.css">
 <script>
-    const faceIdFuncionario = "<?php echo isset($_SESSION['funcionario_faceid']) ? $_SESSION['funcionario_faceid'] : ''; ?>";
-    const nomeFuncionario   = "<?php echo isset($_SESSION['funcionario_nome']) ? $_SESSION['funcionario_nome'] : ''; ?>";
-    const cpfFuncionario    = "<?php echo isset($_SESSION['funcionario_cpf']) ? $_SESSION['funcionario_cpf'] : ''; ?>";
-    const rgFuncionario     = "<?php echo isset($_SESSION['funcionario_rg']) ? $_SESSION['funcionario_rg'] : ''; ?>";
-    const nomeEmpresa       = "<?php echo isset($_SESSION['funcionario_nome_empresa']) ? $_SESSION['funcionario_nome_empresa'] : ''; ?>";
+    const faceIdFuncionario         = "<?php echo isset($_SESSION['funcionario_faceid']) ? $_SESSION['funcionario_faceid'] : ''; ?>";
+    const nomeFuncionario           = "<?php echo isset($_SESSION['funcionario_nome']) ? $_SESSION['funcionario_nome'] : ''; ?>";
+    const cpfFuncionario            = "<?php echo isset($_SESSION['funcionario_cpf']) ? $_SESSION['funcionario_cpf'] : ''; ?>";
+    const rgFuncionario             = "<?php echo isset($_SESSION['funcionario_rg']) ? $_SESSION['funcionario_rg'] : ''; ?>";
+    const nomeEmpresa               = "<?php echo isset($_SESSION['funcionario_nome_empresa']) ? $_SESSION['funcionario_nome_empresa'] : ''; ?>";
     const dataNascimentoFuncionario = "<?php echo isset($_SESSION['funcionario_data_nascimento']) ? $_SESSION['funcionario_data_nascimento'] : ''; ?>";
     const localizacaoEmpresa = "<?php echo $localizacaoEmpresa; ?>";
 
@@ -251,9 +300,9 @@ $emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] :
             }
         });
     });
+
 </script>
 
 
 </body>
 </html>
-
