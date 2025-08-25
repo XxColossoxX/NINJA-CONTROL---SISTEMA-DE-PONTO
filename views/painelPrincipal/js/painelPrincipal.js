@@ -106,8 +106,8 @@ $(document).on("click", ".edit-icon", async function () {
     $("#inputRgFuncionario").val(res.data.data.RG);
     $("#inputSenhaFuncionario").val(res.data.data.SENHA_FUNCIONARIO);
     $("#inputDataNascFuncionario").val(res.data.data.DATA_NASCIMENTO);
-
-
+    $("#inputCelularFuncionario").val(res.data.data.TEL_FUNCIONARIO);
+    $("#inputEmailFuncionario").val(res.data.data.EMAIL_FUNCIONARIO);
 });
 
 //!FUNCOES

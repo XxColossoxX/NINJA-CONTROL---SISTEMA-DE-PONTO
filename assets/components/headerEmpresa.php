@@ -372,18 +372,23 @@
                     },
                 });
 
-                if(res.data.succes){
-                    const res = await axios({
+                if(res.data.success){
+                    const resUpdate = await axios({
                         url: "../../../backend/backend.php",
                         method: "POST",
                         data: {
-                            function: "getSenhaAtualEmpresa",
-                            SENHA_EMPRESA: senhaAtual,
+                            function: "updateSenhaEmpresa",
+                            SENHA_EMPRESA: novaSenha,
                             ID_EMPRESA: "<?php echo $_SESSION['empresa_id']; ?>",
                         },
                     });
-                    if(res.data.success){
+                    if(resUpdate.data.success){
                         showAlert("Senha Atualizada com sucesso!", "success");
+                        console.log(resUpdate.data)
+                        $('#inputSenhaAtual').val('');
+                        $('#inputNovaSenha').val('');
+                        $('#inputConfirmarNovaSenha').val('');
+                        $('#config-overlay, #config-panel').fadeOut(200);
                         return;
                     }
                     else{

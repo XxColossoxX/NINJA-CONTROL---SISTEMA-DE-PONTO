@@ -1,14 +1,13 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['funcionario_id'])) {
-    header('Location: ../loginFuncionario/loginFuncionario.php');
+if (!isset($_SESSION['empresa_id'])) {
+    header('Location: ../loginEmpresa/loginEmpresa.php');
     exit;
 }
 require_once('../../assets/components/background.php');
 require_once('../../assets/components/headerEmpresa.php');
 
-$idFuncionario = $_SESSION['funcionario_id'];
 $nomeFuncionario = isset($_SESSION['funcionario_nome']) ? $_SESSION['funcionario_nome'] : '';
 $faceIdFuncionario = isset($_SESSION['funcionario_faceid']) ? $_SESSION['funcionario_faceid'] : '';
 $fotoFuncionario = isset($_SESSION['funcionario_faceid']) ? $_SESSION['funcionario_faceid'] : '';
@@ -16,14 +15,14 @@ $rgFuncionario = isset($_SESSION['funcionario_rg']) ? $_SESSION['funcionario_rg'
 $cpfFuncionario = isset($_SESSION['funcionario_cpf']) ? $_SESSION['funcionario_cpf'] : '';
 $dataNascimentoFuncionario = isset($_SESSION['funcionario_data_nascimento']) ? $_SESSION['funcionario_data_nascimento'] : 'Data de Nascimento'; 
 
-$socialEmpresa = isset($_SESSION['empresa_razao_social']) ? $_SESSION['empresa_razao_social'] : 'Razão Social da Empresa'; 
-$fantasiaEmpresa = isset($_SESSION['empresa_razao_fantasia']) ? $_SESSION['empresa_razao_fantasia'] : 'Razão Fantasia da Empresa'; 
-$cnpjEmpresa = isset($_SESSION['empresa_cnpj']) ? $_SESSION['empresa_cnpj'] : 'CNPJ da Empresa'; 
-$locEmpresa = isset($_SESSION['empresa_loc']) ? $_SESSION['empresa_loc'] : 'Localização da Empresa'; 
-$dscEmpresa = isset($_SESSION['empresa_dsc']) ? $_SESSION['empresa_dsc'] : 'Descrição da Empresa'; 
-$telEmpresa = isset($_SESSION['empresa_tel']) ? $_SESSION['empresa_tel'] : 'Telefone da Empresa'; 
-$emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] : 'Email da Empresa'; 
-
+$idEmpresa = isset($_SESSION['empresa_id']) ? $_SESSION['empresa_id'] : '';
+$socialEmpresa = isset($_SESSION['empresa_razao_social']) ? $_SESSION['empresa_razao_social'] : ''; 
+$fantasiaEmpresa = isset($_SESSION['empresa_razao_fantasia']) ? $_SESSION['empresa_razao_fantasia'] : ''; 
+$cnpjEmpresa = isset($_SESSION['empresa_cnpj']) ? $_SESSION['empresa_cnpj'] : ''; 
+$locEmpresa = isset($_SESSION['empresa_loc']) ? $_SESSION['empresa_loc'] : ''; 
+$dscEmpresa = isset($_SESSION['empresa_dsc']) ? $_SESSION['empresa_dsc'] : ''; 
+$telEmpresa = isset($_SESSION['empresa_tel']) ? $_SESSION['empresa_tel'] : ''; 
+$emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] : ''; 
 ?>
 
 <div class="min-h-screen flex flex-col items-center justify-center">
@@ -35,29 +34,29 @@ $emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] :
         <div class="flex-1">
             <h2 class="text-2xl font-bold text-teal-700 mb-6 flex items-center gap-3">
                 <i class="fas fa-building text-teal-600 text-xl"></i>
-                Informações da Empresa
+                Informações da Empresa 
             </h2>
 
             <ul class="space-y-4 text-gray-800 text-sm md:text-base">
                 <li class="flex items-center gap-3">
                     <i class="fas fa-id-badge text-teal-500"></i>
-                    <span><strong>Nome:</strong> <?php echo $socialEmpresa; ?></span>
+                    <span id="spanNome"><strong>Nome:</strong></span>
                 </li>
                 <li class="flex items-center gap-3">
                     <i class="fas fa-id-card text-teal-500"></i>
-                    <span><strong>CNPJ:</strong> <?php echo $cnpjEmpresa; ?></span>
+                    <span id="spanCnpj"><strong>CNPJ:</strong></span>
                 </li>
                 <li class="flex items-center gap-3">
                     <i class="fas fa-map-marker-alt text-teal-500"></i>
-                    <span><strong>Endereço:</strong> <?php echo $locEmpresa; ?></span>
+                    <span id="spanEndereco"><strong>Endereço:</strong></span>
                 </li>
                 <li class="flex items-center gap-3">
                     <i class="fas fa-phone-alt text-teal-500"></i>
-                    <span><strong>Telefone:</strong> <?php echo $telEmpresa; ?></span>
+                    <span id="spanTelefone"><strong>Telefone:</strong></span>
                 </li>
                 <li class="flex items-center gap-3">
                     <i class="fas fa-envelope text-teal-500"></i>
-                    <span><strong>Email:</strong> <?php echo $emailEmpresa; ?></span>
+                    <span id="spanEmail"><strong>Email:</strong></span>
                 </li>
             </ul>
         </div>
@@ -69,7 +68,7 @@ $emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] :
                     <i class="fas fa-info-circle"></i> Sobre a Empresa
                 </h3>
                 <p class="text-sm md:text-base leading-relaxed">
-                    <?php echo $dscEmpresa; ?>
+                    <span id="spanDescricao"></span>
                 </p>
             </div>
 
@@ -94,16 +93,16 @@ $emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] :
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-semibold text-gray-700">Nome Fantasia</label>
-                    <input id="inputNomeFantasia" type="text" name="fantasia" value="<?php echo $fantasiaEmpresa; ?>" class="w-full border border-gray-300 rounded px-3 py-2" required>
+                    <input id="inputNomeFantasia" type="text" placeholder="Digite o Nome Fantasia" name="fantasia" value="<?php echo $fantasiaEmpresa; ?>" class="w-full border border-gray-300 rounded px-3 py-2" required>
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700">CNPJ</label>
-                    <input id="inputCnpj" type="text" name="cnpj" value="<?php echo $cnpjEmpresa; ?>" class="w-full border border-gray-300 rounded px-3 py-2" required>
+                    <input id="inputCnpj" type="text" name="cnpj" placeholder="Digite o CNPJ" value="<?php echo $cnpjEmpresa; ?>" class="w-full border border-gray-300 rounded px-3 py-2" required>
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Endereço</label>
                     <div class="relative">
-                        <input id="inputEndereco" type="text" name="endereco" value="<?php echo $locEmpresa; ?>" 
+                        <input id="inputEndereco" type="text" name="endereco" placeholder="Digite o Endereço ou aperte o botao" value="<?php echo $locEmpresa; ?>" 
                             class="w-full border border-gray-300 rounded px-3 py-2 pr-10" />
 
                         <button type="button" id="btnBuscarLocalizacao"
@@ -114,27 +113,28 @@ $emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] :
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700">Telefone</label>
-                    <input id="inputTelefone" type="text" name="telefone" value="<?php echo $telEmpresa; ?>" class="w-full border border-gray-300 rounded px-3 py-2">
+                    <input id="inputTelefone" type="text" placeholder="Digite o Telefone" name="telefone"  class="w-full border border-gray-300 rounded px-3 py-2">
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700">Email</label>
-                    <input id="inputEmail" type="email" name="email" value="<?php echo $emailEmpresa; ?>" class="w-full border border-gray-300 rounded px-3 py-2">
+                    <input id="inputEmail" type="email" name="email" placeholder="Digite o Email" class="w-full border border-gray-300 rounded px-3 py-2">
                 </div>
                 <div class="md:col-span-2">
                     <label class="block text-sm font-semibold text-gray-700">Descrição</label>
-                    <textarea id="inputDescricao" name="descricao" rows="4" class="w-full border border-gray-300 rounded px-3 py-2"><?php echo $dscEmpresa; ?></textarea>
+                    <textarea id="inputDescricao" name="descricao" placeholder="Digite a Descrição" rows="4" class="w-full border border-gray-300 rounded px-3 py-2"></textarea>
                 </div>
             </div>
             <div class="mt-6 text-right">
-                <button id="btnSalvarEdicao" type="submit" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded">
+                <a id="btnSalvar" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded">
                     Salvar Alterações
-                </button>
+                </a>
             </div>
         </form>
     </div>
 </div>
 
-<script src="./js/dadosEmpresa.js"></script>
-<link rel="stylesheet" href="./css/dadosEmpresa.css">
+<script src="./js/dadosEmpresaAdmin.js">
+</script>
+<link rel="stylesheet" href="./css/dadosEmpresaAdmin.css">
 </body>
 </html>

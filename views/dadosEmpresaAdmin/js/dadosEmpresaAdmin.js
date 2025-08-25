@@ -5,6 +5,8 @@ let cameraStream = null;
 $(document).ready( async function() {    
     $('#controlador').removeClass('hidden');
 
+    getDadosEmpresa()
+
     Inputmask("99.999.999/9999-99").mask("#inputCnpj");
     Inputmask("(99)99999-9999").mask("#inputTelefone");
 
@@ -16,15 +18,16 @@ $(document).ready( async function() {
         $('#modal-editar-empresa').addClass('hidden');
     });
     
-    $("#btnSalvarEdicao").on('click', async function() {
-        const nome = $('#inputNome').val();
+    $("#btnSalvar").on('click', async function() {
+        const nome = $('#inputNomeFantasia').val();
         const endereco = $('#inputEndereco').val();
         const telefone = $('#inputTelefone').val();
         const email = $('#inputEmail').val();
         const descricao = $('#inputDescricao').val();
+        const cnpj = $('#inputCnpj').val();
 
         const res = await axios({
-            url: "../../../backend/backend.php",
+            url: "../../backend/backend.php",
             method: "POST",
             data: {
                 function: "updateEmpresa",
@@ -33,8 +36,19 @@ $(document).ready( async function() {
                 TEL_EMPRESA: telefone,
                 EMAIL_EMPRESA: email,
                 DSC_EMPRESA: descricao,
+                CNPJ_EMPRESA: cnpj,
+                ID_EMPRESA: sessionStorage.getItem('empresa_id')
             },
         });  
+        if(res.data.success){
+            showAlert('Dados atualizados com sucesso!',"success");
+            $("#modal-editar-empresa").addClass("hidden");
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        } else {
+            showAlert('Erro ao atualizar dados. Tente novamente.',"error");
+        }
     });
 
     $('#inputEndereco').on('focus', function () {
@@ -73,5 +87,32 @@ $(document).ready( async function() {
         }
         })
         .catch(error => console.error("Erro na requisição:", error));
+    };
+
+    async function getDadosEmpresa(){
+        const res = await axios({
+            url: "../../../backend/backend.php",
+            method: "POST",
+            data: {
+                function: "getDadosEmpresa",
+            },
+        })
+        console.log(res.data);
+        if(res.data.length > 0){
+            const empresa = res.data[0];
+            $('#inputNomeFantasia').val(empresa.RAZAO_FANTASIA);
+            $('#inputCnpj').val(empresa.CNPJ_EMPRESA);
+            $('#inputEndereco').val(empresa.LOC_EMPRESA);
+            $('#inputTelefone').val(empresa.TEL_EMPRESA);
+            $('#inputEmail').val(empresa.EMAIL_EMPRESA);
+            $('#inputDescricao').val(empresa.DSC_EMPRESA);
+
+            $('#spanNome').text(empresa.RAZAO_FANTASIA);
+            $('#spanCnpj').text(empresa.CNPJ_EMPRESA);
+            $('#spanEndereco').text(empresa.LOC_EMPRESA);
+            $('#spanTelefone').text(empresa.TEL_EMPRESA);
+            $('#spanEmail').text(empresa.EMAIL_EMPRESA);
+            $('#spanDescricao').text(empresa.DSC_EMPRESA);
+        }
     };
 });

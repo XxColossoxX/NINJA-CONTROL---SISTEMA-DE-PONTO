@@ -35,6 +35,10 @@ if (isset($data['function'])) {
             getDadosFuncionario($db, $data);
             break;
 
+        case 'getDadosEmpresa': // get dados empresa
+            getDadosEmpresa($db, $data);
+            break;
+
         case 'getSenhaAtualEmpresa': // get senha atual Empresa
             getSenhaAtualEmpresa($db, $data);
             break;
@@ -78,8 +82,7 @@ function loadEmpresa($db, $data){
         $cnpjEmpresa = $data['CNPJ_EMPRESA'];
         $senhaEmpresa = $data['SENHA_EMPRESA'];
 
-     
-        $stmt = $db->prepare("SELECT ID_EMPRESA, CNPJ_EMPRESA, SENHA_EMPRESA FROM EMPRESA WHERE CNPJ_EMPRESA = ? AND SENHA_EMPRESA = ?");
+        $stmt = $db->prepare("SELECT ID_EMPRESA, CNPJ_EMPRESA, SENHA_EMPRESA, RAZAO_FANTASIA, RAZAO_SOCIAL, LOC_EMPRESA, DSC_EMPRESA, TEL_EMPRESA, EMAIL_EMPRESA FROM EMPRESA WHERE CNPJ_EMPRESA = ? AND SENHA_EMPRESA = ?");
         $stmt->bindValue(1, $cnpjEmpresa);
         $stmt->bindValue(2, $senhaEmpresa);
 
@@ -88,7 +91,14 @@ function loadEmpresa($db, $data){
         if ($result) {
             $empresa = $result->fetchArray(SQLITE3_ASSOC);
             if ($empresa) {
-                
+            
+                $_SESSION['empresa_razao_fantasia'] = $empresa['RAZAO_FANTASIA'];
+                $_SESSION['empresa_razao_social'] = $empresa['RAZAO_SOCIAL'];
+                $_SESSION['empresa_cnpj'] = $empresa['CNPJ_EMPRESA'];
+                $_SESSION['empresa_loc'] = $empresa['LOC_EMPRESA'];
+                $_SESSION['empresa_dsc'] = $empresa['DSC_EMPRESA'];
+                $_SESSION['empresa_tel'] = $empresa['TEL_EMPRESA'];
+                $_SESSION['empresa_email'] = $empresa['EMAIL_EMPRESA'];
                 $_SESSION['empresa_id'] = $empresa['ID_EMPRESA'];
 
                 echo json_encode([
@@ -429,6 +439,31 @@ function getDadosFuncionario($db, $data){
 
     echo json_encode($resultado);
 }
+function getDadosEmpresa($db, $data){
+    session_start(); 
+
+    if (!isset($_SESSION['empresa_id'])) {
+        echo json_encode([
+            "success" => false,
+            "message" => "Sessão expirada. Faça login novamente."
+        ]);
+        exit;
+    }
+
+    $idEmpresa = $_SESSION['empresa_id'];
+
+    $stmt = $db->prepare("SELECT ID_EMPRESA, RAZAO_SOCIAL, RAZAO_FANTASIA, CNPJ_EMPRESA, TEL_EMPRESA, EMAIL_EMPRESA, LOC_EMPRESA, DSC_EMPRESA FROM EMPRESA WHERE ID_EMPRESA = ?");
+    $resultado = [];
+    $stmt->bindValue(1, $idEmpresa);
+
+    $result = $stmt->execute();
+
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $resultado[] = $row;
+    }
+
+    echo json_encode($resultado);
+}
 function updateFuncionario($db, $data){
     session_start();
     if (!isset($_SESSION['empresa_id'])) {
@@ -474,24 +509,18 @@ function updateFuncionario($db, $data){
     }
 }
 function updateEmpresa($db, $data){
-    session_start();
-    if (!isset($_SESSION['empresa_id'])) {
-        echo json_encode([
-            "success" => false,
-            "message" => "Sessão expirada. Faça login novamente."
-        ]);
-        exit;
-    }
-    if ($data && isset($data['ID_EMPRESA'])) {
-        $idEmpresa = $data['ID_EMPRESA'];
+    session_start();   
+    $idEmpresa = $_SESSION['empresa_id'];
+
+    if ($data && $idEmpresa) {
         $nomeFantasia = $data['RAZAO_FANTASIA'];
-        $cnpj = $data['CNPJ'];
+        $cnpj = $data['CNPJ_EMPRESA'];
         $email = $data['EMAIL_EMPRESA'];
         $telefone = $data['TEL_EMPRESA'];
         $endereco = $data['LOC_EMPRESA'];
         $dscEmpresa = $data['DSC_EMPRESA'];
 
-        $stmt = $db->prepare("UPDATE EMPRESAS SET RAZAO_FANTASIA = ?, CNPJ = ?, EMAIL_EMPRESA = ?, TEL_EMPRESA = ?, LOC_EMPRESA = ?, DSC_EMPRESA = ? WHERE ID_EMPRESA = ?");
+        $stmt = $db->prepare("UPDATE EMPRESA SET RAZAO_FANTASIA = ?, CNPJ_EMPRESA = ?, EMAIL_EMPRESA = ?, TEL_EMPRESA = ?, LOC_EMPRESA = ?, DSC_EMPRESA = ? WHERE ID_EMPRESA = ?");
         $stmt->bindValue(1, $nomeFantasia);
         $stmt->bindValue(2, $cnpj);
         $stmt->bindValue(3, $email);
@@ -531,7 +560,7 @@ function updateSenhaEmpresa($db, $data){
         $senhaEmpresa = $data['SENHA_EMPRESA'];
         $idEmpresa = $data['ID_EMPRESA'];
 
-        $stmt = $db->prepare("UPDATE EMPRESAS SET SENHA_EMPRESA = ? WHERE ID_EMPRESA = ?");
+        $stmt = $db->prepare("UPDATE EMPRESA SET SENHA_EMPRESA = ? WHERE ID_EMPRESA = ?");
         $stmt->bindValue(1, $senhaEmpresa);
         $stmt->bindValue(2, $idEmpresa);
 
