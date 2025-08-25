@@ -203,17 +203,17 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center gap-2 hover:text-gray-500">
+                            <a href="../../views/historicoPontoAdmin/historicoPontoAdmin.php" class="flex items-center gap-2 hover:text-gray-500">
                                 <i class="fas fa-history"></i> HISTÓRICO PONTOS
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center gap-2 hover:text-gray-500">
+                            <a href="../../views/painelPrincipal/painelPrincipal.php" class="flex items-center gap-2 hover:text-gray-500">
                                 <i class="fas fa-users"></i> PAINEL DE FUNCIONÁRIOS
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center gap-2 hover:text-gray-500">
+                            <a href="../../views/dadosEmpresaAdmin/dadosEmpresaAdmin.php" class="flex items-center gap-2 hover:text-gray-500">
                                 <i class="fas fa-building"></i> DADOS EMPRESA
                             </a>
                         </li>
@@ -241,6 +241,34 @@
     <!-- Modal Overlay -->
     <div id="config-overlay" style="display: none;"></div>
 
+    <!-- Modal de Opções de Configuração -->
+    <div id="config-options-panel" class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-sm p-6 relative">
+            <h2 class="text-xl font-bold text-gray-700 mb-4 flex items-center gap-2">
+                <i class="fas fa-cogs text-teal-600"></i> Configurações
+            </h2>
+
+            <ul class="space-y-4">
+                <li>
+                    <button id="btnAbrirAlterarSenha" class="w-full flex items-center gap-2 px-4 py-2 text-sm bg-teal-600 text-white rounded hover:bg-teal-700 transition">
+                        <i class="fas fa-key"></i> Alterar Senha de Acesso
+                    </button>
+                </li>
+                <li>
+                    <button id="" class="w-full flex items-center gap-2 px-4 py-2 text-sm bg-teal-600 text-white rounded hover:bg-teal-700 transition">
+                        <i class="fas fa-rocket"></i> Futuras Configurações (BETA)
+                    </button>
+                </li>
+                <!-- Outras opções podem ser adicionadas aqui -->
+            </ul>
+
+            <button id="close-config-options" class="absolute top-3 right-3 text-gray-500 hover:text-red-600 text-xl">
+                &times;
+            </button>
+        </div>
+    </div>
+
+
     <!-- Modal Alteração de Senha -->
     <div id="config-panel" style="display: none;">
         <div>
@@ -248,15 +276,15 @@
             <form id="config-form" class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Senha Atual</label>
-                    <input id="senhaAtual" type="password" name="senha_atual" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" required />
+                    <input id="inputSenhaAtual" type="password" name="senha_atual" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" required />
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Nova Senha</label>
-                    <input id="novaSenha" type="password" name="nova_senha" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" required />
+                    <input id="inputNovaSenha" type="password" name="nova_senha" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" required />
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Confirmar Nova Senha</label>
-                    <input id="confirmarNovaSenha" type="password" name="confirmar_nova_senha" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" required />
+                    <input id="inputConfirmarNovaSenha" type="password" name="confirmar_nova_senha" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" required />
                 </div>
                 <div class="text-right">
                     <button id="btnAlterarSenha" type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
@@ -268,10 +296,30 @@
         </div>
     </div>
 
-
-
     <script>
         $(document).ready(function () {
+            // Abrir modal de opções de configurações
+            $('#config-link').click(function (e) {
+                e.preventDefault();
+                $('#menu').removeClass('menu-visible').addClass('menu-hidden');
+                $('#config-options-panel').removeClass('hidden').css('display', 'flex').hide().fadeIn(200);
+            });
+
+            // Fechar modal de opções
+            $('#close-config-options, #config-options-panel').click(function (e) {
+                if (e.target === this || e.target.id === 'close-config-options') {
+                    $('#config-options-panel').fadeOut(200, function () {
+                        $(this).addClass('hidden'); // esconde novamente após fade
+                    });
+                }
+            });
+
+            // Ir para modal de alteração de senha a partir do menu
+            $('#btnAbrirAlterarSenha').click(function () {
+                $('#config-options-panel').fadeOut(200);
+                $('#config-overlay, #config-panel').fadeIn(200);
+            });
+
              $('#config-overlay, #config-panel').hide();
             // Abrir menu hamburguer
             $('#menu-toggle').click(function () {
@@ -280,13 +328,6 @@
 
             // Fechar menu hamburguer
             $('#menu-close').click(function () {
-                $('#menu').removeClass('menu-visible').addClass('menu-hidden');
-            });
-
-            // Abrir modal configurações
-            $('#config-link').click(function (e) {
-                e.preventDefault();
-                $('#config-overlay, #config-panel').fadeIn(200);
                 $('#menu').removeClass('menu-visible').addClass('menu-hidden');
             });
 
@@ -301,6 +342,59 @@
                 var data = $(this).serialize();
                 console.log('Configurações enviadas:', data);
                 alert('Configurações salvas!');
+                $('#config-overlay, #config-panel').fadeOut(200);
+            });
+
+            $("#btnAlterarSenha").on('click', async function(e) {
+                e.preventDefault();
+
+                const senhaAtual = $("#inputSenhaAtual").val().trim();
+                const novaSenha = $("#inputNovaSenha").val().trim();
+                const confirmarNovaSenha = $("#inputConfirmarNovaSenha").val().trim();
+
+                if (!senhaAtual || !novaSenha || !confirmarNovaSenha) {
+                    alert("Por favor, preencha todos os campos.");
+                    return;
+                }
+
+                if (novaSenha !== confirmarNovaSenha) {
+                    alert("A nova senha e a confirmação não coincidem.");
+                    return;
+                }
+
+                const res = await axios({
+                    url: "../../../backend/backend.php",
+                    method: "POST",
+                    data: {
+                        function: "getSenhaAtualEmpresa",
+                        SENHA_EMPRESA: senhaAtual,
+                        ID_EMPRESA: "<?php echo $_SESSION['empresa_id']; ?>",
+                    },
+                });
+
+                if(res.data.succes){
+                    const res = await axios({
+                        url: "../../../backend/backend.php",
+                        method: "POST",
+                        data: {
+                            function: "getSenhaAtualEmpresa",
+                            SENHA_EMPRESA: senhaAtual,
+                            ID_EMPRESA: "<?php echo $_SESSION['empresa_id']; ?>",
+                        },
+                    });
+                    if(res.data.success){
+                        showAlert("Senha Atualizada com sucesso!", "success");
+                        return;
+                    }
+                    else{
+                        showAlert("Erro ao atualizar a senha. Tente novamente.", "error");
+                        return;
+                    }
+                }
+                else{
+                    showAlert("Senha atual incorreta.", "error");
+                    return;
+                }
                 $('#config-overlay, #config-panel').fadeOut(200);
             });
         });

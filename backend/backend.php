@@ -35,6 +35,10 @@ if (isset($data['function'])) {
             getDadosFuncionario($db, $data);
             break;
 
+        case 'getSenhaAtualEmpresa': // get senha atual Empresa
+            getSenhaAtualEmpresa($db, $data);
+            break;
+
         case 'applyEmpresa': // Inserir empresa
             applyEmpresa($db, $data);
             break;
@@ -46,6 +50,14 @@ if (isset($data['function'])) {
         case 'updateFuncionario': 
             updateFuncionario($db, $data);
             break;
+
+        case 'updateEmpresa': 
+            updateEmpresa($db, $data);
+            break;
+            
+        case 'updateSenhaEmpresa': 
+            updateSenhaEmpresa($db, $data);
+            break;            
 
         case 'deletaFuncionario': // Deletar funcionário
             deletaFuncionario($db, $data);
@@ -360,6 +372,37 @@ function getLocEmpresa($db, $data){
 
     echo json_encode($resultado);
 }
+function getSenhaAtualEmpresa($db, $data){
+    session_start();
+    if ($data) {
+        $senhaAtual = $data['SENHA_EMPRESA'];
+        $idEmpresa = $data['ID_EMPRESA'];
+
+        $stmt = $db->prepare("SELECT * FROM EMPRESA WHERE ID_EMPRESA = ? AND SENHA_EMPRESA = ?");
+        $stmt->bindValue(1, $idEmpresa);
+        $stmt->bindValue(2, $senhaAtual);
+
+        $result = $stmt->execute();
+
+        if ($result) {
+            echo json_encode([
+                "success" => true,
+                "error" => "Senha correta."
+            ]);
+
+        } else {
+            echo json_encode([
+                "success" => false,
+                "error" => "Erro ao executar a consulta."
+            ]);
+        }
+    } else {
+        echo json_encode([
+            "success" => false,
+            "error" => "Dados não fornecidos."
+        ]);
+    }
+}
 function getDadosFuncionario($db, $data){
     session_start(); 
 
@@ -421,6 +464,87 @@ function updateFuncionario($db, $data){
             echo json_encode([
                 "success" => false,
                 "message" => "Erro ao atualizar funcionário."
+            ]);
+        }
+    } else {
+        echo json_encode([
+            "success" => false,
+            "message" => "Dados não fornecidos ou ID ausente."
+        ]);
+    }
+}
+function updateEmpresa($db, $data){
+    session_start();
+    if (!isset($_SESSION['empresa_id'])) {
+        echo json_encode([
+            "success" => false,
+            "message" => "Sessão expirada. Faça login novamente."
+        ]);
+        exit;
+    }
+    if ($data && isset($data['ID_EMPRESA'])) {
+        $idEmpresa = $data['ID_EMPRESA'];
+        $nomeFantasia = $data['RAZAO_FANTASIA'];
+        $cnpj = $data['CNPJ'];
+        $email = $data['EMAIL_EMPRESA'];
+        $telefone = $data['TEL_EMPRESA'];
+        $endereco = $data['LOC_EMPRESA'];
+        $dscEmpresa = $data['DSC_EMPRESA'];
+
+        $stmt = $db->prepare("UPDATE EMPRESAS SET RAZAO_FANTASIA = ?, CNPJ = ?, EMAIL_EMPRESA = ?, TEL_EMPRESA = ?, LOC_EMPRESA = ?, DSC_EMPRESA = ? WHERE ID_EMPRESA = ?");
+        $stmt->bindValue(1, $nomeFantasia);
+        $stmt->bindValue(2, $cnpj);
+        $stmt->bindValue(3, $email);
+        $stmt->bindValue(4, $telefone);
+        $stmt->bindValue(5, $endereco);
+        $stmt->bindValue(6, $dscEmpresa);
+        $stmt->bindValue(7, $idEmpresa);
+        $result = $stmt->execute();
+        if ($result) {
+            echo json_encode([
+                "success" => true,
+                "message" => "Empresa atualizada com sucesso!"
+            ]);
+        } else {
+            echo json_encode([
+                "success" => false,
+                "message" => "Erro ao atualizar funcionário."
+            ]);
+        }
+    } else {
+        echo json_encode([
+            "success" => false,
+            "message" => "Dados não fornecidos ou ID ausente."
+        ]);
+    }
+}
+function updateSenhaEmpresa($db, $data){
+    session_start();
+    if (!isset($_SESSION['empresa_id'])) {
+        echo json_encode([
+            "success" => false,
+            "message" => "Sessão expirada. Faça login novamente."
+        ]);
+        exit;
+    }
+    if ($data && isset($data['ID_EMPRESA'])) {
+        $senhaEmpresa = $data['SENHA_EMPRESA'];
+        $idEmpresa = $data['ID_EMPRESA'];
+
+        $stmt = $db->prepare("UPDATE EMPRESAS SET SENHA_EMPRESA = ? WHERE ID_EMPRESA = ?");
+        $stmt->bindValue(1, $senhaEmpresa);
+        $stmt->bindValue(2, $idEmpresa);
+
+        $result = $stmt->execute();
+        if ($result) {
+            echo json_encode([
+                "success" => true,
+                "message" => "Senha Empresa atualizada com sucesso!"
+            ]);
+        } else {
+            echo json_encode([
+                "success" => false,
+                "message" => "Erro ao atualizar senha da empresa."
             ]);
         }
     } else {

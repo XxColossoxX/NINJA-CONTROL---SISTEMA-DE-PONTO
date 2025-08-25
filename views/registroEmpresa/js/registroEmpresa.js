@@ -86,7 +86,7 @@ $(document).ready(async function() {
         }
         })
         .catch(error => console.error("Erro na requisição:", error));
-    }
+    };
 
     //alertBox
     function showAlert(message, type = "error") {

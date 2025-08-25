@@ -106,13 +106,13 @@ $(document).ready(function () {
 
     // Abrir modal com câmera
     $('#btnBaterPonto').on('click', async function () {
-        // Preenche os dados nas abas
-        $('#tab-nome').text(nomeFuncionario);
-        $('#tab-empresa').text(nomeEmpresa);
-        $('#tab-rg').text(rgFuncionario);
-        $('#tab-cpf').text(cpfFuncionario);
-        $('#tab-nascimento').text(dataNascimentoFuncionario);
-        $('#tab-localizacao').text(localizacaoEmpresa);
+        // // Preenche os dados nas abas
+        // $('#tab-nome').text(nomeFuncionario);
+        // $('#tab-empresa').text(nomeEmpresa);
+        // $('#tab-rg').text(rgFuncionario);
+        // $('#tab-cpf').text(cpfFuncionario);
+        // $('#tab-nascimento').text(dataNascimentoFuncionario);
+        // $('#tab-localizacao').text(localizacaoEmpresa);
 
         $('#modal-bater-ponto').removeClass('hidden');
         $('.tab-button').first().click(); // Ativa primeira aba

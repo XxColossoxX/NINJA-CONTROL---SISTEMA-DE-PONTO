@@ -26,8 +26,7 @@ $emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] :
 
 ?>
 
-<div class="min-h-screen flex flex-col items-center justify-center">
-
+    <div class="min-h-screen flex flex-col items-center justify-center">
         <!-- Modal Empresa (como tela principal) -->
         <div class="modalDadosEmpresa w-full max-w-6xl bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-10 md:p-14 flex flex-col md:flex-row gap-10">
             
@@ -41,7 +40,7 @@ $emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] :
                 <ul class="space-y-4 text-gray-800 text-sm md:text-base">
                     <li class="flex items-center gap-3">
                         <i class="fas fa-id-badge text-teal-500"></i>
-                        <span><strong>Nome:</strong> <?php echo $fantasiaEmpresa; ?></span>
+                        <span><strong>Nome:</strong> <?php echo $socialEmpresa; ?></span>
                     </li>
                     <li class="flex items-center gap-3">
                         <i class="fas fa-id-card text-teal-500"></i>
@@ -75,7 +74,6 @@ $emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] :
             </div>
         </div>
     </div>
-</div>
 
 <script src="./js/dadosEmpresa.js"></script>
 <link rel="stylesheet" href="./css/dadosEmpresa.css">

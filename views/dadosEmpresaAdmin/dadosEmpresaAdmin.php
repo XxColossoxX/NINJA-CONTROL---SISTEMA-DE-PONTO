@@ -6,7 +6,7 @@ if (!isset($_SESSION['funcionario_id'])) {
     exit;
 }
 require_once('../../assets/components/background.php');
-require_once('../../assets/components/headerFuncionario.php');
+require_once('../../assets/components/headerEmpresa.php');
 
 $idFuncionario = $_SESSION['funcionario_id'];
 $nomeFuncionario = isset($_SESSION['funcionario_nome']) ? $_SESSION['funcionario_nome'] : '';
@@ -41,7 +41,7 @@ $emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] :
             <ul class="space-y-4 text-gray-800 text-sm md:text-base">
                 <li class="flex items-center gap-3">
                     <i class="fas fa-id-badge text-teal-500"></i>
-                    <span><strong>Nome:</strong> <?php echo $fantasiaEmpresa; ?></span>
+                    <span><strong>Nome:</strong> <?php echo $socialEmpresa; ?></span>
                 </li>
                 <li class="flex items-center gap-3">
                     <i class="fas fa-id-card text-teal-500"></i>
@@ -101,8 +101,16 @@ $emailEmpresa = isset($_SESSION['empresa_email']) ? $_SESSION['empresa_email'] :
                     <input id="inputCnpj" type="text" name="cnpj" value="<?php echo $cnpjEmpresa; ?>" class="w-full border border-gray-300 rounded px-3 py-2" required>
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700">Endereço</label>
-                    <input id="inputEndereco" type="text" name="endereco" value="<?php echo $locEmpresa; ?>" class="w-full border border-gray-300 rounded px-3 py-2">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Endereço</label>
+                    <div class="relative">
+                        <input id="inputEndereco" type="text" name="endereco" value="<?php echo $locEmpresa; ?>" 
+                            class="w-full border border-gray-300 rounded px-3 py-2 pr-10" />
+
+                        <button type="button" id="btnBuscarLocalizacao"
+                            class="absolute top-1/2 right-2 transform -translate-y-1/2 text-teal-600 hover:text-teal-800">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </button>
+                    </div>
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700">Telefone</label>
