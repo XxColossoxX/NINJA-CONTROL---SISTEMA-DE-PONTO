@@ -77,7 +77,7 @@ $(document).ready( async function() {
 }
 
     function getEndereco(latitude, longitude) {
-        const apiKey = 'AIzaSyDwpxfS7AptP74paz0S889G-uy4hE9bJV4';
+       
 
         const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
         console.log(latitude,longitude)
