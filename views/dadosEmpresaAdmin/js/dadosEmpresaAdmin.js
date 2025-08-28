@@ -257,6 +257,7 @@ $(document).ready( async function() {
             locSeparada = loc.split(', ');
             $("#inputRua").val(locSeparada[0])
             $("#inputNro").val(locSeparada[1]);
+            
             $("#inputBairro").val(locSeparada[2]);
             $("#inputCep").val(locSeparada[3]);
             $("#inputCidade").val(locSeparada[4]);
